@@ -14,7 +14,6 @@
 package co.bitpesa.sdk.api;
 
 import co.bitpesa.sdk.ApiException;
-import co.bitpesa.sdk.model.Sender;
 import co.bitpesa.sdk.model.SenderListResponse;
 import co.bitpesa.sdk.model.SenderRequest;
 import co.bitpesa.sdk.model.SenderResponse;
@@ -114,8 +113,8 @@ public class SendersApiTest {
      */
     @Test
     public void postSendersTest() throws ApiException {
-        Sender sender = null;
-        SenderResponse response = api.postSenders(sender);
+        SenderRequest senderRequest = null;
+        SenderResponse response = api.postSenders(senderRequest);
 
         // TODO: test validations
     }
