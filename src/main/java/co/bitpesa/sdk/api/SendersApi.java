@@ -27,7 +27,6 @@ import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 
 
-import co.bitpesa.sdk.model.Sender;
 import co.bitpesa.sdk.model.SenderListResponse;
 import co.bitpesa.sdk.model.SenderRequest;
 import co.bitpesa.sdk.model.SenderResponse;
@@ -579,14 +578,14 @@ public class SendersApi {
     }
     /**
      * Build call for postSenders
-     * @param sender  (required)
+     * @param senderRequest  (required)
      * @param progressListener Progress listener
      * @param progressRequestListener Progress request listener
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public okhttp3.Call postSendersCall(Sender sender, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        Object localVarPostBody = sender;
+    public okhttp3.Call postSendersCall(SenderRequest senderRequest, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+        Object localVarPostBody = senderRequest;
 
         // create path and map variables
         String localVarPath = "/senders";
@@ -626,15 +625,15 @@ public class SendersApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call postSendersValidateBeforeCall(Sender sender, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private okhttp3.Call postSendersValidateBeforeCall(SenderRequest senderRequest, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
-        // verify the required parameter 'sender' is set
-        if (sender == null) {
-            throw new ApiException("Missing the required parameter 'sender' when calling postSenders(Async)");
+        // verify the required parameter 'senderRequest' is set
+        if (senderRequest == null) {
+            throw new ApiException("Missing the required parameter 'senderRequest' when calling postSenders(Async)");
         }
         
 
-        okhttp3.Call call = postSendersCall(sender, progressListener, progressRequestListener);
+        okhttp3.Call call = postSendersCall(senderRequest, progressListener, progressRequestListener);
         return call;
 
     }
@@ -642,24 +641,24 @@ public class SendersApi {
     /**
      * Creating a sender
      * Creates a new sender in our system. 
-     * @param sender  (required)
+     * @param senderRequest  (required)
      * @return SenderResponse
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public SenderResponse postSenders(Sender sender) throws ApiException {
-        ApiResponse<SenderResponse> resp = postSendersWithHttpInfo(sender);
+    public SenderResponse postSenders(SenderRequest senderRequest) throws ApiException {
+        ApiResponse<SenderResponse> resp = postSendersWithHttpInfo(senderRequest);
         return resp.getData();
     }
 
     /**
      * Creating a sender
      * Creates a new sender in our system. 
-     * @param sender  (required)
+     * @param senderRequest  (required)
      * @return ApiResponse&lt;SenderResponse&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<SenderResponse> postSendersWithHttpInfo(Sender sender) throws ApiException {
-        okhttp3.Call call = postSendersValidateBeforeCall(sender, null, null);
+    public ApiResponse<SenderResponse> postSendersWithHttpInfo(SenderRequest senderRequest) throws ApiException {
+        okhttp3.Call call = postSendersValidateBeforeCall(senderRequest, null, null);
         Type localVarReturnType = new TypeToken<SenderResponse>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
@@ -667,12 +666,12 @@ public class SendersApi {
     /**
      * Creating a sender (asynchronously)
      * Creates a new sender in our system. 
-     * @param sender  (required)
+     * @param senderRequest  (required)
      * @param callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call postSendersAsync(Sender sender, final ApiCallback<SenderResponse> callback) throws ApiException {
+    public okhttp3.Call postSendersAsync(SenderRequest senderRequest, final ApiCallback<SenderResponse> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -693,7 +692,7 @@ public class SendersApi {
             };
         }
 
-        okhttp3.Call call = postSendersValidateBeforeCall(sender, progressListener, progressRequestListener);
+        okhttp3.Call call = postSendersValidateBeforeCall(senderRequest, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<SenderResponse>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
