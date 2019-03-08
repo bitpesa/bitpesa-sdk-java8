@@ -1,18 +1,17 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>co.bitpesa.sdk</groupId>
     <artifactId>bitpesa-sdk-java8</artifactId>
     <packaging>jar</packaging>
     <name>bitpesa-sdk-java8</name>
-    <version>0.1.1-SNAPSHOT</version>
+    <version>0.1.1</version>
     <url>https://github.com/bitpesa/bitpesa-sdk-java8</url>
     <description>Java 8 library for the BitPesa API</description>
     <scm>
         <connection>scm:git:https://github.com/bitpesa/bitpesa-sdk-java8.git</connection>
         <developerConnection>scm:git:git@github.com:bitpesa/bitpesa-sdk-java8.git</developerConnection>
         <url>https://github.com/bitpesa/bitpesa-sdk-java8</url>
-        <tag>HEAD</tag>
+        <tag>bitpesa-sdk-java8-0.1.1</tag>
     </scm>
 
     <licenses>
