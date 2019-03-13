@@ -277,7 +277,7 @@ apiClient.setBasePath("https://api-sandbox.bitpesa.co/v1");
 
 <a name="postSenders"></a>
 # **postSenders**
-> SenderResponse postSenders(sender)
+> SenderResponse postSenders(senderRequest)
 
 Creating a sender
 
@@ -298,7 +298,7 @@ apiClient.setApiSecret("<secret>");
 apiClient.setBasePath("https://api-sandbox.bitpesa.co/v1");
 
 SendersApi apiInstance = new SendersApi(apiClient);
-Sender sender = {
+SenderRequest senderRequest = {
   "sender": {
     "country": "UG",
     "phone_country": "UG",
@@ -325,9 +325,9 @@ Sender sender = {
       "my": "data"
     }
   }
-}; // Sender | 
+}; // SenderRequest | 
 try {
-    SenderResponse result = apiInstance.postSenders(sender);
+    SenderResponse result = apiInstance.postSenders(senderRequest);
     System.out.println(result);
 } catch (ApiException e) {
     if (e.isValidationError()) {
@@ -345,7 +345,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **sender** | [**Sender**](Sender.md)|  |
+ **senderRequest** | [**SenderRequest**](SenderRequest.md)|  |
 
 ### Return type
 
