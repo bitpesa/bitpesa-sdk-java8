@@ -4,10 +4,13 @@ import co.bitpesa.sdk.ApiClient;
 import co.bitpesa.sdk.ApiException;
 import co.bitpesa.sdk.api.AccountDebitsApi;
 import co.bitpesa.sdk.api.AccountValidationApi;
+import co.bitpesa.sdk.api.SendersApi;
 import co.bitpesa.sdk.api.TransactionsApi;
 import co.bitpesa.sdk.model.*;
+import java.time.LocalDate;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.UUID;
 
 public class Application {
@@ -40,6 +43,8 @@ public class Application {
         Transaction transaction = new Transaction();
 
         Sender sender = new Sender();
+        //UUID senderId = createSender(apiClient);
+        //sender.setId(senderId);
         sender.setId(UUID.fromString("058de445-ffff-ffff-ffff-da9c751d14bf"));
 
         PayoutMethodDetails ngnBankDetails = new PayoutMethodDetails();
@@ -294,6 +299,66 @@ public class Application {
         }
     }
 
+    public static UUID createSender(ApiClient apiClient) throws Exception {
+        SendersApi apiInstance = new SendersApi(apiClient);
+        Sender sender = new Sender();
+        sender.setCountry("UG");
+        sender.setPhoneCountry("UG");
+        sender.setPhoneNumber("752403639");
+        sender.setEmail("example@example.com");
+        sender.setFirstName("test");
+        sender.setLastName("user");
+        sender.setCity("Lagos");
+        sender.setStreet("Unknwon 123");
+        sender.setPostalCode("798983");
+        sender.setBirthDate(LocalDate.parse("1980-01-01"));
+        sender.setIp("127.0.0.1");
+        sender.setAddressDescription("Description");
+        sender.setDocuments(new ArrayList<>());
+
+        SenderRequest senderRequest = new SenderRequest();
+        senderRequest.setSender(sender);
+        try {
+            SenderResponse result = apiInstance.postSenders(senderRequest);
+            System.out.println(result);
+            return result.getObject().getId();
+        } catch (ApiException e) {
+            if (e.isValidationError()) {
+                SenderResponse result = e.getResponseObject(SenderResponse.class);
+                System.out.println(result);
+                System.err.println("WARN: Validation error occurred when calling the endpoint");
+            } else {
+                System.err.println("Exception when calling SendersApi#postSenders");
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
+    public static void updateSender(ApiClient apiClient) throws Exception {
+        SendersApi sendersApi = new SendersApi(apiClient);
+
+        SenderRequest senderRequest = new SenderRequest();
+        Sender sender = new Sender();
+        senderRequest.setSender(sender);
+
+        sender.setCity("London");
+
+        try {
+            SenderResponse senderResponse = sendersApi.patchSender(UUID.fromString("058de445-e7eb-4d98-acaf-da9c751d14bf"), senderRequest);
+            System.out.println(senderResponse);
+        } catch (ApiException e) {
+            if (e.isValidationError()) {
+                SenderResponse senderResponse = e.getResponseObject(SenderResponse.class);
+                System.err.println("There was an error changin the sender details");
+                System.out.println(senderResponse.getObject().getErrors());
+                System.out.println(senderResponse);
+            } else {
+                throw e;
+            }
+        }
+    }
+
     public static void main(String[] args) throws Exception {
         ApiClient apiClient = new ApiClient();
         apiClient.setApiKey("<key>");
@@ -304,5 +369,7 @@ public class Application {
         //createAndFundTransactionExample(apiClient);
         //getTransactionErrorMessageExample(apiClient);
         //webhookParseExample(apiClient);
+        //createSender(apiClient);
+        //updateSender(apiClient);
     }
 }

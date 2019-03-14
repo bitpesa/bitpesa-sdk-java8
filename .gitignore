@@ -1,6 +1,7 @@
 *.class
 release.properties
 pom.xml.releaseBackup
+.idea
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
