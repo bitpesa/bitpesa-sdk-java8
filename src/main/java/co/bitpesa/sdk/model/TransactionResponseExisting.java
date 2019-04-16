@@ -16,7 +16,7 @@ package co.bitpesa.sdk.model;
 import java.util.Objects;
 import java.util.Arrays;
 import co.bitpesa.sdk.model.Sender;
-import co.bitpesa.sdk.model.SenderResponseMeta;
+import co.bitpesa.sdk.model.Transaction;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -27,52 +27,52 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 
 /**
- * SenderResponse
+ * TransactionResponseExisting
  */
 
-public class SenderResponse {
-  public static final String SERIALIZED_NAME_OBJECT = "object";
-  @SerializedName(SERIALIZED_NAME_OBJECT)
-  private Sender _object = null;
+public class TransactionResponseExisting {
+  public static final String SERIALIZED_NAME_SENDER = "sender";
+  @SerializedName(SERIALIZED_NAME_SENDER)
+  private Sender sender = null;
 
-  public static final String SERIALIZED_NAME_META = "meta";
-  @SerializedName(SERIALIZED_NAME_META)
-  private SenderResponseMeta meta = null;
+  public static final String SERIALIZED_NAME_TRANSACTION = "transaction";
+  @SerializedName(SERIALIZED_NAME_TRANSACTION)
+  private Transaction transaction = null;
 
-  public SenderResponse _object(Sender _object) {
-    this._object = _object;
+  public TransactionResponseExisting sender(Sender sender) {
+    this.sender = sender;
     return this;
   }
 
    /**
-   * Get _object
-   * @return _object
+   * Get sender
+   * @return sender
   **/
   @ApiModelProperty(value = "")
-  public Sender getObject() {
-    return _object;
+  public Sender getSender() {
+    return sender;
   }
 
-  public void setObject(Sender _object) {
-    this._object = _object;
+  public void setSender(Sender sender) {
+    this.sender = sender;
   }
 
-  public SenderResponse meta(SenderResponseMeta meta) {
-    this.meta = meta;
+  public TransactionResponseExisting transaction(Transaction transaction) {
+    this.transaction = transaction;
     return this;
   }
 
    /**
-   * Get meta
-   * @return meta
+   * Get transaction
+   * @return transaction
   **/
   @ApiModelProperty(value = "")
-  public SenderResponseMeta getMeta() {
-    return meta;
+  public Transaction getTransaction() {
+    return transaction;
   }
 
-  public void setMeta(SenderResponseMeta meta) {
-    this.meta = meta;
+  public void setTransaction(Transaction transaction) {
+    this.transaction = transaction;
   }
 
 
@@ -84,23 +84,23 @@ public class SenderResponse {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    SenderResponse senderResponse = (SenderResponse) o;
-    return Objects.equals(this._object, senderResponse._object) &&
-        Objects.equals(this.meta, senderResponse.meta);
+    TransactionResponseExisting transactionResponseExisting = (TransactionResponseExisting) o;
+    return Objects.equals(this.sender, transactionResponseExisting.sender) &&
+        Objects.equals(this.transaction, transactionResponseExisting.transaction);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(_object, meta);
+    return Objects.hash(sender, transaction);
   }
 
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class SenderResponse {\n");
-    sb.append("    _object: ").append(toIndentedString(_object)).append("\n");
-    sb.append("    meta: ").append(toIndentedString(meta)).append("\n");
+    sb.append("class TransactionResponseExisting {\n");
+    sb.append("    sender: ").append(toIndentedString(sender)).append("\n");
+    sb.append("    transaction: ").append(toIndentedString(transaction)).append("\n");
     sb.append("}");
     return sb.toString();
   }

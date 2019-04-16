@@ -17,6 +17,7 @@ Name | Type | Description | Notes
 **dueAmount** | [**BigDecimal**](BigDecimal.md) | The amount needed to be paid in for the transaction to get funded |  [optional]
 **createdAt** | [**OffsetDateTime**](OffsetDateTime.md) | The time the transaction was created |  [optional]
 **expiresAt** | [**OffsetDateTime**](OffsetDateTime.md) | The latest time when the transaction has to be funded, otherwise it will be cancelled |  [optional]
+**externalId** | **String** | Optional ID that is supplied by partner linking it to the partner&#39;s own Sender ID. Note: if present we will validate whether the sent ID is a duplicate in our system or not. |  [optional]
 **id** | [**UUID**](UUID.md) |  |  [optional]
 **errors** | [**Map&lt;String, List&lt;ValidationErrorDescription&gt;&gt;**](List.md) | The fields that have some problems and don&#39;t pass validation |  [optional]
 

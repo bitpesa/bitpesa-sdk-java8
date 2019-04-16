@@ -95,6 +95,10 @@ public class Transaction {
   @SerializedName(SERIALIZED_NAME_EXPIRES_AT)
   private OffsetDateTime expiresAt;
 
+  public static final String SERIALIZED_NAME_EXTERNAL_ID = "external_id";
+  @SerializedName(SERIALIZED_NAME_EXTERNAL_ID)
+  private String externalId;
+
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
   private UUID id;
@@ -296,6 +300,24 @@ public class Transaction {
     return expiresAt;
   }
 
+  public Transaction externalId(String externalId) {
+    this.externalId = externalId;
+    return this;
+  }
+
+   /**
+   * Optional ID that is supplied by partner linking it to the partner&#39;s own Sender ID. Note: if present we will validate whether the sent ID is a duplicate in our system or not.
+   * @return externalId
+  **/
+  @ApiModelProperty(example = "806ec63a-a5a7-43cc-9d75-1ee74fbcc026", value = "Optional ID that is supplied by partner linking it to the partner's own Sender ID. Note: if present we will validate whether the sent ID is a duplicate in our system or not.")
+  public String getExternalId() {
+    return externalId;
+  }
+
+  public void setExternalId(String externalId) {
+    this.externalId = externalId;
+  }
+
    /**
    * Get id
    * @return id
@@ -337,13 +359,14 @@ public class Transaction {
         Objects.equals(this.dueAmount, transaction.dueAmount) &&
         Objects.equals(this.createdAt, transaction.createdAt) &&
         Objects.equals(this.expiresAt, transaction.expiresAt) &&
+        Objects.equals(this.externalId, transaction.externalId) &&
         Objects.equals(this.id, transaction.id) &&
         Objects.equals(this.errors, transaction.errors);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(inputCurrency, payinMethods, metadata, sender, recipients, traits, state, inputAmount, payinReference, paidAmount, dueAmount, createdAt, expiresAt, id, errors);
+    return Objects.hash(inputCurrency, payinMethods, metadata, sender, recipients, traits, state, inputAmount, payinReference, paidAmount, dueAmount, createdAt, expiresAt, externalId, id, errors);
   }
 
 
@@ -364,6 +387,7 @@ public class Transaction {
     sb.append("    dueAmount: ").append(toIndentedString(dueAmount)).append("\n");
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
     sb.append("    expiresAt: ").append(toIndentedString(expiresAt)).append("\n");
+    sb.append("    externalId: ").append(toIndentedString(externalId)).append("\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    errors: ").append(toIndentedString(errors)).append("\n");
     sb.append("}");

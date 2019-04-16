@@ -307,12 +307,13 @@ public class SendersApi {
      * @param per The number of results to load per page (defaults to 10) (optional)
      * @param createdAtFrom Start date to filter recipients by created_at range Allows filtering results by the specified &#x60;created_at&#x60; timeframe.  Example: &#x60;/v1/recipients?created_at_from&#x3D;2018-06-06&amp;created_at_to&#x3D;2018-06-08&#x60; (optional)
      * @param createdAtTo End date to filter recipients by created_at range Allows filtering results by the specified &#x60;created_at&#x60; timeframe.  Example: &#x60;/v1/recipients?created_at_from&#x3D;2018-06-06&amp;created_at_to&#x3D;2018-06-08&#x60; (optional)
+     * @param externalId Allows filtering results by &#x60;external_id&#x60;.  Example: &#x60;/v1/senders?external_id&#x3D;26ec8517-2f0d-48c0-b74f-0bccb9ab3a87&#x60; (optional)
      * @param progressListener Progress listener
      * @param progressRequestListener Progress request listener
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public okhttp3.Call getSendersCall(Integer page, Integer per, String createdAtFrom, String createdAtTo, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public okhttp3.Call getSendersCall(Integer page, Integer per, String createdAtFrom, String createdAtTo, String externalId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = new Object();
 
         // create path and map variables
@@ -334,6 +335,10 @@ public class SendersApi {
 
         if (createdAtTo != null) {
             localVarQueryParams.addAll(apiClient.parameterToPair("created_at_to", createdAtTo));
+        }
+
+        if (externalId != null) {
+            localVarQueryParams.addAll(apiClient.parameterToPair("external_id", externalId));
         }
 
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
@@ -369,10 +374,10 @@ public class SendersApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call getSendersValidateBeforeCall(Integer page, Integer per, String createdAtFrom, String createdAtTo, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private okhttp3.Call getSendersValidateBeforeCall(Integer page, Integer per, String createdAtFrom, String createdAtTo, String externalId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
 
-        okhttp3.Call call = getSendersCall(page, per, createdAtFrom, createdAtTo, progressListener, progressRequestListener);
+        okhttp3.Call call = getSendersCall(page, per, createdAtFrom, createdAtTo, externalId, progressListener, progressRequestListener);
         return call;
 
     }
@@ -384,11 +389,12 @@ public class SendersApi {
      * @param per The number of results to load per page (defaults to 10) (optional)
      * @param createdAtFrom Start date to filter recipients by created_at range Allows filtering results by the specified &#x60;created_at&#x60; timeframe.  Example: &#x60;/v1/recipients?created_at_from&#x3D;2018-06-06&amp;created_at_to&#x3D;2018-06-08&#x60; (optional)
      * @param createdAtTo End date to filter recipients by created_at range Allows filtering results by the specified &#x60;created_at&#x60; timeframe.  Example: &#x60;/v1/recipients?created_at_from&#x3D;2018-06-06&amp;created_at_to&#x3D;2018-06-08&#x60; (optional)
+     * @param externalId Allows filtering results by &#x60;external_id&#x60;.  Example: &#x60;/v1/senders?external_id&#x3D;26ec8517-2f0d-48c0-b74f-0bccb9ab3a87&#x60; (optional)
      * @return SenderListResponse
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public SenderListResponse getSenders(Integer page, Integer per, String createdAtFrom, String createdAtTo) throws ApiException {
-        ApiResponse<SenderListResponse> resp = getSendersWithHttpInfo(page, per, createdAtFrom, createdAtTo);
+    public SenderListResponse getSenders(Integer page, Integer per, String createdAtFrom, String createdAtTo, String externalId) throws ApiException {
+        ApiResponse<SenderListResponse> resp = getSendersWithHttpInfo(page, per, createdAtFrom, createdAtTo, externalId);
         return resp.getData();
     }
 
@@ -399,11 +405,12 @@ public class SendersApi {
      * @param per The number of results to load per page (defaults to 10) (optional)
      * @param createdAtFrom Start date to filter recipients by created_at range Allows filtering results by the specified &#x60;created_at&#x60; timeframe.  Example: &#x60;/v1/recipients?created_at_from&#x3D;2018-06-06&amp;created_at_to&#x3D;2018-06-08&#x60; (optional)
      * @param createdAtTo End date to filter recipients by created_at range Allows filtering results by the specified &#x60;created_at&#x60; timeframe.  Example: &#x60;/v1/recipients?created_at_from&#x3D;2018-06-06&amp;created_at_to&#x3D;2018-06-08&#x60; (optional)
+     * @param externalId Allows filtering results by &#x60;external_id&#x60;.  Example: &#x60;/v1/senders?external_id&#x3D;26ec8517-2f0d-48c0-b74f-0bccb9ab3a87&#x60; (optional)
      * @return ApiResponse&lt;SenderListResponse&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<SenderListResponse> getSendersWithHttpInfo(Integer page, Integer per, String createdAtFrom, String createdAtTo) throws ApiException {
-        okhttp3.Call call = getSendersValidateBeforeCall(page, per, createdAtFrom, createdAtTo, null, null);
+    public ApiResponse<SenderListResponse> getSendersWithHttpInfo(Integer page, Integer per, String createdAtFrom, String createdAtTo, String externalId) throws ApiException {
+        okhttp3.Call call = getSendersValidateBeforeCall(page, per, createdAtFrom, createdAtTo, externalId, null, null);
         Type localVarReturnType = new TypeToken<SenderListResponse>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
@@ -415,11 +422,12 @@ public class SendersApi {
      * @param per The number of results to load per page (defaults to 10) (optional)
      * @param createdAtFrom Start date to filter recipients by created_at range Allows filtering results by the specified &#x60;created_at&#x60; timeframe.  Example: &#x60;/v1/recipients?created_at_from&#x3D;2018-06-06&amp;created_at_to&#x3D;2018-06-08&#x60; (optional)
      * @param createdAtTo End date to filter recipients by created_at range Allows filtering results by the specified &#x60;created_at&#x60; timeframe.  Example: &#x60;/v1/recipients?created_at_from&#x3D;2018-06-06&amp;created_at_to&#x3D;2018-06-08&#x60; (optional)
+     * @param externalId Allows filtering results by &#x60;external_id&#x60;.  Example: &#x60;/v1/senders?external_id&#x3D;26ec8517-2f0d-48c0-b74f-0bccb9ab3a87&#x60; (optional)
      * @param callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call getSendersAsync(Integer page, Integer per, String createdAtFrom, String createdAtTo, final ApiCallback<SenderListResponse> callback) throws ApiException {
+    public okhttp3.Call getSendersAsync(Integer page, Integer per, String createdAtFrom, String createdAtTo, String externalId, final ApiCallback<SenderListResponse> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -440,7 +448,7 @@ public class SendersApi {
             };
         }
 
-        okhttp3.Call call = getSendersValidateBeforeCall(page, per, createdAtFrom, createdAtTo, progressListener, progressRequestListener);
+        okhttp3.Call call = getSendersValidateBeforeCall(page, per, createdAtFrom, createdAtTo, externalId, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<SenderListResponse>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;

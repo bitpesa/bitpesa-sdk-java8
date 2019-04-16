@@ -15,8 +15,7 @@ package co.bitpesa.sdk.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import co.bitpesa.sdk.model.Sender;
-import co.bitpesa.sdk.model.SenderResponseMeta;
+import co.bitpesa.sdk.model.SenderResponseExisting;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -27,52 +26,30 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 
 /**
- * SenderResponse
+ * SenderResponseMeta
  */
 
-public class SenderResponse {
-  public static final String SERIALIZED_NAME_OBJECT = "object";
-  @SerializedName(SERIALIZED_NAME_OBJECT)
-  private Sender _object = null;
+public class SenderResponseMeta {
+  public static final String SERIALIZED_NAME_EXISTING = "existing";
+  @SerializedName(SERIALIZED_NAME_EXISTING)
+  private SenderResponseExisting existing = null;
 
-  public static final String SERIALIZED_NAME_META = "meta";
-  @SerializedName(SERIALIZED_NAME_META)
-  private SenderResponseMeta meta = null;
-
-  public SenderResponse _object(Sender _object) {
-    this._object = _object;
+  public SenderResponseMeta existing(SenderResponseExisting existing) {
+    this.existing = existing;
     return this;
   }
 
    /**
-   * Get _object
-   * @return _object
+   * Get existing
+   * @return existing
   **/
   @ApiModelProperty(value = "")
-  public Sender getObject() {
-    return _object;
+  public SenderResponseExisting getExisting() {
+    return existing;
   }
 
-  public void setObject(Sender _object) {
-    this._object = _object;
-  }
-
-  public SenderResponse meta(SenderResponseMeta meta) {
-    this.meta = meta;
-    return this;
-  }
-
-   /**
-   * Get meta
-   * @return meta
-  **/
-  @ApiModelProperty(value = "")
-  public SenderResponseMeta getMeta() {
-    return meta;
-  }
-
-  public void setMeta(SenderResponseMeta meta) {
-    this.meta = meta;
+  public void setExisting(SenderResponseExisting existing) {
+    this.existing = existing;
   }
 
 
@@ -84,23 +61,21 @@ public class SenderResponse {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    SenderResponse senderResponse = (SenderResponse) o;
-    return Objects.equals(this._object, senderResponse._object) &&
-        Objects.equals(this.meta, senderResponse.meta);
+    SenderResponseMeta senderResponseMeta = (SenderResponseMeta) o;
+    return Objects.equals(this.existing, senderResponseMeta.existing);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(_object, meta);
+    return Objects.hash(existing);
   }
 
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class SenderResponse {\n");
-    sb.append("    _object: ").append(toIndentedString(_object)).append("\n");
-    sb.append("    meta: ").append(toIndentedString(meta)).append("\n");
+    sb.append("class SenderResponseMeta {\n");
+    sb.append("    existing: ").append(toIndentedString(existing)).append("\n");
     sb.append("}");
     return sb.toString();
   }

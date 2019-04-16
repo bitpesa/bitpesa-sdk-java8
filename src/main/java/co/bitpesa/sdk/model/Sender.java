@@ -34,9 +34,9 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- * This contains the details of the sender. The first time a specific sender is used the full details should be provided. Once a sender is created and is used, the next time you MUST only send the ID of the sender. This is so we can match the same sender across multiple transactions for KYC and audit purposes.  Personal Sender Example: &#x60;&#x60;&#x60;json {   \&quot;country\&quot;: \&quot;UG\&quot;,   \&quot;phone_country\&quot;: \&quot;UG\&quot;,   \&quot;phone_number\&quot;: \&quot;752403639\&quot;,   \&quot;email\&quot;: \&quot;example@home.org\&quot;,   \&quot;first_name\&quot;: \&quot;Johnny\&quot;,   \&quot;last_name\&quot;: \&quot;English\&quot;,   \&quot;city\&quot;: \&quot;Kampala\&quot;,   \&quot;street\&quot;: \&quot;Unknown 17-3\&quot;,   \&quot;address_description\&quot;: \&quot;Description of address\&quot;,   \&quot;postal_code\&quot;: \&quot;798983\&quot;,   \&quot;birth_date\&quot;: \&quot;1900-12-31\&quot;,   \&quot;documents\&quot;: [ ],   \&quot;ip\&quot;: \&quot;127.0.0.1\&quot;,   \&quot;metadata\&quot;: { } } &#x60;&#x60;&#x60;  Business Sender Example:  &#x60;&#x60;&#x60;json {   \&quot;type\&quot;: \&quot;business\&quot;,   \&quot;country\&quot;: \&quot;UG\&quot;,   \&quot;phone_country\&quot;: \&quot;UG\&quot;,   \&quot;phone_number\&quot;: \&quot;752403639\&quot;,   \&quot;email\&quot;: \&quot;example@home.org\&quot;,   \&quot;name\&quot;: \&quot;MyCompany\&quot;,   \&quot;city\&quot;: \&quot;Kampala\&quot;,   \&quot;street\&quot;: \&quot;Unknown 17-3\&quot;,   \&quot;postal_code\&quot;: \&quot;798983\&quot;,   \&quot;address_description\&quot;: \&quot;Description of address\&quot;,   \&quot;documents\&quot;: [ ],   \&quot;ip\&quot;: \&quot;127.0.0.1\&quot;,   \&quot;metadata\&quot;: { } } &#x60;&#x60;&#x60;  [Sender in the API documentation](https://github.com/bitpesa/api-documentation/blob/master/transaction-flow.md#sender)
+ * This contains the details of the sender. The first time a specific sender is used the full details should be provided. Once a sender is created and is used, the next time you MUST only send the ID of the sender. This is so we can match the same sender across multiple transactions for KYC and audit purposes.  Personal Sender Example: &#x60;&#x60;&#x60;json {   \&quot;country\&quot;: \&quot;UG\&quot;,   \&quot;phone_country\&quot;: \&quot;UG\&quot;,   \&quot;phone_number\&quot;: \&quot;752403639\&quot;,   \&quot;email\&quot;: \&quot;example@home.org\&quot;,   \&quot;first_name\&quot;: \&quot;Johnny\&quot;,   \&quot;last_name\&quot;: \&quot;English\&quot;,   \&quot;city\&quot;: \&quot;Kampala\&quot;,   \&quot;street\&quot;: \&quot;Unknown 17-3\&quot;,   \&quot;address_description\&quot;: \&quot;Description of address\&quot;,   \&quot;postal_code\&quot;: \&quot;798983\&quot;,   \&quot;birth_date\&quot;: \&quot;1900-12-31\&quot;,   \&quot;documents\&quot;: [ ],   \&quot;ip\&quot;: \&quot;127.0.0.1\&quot;,   \&quot;external_id\&quot;: \&quot;806ec63a-a5a7-43cc-9d75-1ee74fbcc026\&quot;,   \&quot;metadata\&quot;: { } } &#x60;&#x60;&#x60;  Business Sender Example:  &#x60;&#x60;&#x60;json {   \&quot;type\&quot;: \&quot;business\&quot;,   \&quot;country\&quot;: \&quot;UG\&quot;,   \&quot;phone_country\&quot;: \&quot;UG\&quot;,   \&quot;phone_number\&quot;: \&quot;752403639\&quot;,   \&quot;email\&quot;: \&quot;example@home.org\&quot;,   \&quot;name\&quot;: \&quot;MyCompany\&quot;,   \&quot;city\&quot;: \&quot;Kampala\&quot;,   \&quot;street\&quot;: \&quot;Unknown 17-3\&quot;,   \&quot;postal_code\&quot;: \&quot;798983\&quot;,   \&quot;address_description\&quot;: \&quot;Description of address\&quot;,   \&quot;documents\&quot;: [ ],   \&quot;ip\&quot;: \&quot;127.0.0.1\&quot;,   \&quot;external_id\&quot;: \&quot;806ec63a-a5a7-43cc-9d75-1ee74fbcc026\&quot;,   \&quot;metadata\&quot;: { } } &#x60;&#x60;&#x60;  [Sender in the API documentation](https://github.com/bitpesa/api-documentation/blob/master/transaction-flow.md#sender)
  */
-@ApiModel(description = "This contains the details of the sender. The first time a specific sender is used the full details should be provided. Once a sender is created and is used, the next time you MUST only send the ID of the sender. This is so we can match the same sender across multiple transactions for KYC and audit purposes.  Personal Sender Example: ```json {   \"country\": \"UG\",   \"phone_country\": \"UG\",   \"phone_number\": \"752403639\",   \"email\": \"example@home.org\",   \"first_name\": \"Johnny\",   \"last_name\": \"English\",   \"city\": \"Kampala\",   \"street\": \"Unknown 17-3\",   \"address_description\": \"Description of address\",   \"postal_code\": \"798983\",   \"birth_date\": \"1900-12-31\",   \"documents\": [ ],   \"ip\": \"127.0.0.1\",   \"metadata\": { } } ```  Business Sender Example:  ```json {   \"type\": \"business\",   \"country\": \"UG\",   \"phone_country\": \"UG\",   \"phone_number\": \"752403639\",   \"email\": \"example@home.org\",   \"name\": \"MyCompany\",   \"city\": \"Kampala\",   \"street\": \"Unknown 17-3\",   \"postal_code\": \"798983\",   \"address_description\": \"Description of address\",   \"documents\": [ ],   \"ip\": \"127.0.0.1\",   \"metadata\": { } } ```  [Sender in the API documentation](https://github.com/bitpesa/api-documentation/blob/master/transaction-flow.md#sender)")
+@ApiModel(description = "This contains the details of the sender. The first time a specific sender is used the full details should be provided. Once a sender is created and is used, the next time you MUST only send the ID of the sender. This is so we can match the same sender across multiple transactions for KYC and audit purposes.  Personal Sender Example: ```json {   \"country\": \"UG\",   \"phone_country\": \"UG\",   \"phone_number\": \"752403639\",   \"email\": \"example@home.org\",   \"first_name\": \"Johnny\",   \"last_name\": \"English\",   \"city\": \"Kampala\",   \"street\": \"Unknown 17-3\",   \"address_description\": \"Description of address\",   \"postal_code\": \"798983\",   \"birth_date\": \"1900-12-31\",   \"documents\": [ ],   \"ip\": \"127.0.0.1\",   \"external_id\": \"806ec63a-a5a7-43cc-9d75-1ee74fbcc026\",   \"metadata\": { } } ```  Business Sender Example:  ```json {   \"type\": \"business\",   \"country\": \"UG\",   \"phone_country\": \"UG\",   \"phone_number\": \"752403639\",   \"email\": \"example@home.org\",   \"name\": \"MyCompany\",   \"city\": \"Kampala\",   \"street\": \"Unknown 17-3\",   \"postal_code\": \"798983\",   \"address_description\": \"Description of address\",   \"documents\": [ ],   \"ip\": \"127.0.0.1\",   \"external_id\": \"806ec63a-a5a7-43cc-9d75-1ee74fbcc026\",   \"metadata\": { } } ```  [Sender in the API documentation](https://github.com/bitpesa/api-documentation/blob/master/transaction-flow.md#sender)")
 
 public class Sender {
   /**
@@ -181,6 +181,10 @@ public class Sender {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
   private UUID id;
+
+  public static final String SERIALIZED_NAME_EXTERNAL_ID = "external_id";
+  @SerializedName(SERIALIZED_NAME_EXTERNAL_ID)
+  private String externalId;
 
   public static final String SERIALIZED_NAME_ERRORS = "errors";
   @SerializedName(SERIALIZED_NAME_ERRORS)
@@ -623,6 +627,24 @@ public class Sender {
     this.id = id;
   }
 
+  public Sender externalId(String externalId) {
+    this.externalId = externalId;
+    return this;
+  }
+
+   /**
+   * Optional ID that is supplied by partner linking it to the partner&#39;s own Sender ID. Note: if present we will validate whether the sent ID is a duplicate in our system or not.
+   * @return externalId
+  **/
+  @ApiModelProperty(example = "806ec63a-a5a7-43cc-9d75-1ee74fbcc026", value = "Optional ID that is supplied by partner linking it to the partner's own Sender ID. Note: if present we will validate whether the sent ID is a duplicate in our system or not.")
+  public String getExternalId() {
+    return externalId;
+  }
+
+  public void setExternalId(String externalId) {
+    this.externalId = externalId;
+  }
+
    /**
    * The fields that have some problems and don&#39;t pass validation
    * @return errors
@@ -666,12 +688,13 @@ public class Sender {
         Objects.equals(this.metadata, sender.metadata) &&
         Objects.equals(this.state, sender.state) &&
         Objects.equals(this.id, sender.id) &&
+        Objects.equals(this.externalId, sender.externalId) &&
         Objects.equals(this.errors, sender.errors);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(type, country, phoneCountry, phoneNumber, email, firstName, middleName, lastName, occupation, nationality, onboardingStatus, address, description, name, city, street, addressDescription, postalCode, birthDate, ip, documents, metadata, state, id, errors);
+    return Objects.hash(type, country, phoneCountry, phoneNumber, email, firstName, middleName, lastName, occupation, nationality, onboardingStatus, address, description, name, city, street, addressDescription, postalCode, birthDate, ip, documents, metadata, state, id, externalId, errors);
   }
 
 
@@ -703,6 +726,7 @@ public class Sender {
     sb.append("    metadata: ").append(toIndentedString(metadata)).append("\n");
     sb.append("    state: ").append(toIndentedString(state)).append("\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    externalId: ").append(toIndentedString(externalId)).append("\n");
     sb.append("    errors: ").append(toIndentedString(errors)).append("\n");
     sb.append("}");
     return sb.toString();

@@ -306,12 +306,13 @@ public class TransactionsApi {
      * Build call for getTransactions
      * @param page The page number to request (defaults to 1) (optional)
      * @param per The number of results to load per page (defaults to 10) (optional)
+     * @param externalId Allows filtering results by &#x60;external_id&#x60;.  Example: &#x60;/v1/senders?external_id&#x3D;26ec8517-2f0d-48c0-b74f-0bccb9ab3a87&#x60; (optional)
      * @param progressListener Progress listener
      * @param progressRequestListener Progress request listener
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public okhttp3.Call getTransactionsCall(Integer page, Integer per, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public okhttp3.Call getTransactionsCall(Integer page, Integer per, String externalId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = new Object();
 
         // create path and map variables
@@ -325,6 +326,10 @@ public class TransactionsApi {
 
         if (per != null) {
             localVarQueryParams.addAll(apiClient.parameterToPair("per", per));
+        }
+
+        if (externalId != null) {
+            localVarQueryParams.addAll(apiClient.parameterToPair("external_id", externalId));
         }
 
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
@@ -360,10 +365,10 @@ public class TransactionsApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call getTransactionsValidateBeforeCall(Integer page, Integer per, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private okhttp3.Call getTransactionsValidateBeforeCall(Integer page, Integer per, String externalId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
 
-        okhttp3.Call call = getTransactionsCall(page, per, progressListener, progressRequestListener);
+        okhttp3.Call call = getTransactionsCall(page, per, externalId, progressListener, progressRequestListener);
         return call;
 
     }
@@ -373,11 +378,12 @@ public class TransactionsApi {
      * Retrieves a paginated list of the Transactions created by your API key.
      * @param page The page number to request (defaults to 1) (optional)
      * @param per The number of results to load per page (defaults to 10) (optional)
+     * @param externalId Allows filtering results by &#x60;external_id&#x60;.  Example: &#x60;/v1/senders?external_id&#x3D;26ec8517-2f0d-48c0-b74f-0bccb9ab3a87&#x60; (optional)
      * @return TransactionListResponse
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public TransactionListResponse getTransactions(Integer page, Integer per) throws ApiException {
-        ApiResponse<TransactionListResponse> resp = getTransactionsWithHttpInfo(page, per);
+    public TransactionListResponse getTransactions(Integer page, Integer per, String externalId) throws ApiException {
+        ApiResponse<TransactionListResponse> resp = getTransactionsWithHttpInfo(page, per, externalId);
         return resp.getData();
     }
 
@@ -386,11 +392,12 @@ public class TransactionsApi {
      * Retrieves a paginated list of the Transactions created by your API key.
      * @param page The page number to request (defaults to 1) (optional)
      * @param per The number of results to load per page (defaults to 10) (optional)
+     * @param externalId Allows filtering results by &#x60;external_id&#x60;.  Example: &#x60;/v1/senders?external_id&#x3D;26ec8517-2f0d-48c0-b74f-0bccb9ab3a87&#x60; (optional)
      * @return ApiResponse&lt;TransactionListResponse&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<TransactionListResponse> getTransactionsWithHttpInfo(Integer page, Integer per) throws ApiException {
-        okhttp3.Call call = getTransactionsValidateBeforeCall(page, per, null, null);
+    public ApiResponse<TransactionListResponse> getTransactionsWithHttpInfo(Integer page, Integer per, String externalId) throws ApiException {
+        okhttp3.Call call = getTransactionsValidateBeforeCall(page, per, externalId, null, null);
         Type localVarReturnType = new TypeToken<TransactionListResponse>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
@@ -400,11 +407,12 @@ public class TransactionsApi {
      * Retrieves a paginated list of the Transactions created by your API key.
      * @param page The page number to request (defaults to 1) (optional)
      * @param per The number of results to load per page (defaults to 10) (optional)
+     * @param externalId Allows filtering results by &#x60;external_id&#x60;.  Example: &#x60;/v1/senders?external_id&#x3D;26ec8517-2f0d-48c0-b74f-0bccb9ab3a87&#x60; (optional)
      * @param callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call getTransactionsAsync(Integer page, Integer per, final ApiCallback<TransactionListResponse> callback) throws ApiException {
+    public okhttp3.Call getTransactionsAsync(Integer page, Integer per, String externalId, final ApiCallback<TransactionListResponse> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -425,7 +433,7 @@ public class TransactionsApi {
             };
         }
 
-        okhttp3.Call call = getTransactionsValidateBeforeCall(page, per, progressListener, progressRequestListener);
+        okhttp3.Call call = getTransactionsValidateBeforeCall(page, per, externalId, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<TransactionListResponse>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
