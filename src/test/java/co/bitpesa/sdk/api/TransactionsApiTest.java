@@ -81,7 +81,8 @@ public class TransactionsApiTest {
     public void getTransactionsTest() throws ApiException {
         Integer page = null;
         Integer per = null;
-        TransactionListResponse response = api.getTransactions(page, per);
+        String externalId = null;
+        TransactionListResponse response = api.getTransactions(page, per, externalId);
 
         // TODO: test validations
     }

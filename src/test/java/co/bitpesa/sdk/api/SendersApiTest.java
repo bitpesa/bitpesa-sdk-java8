@@ -81,7 +81,8 @@ public class SendersApiTest {
         Integer per = null;
         String createdAtFrom = null;
         String createdAtTo = null;
-        SenderListResponse response = api.getSenders(page, per, createdAtFrom, createdAtTo);
+        String externalId = null;
+        SenderListResponse response = api.getSenders(page, per, createdAtFrom, createdAtTo, externalId);
 
         // TODO: test validations
     }
