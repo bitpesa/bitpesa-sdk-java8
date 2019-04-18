@@ -242,6 +242,14 @@ public class SenderTest {
     }
 
     /**
+     * Test the property 'externalId'
+     */
+    @Test
+    public void externalIdTest() {
+        // TODO: test externalId
+    }
+
+    /**
      * Test the property 'errors'
      */
     @Test

@@ -158,6 +158,14 @@ public class TransactionTest {
     }
 
     /**
+     * Test the property 'externalId'
+     */
+    @Test
+    public void externalIdTest() {
+        // TODO: test externalId
+    }
+
+    /**
      * Test the property 'id'
      */
     @Test

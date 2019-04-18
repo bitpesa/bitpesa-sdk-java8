@@ -14,6 +14,7 @@
 package co.bitpesa.sdk.model;
 
 import co.bitpesa.sdk.model.Sender;
+import co.bitpesa.sdk.model.SenderResponseMeta;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -47,6 +48,14 @@ public class SenderResponseTest {
     @Test
     public void _objectTest() {
         // TODO: test _object
+    }
+
+    /**
+     * Test the property 'meta'
+     */
+    @Test
+    public void metaTest() {
+        // TODO: test meta
     }
 
 }

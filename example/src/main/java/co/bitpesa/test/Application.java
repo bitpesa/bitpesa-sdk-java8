@@ -43,6 +43,8 @@ public class Application {
         Transaction transaction = new Transaction();
 
         Sender sender = new Sender();
+        // When adding a sender to transaction, please use either an id or external_id. Providing both will result in a validation error.
+        // Please see our documentation at https://github.com/bitpesa/api-documentation/blob/master/transaction-flow.md#sender
         //UUID senderId = createSender(apiClient);
         //sender.setId(senderId);
         sender.setId(UUID.fromString("058de445-ffff-ffff-ffff-da9c751d14bf"));
@@ -63,6 +65,8 @@ public class Application {
         recipient.setRequestedCurrency("NGN");
         recipient.setPayoutMethod(payoutMethod);
 
+        // Optional field for customer's ID
+        transaction.setExternalId("TRANSACTION-1f834adx");
         transaction.setInputCurrency("USD");
         transaction.setSender(sender);
         transaction.addRecipientsItem(recipient);
@@ -112,6 +116,24 @@ public class Application {
             }
         }
         return transactionId;
+    }
+
+    public static void getTransactionByExternalId(ApiClient apiClient) throws Exception {
+        TransactionsApi transactionsApi = new TransactionsApi(apiClient);
+        String externalId = "TRANSACTION-1f834adx";
+        try {
+            TransactionListResponse transactionListResponse = transactionsApi.getTransactions(null, null, externalId);
+            System.out.println(transactionListResponse);
+        } catch (ApiException e) {
+            if (e.isValidationError()) {
+                TransactionListResponse transactionListResponse = e.getResponseObject(TransactionListResponse.class);
+                System.err.println("There was an error retrieving the transaction");
+                System.out.println(transactionListResponse.getObject().get(0).getErrors());
+                System.out.println(transactionListResponse);
+            } else {
+                throw e;
+            }
+        }
     }
 
     public static void getTransactionErrorMessageExample(ApiClient apiClient) throws ApiException {
@@ -309,12 +331,14 @@ public class Application {
         sender.setFirstName("test");
         sender.setLastName("user");
         sender.setCity("Lagos");
-        sender.setStreet("Unknwon 123");
+        sender.setStreet("Unknown 123");
         sender.setPostalCode("798983");
         sender.setBirthDate(LocalDate.parse("1980-01-01"));
         sender.setIp("127.0.0.1");
         sender.setAddressDescription("Description");
         sender.setDocuments(new ArrayList<>());
+        //  Optional field for customer ID
+        sender.setExternalId("SENDER-2b59defx");
 
         SenderRequest senderRequest = new SenderRequest();
         senderRequest.setSender(sender);
@@ -335,6 +359,24 @@ public class Application {
         return null;
     }
 
+    public static void getSenderByExternalId(ApiClient apiClient) throws Exception {
+        SendersApi sendersApi = new SendersApi(apiClient);
+        String externalId = "SENDER-2b59defx";
+        try {
+            SenderListResponse senderListResponse = sendersApi.getSenders(null, null, null, null, externalId);
+            System.out.println(senderListResponse);
+        } catch (ApiException e) {
+            if (e.isValidationError()) {
+                SenderListResponse senderListResponse = e.getResponseObject(SenderListResponse.class);
+                System.err.println("There was an error retrieving the sender");
+                System.out.println(senderListResponse.getObject().get(0).getErrors());
+                System.out.println(senderListResponse);
+            } else {
+                throw e;
+            }
+        }
+    }
+
     public static void updateSender(ApiClient apiClient) throws Exception {
         SendersApi sendersApi = new SendersApi(apiClient);
 
@@ -350,7 +392,7 @@ public class Application {
         } catch (ApiException e) {
             if (e.isValidationError()) {
                 SenderResponse senderResponse = e.getResponseObject(SenderResponse.class);
-                System.err.println("There was an error changin the sender details");
+                System.err.println("There was an error changing the sender details");
                 System.out.println(senderResponse.getObject().getErrors());
                 System.out.println(senderResponse);
             } else {
@@ -366,10 +408,13 @@ public class Application {
         apiClient.setBasePath("https://api-sandbox.bitpesa.co/v1");
 
         //accountValidationExample(apiClient);
+        //createTransactionExample(apiClient);
         //createAndFundTransactionExample(apiClient);
+        //getTransactionByExternalId(apiClient);
         //getTransactionErrorMessageExample(apiClient);
         //webhookParseExample(apiClient);
         //createSender(apiClient);
+        //getSenderByExternalId(apiClient);
         //updateSender(apiClient);
     }
 }
