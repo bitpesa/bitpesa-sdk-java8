@@ -4,14 +4,14 @@
     <artifactId>bitpesa-sdk-java8</artifactId>
     <packaging>jar</packaging>
     <name>bitpesa-sdk-java8</name>
-    <version>0.1.2-SNAPSHOT</version>
+    <version>0.2.0</version>
     <url>https://github.com/bitpesa/bitpesa-sdk-java8</url>
     <description>Java 8 library for the BitPesa API</description>
     <scm>
         <connection>scm:git:https://github.com/bitpesa/bitpesa-sdk-java8.git</connection>
         <developerConnection>scm:git:git@github.com:bitpesa/bitpesa-sdk-java8.git</developerConnection>
         <url>https://github.com/bitpesa/bitpesa-sdk-java8</url>
-        <tag>HEAD</tag>
+        <tag>bitpesa-sdk-java8-0.2.0</tag>
     </scm>
 
     <licenses>
