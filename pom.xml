@@ -4,7 +4,7 @@
     <artifactId>bitpesa-sdk-java8</artifactId>
     <packaging>jar</packaging>
     <name>bitpesa-sdk-java8</name>
-    <version>0.1.2-SNAPSHOT</version>
+    <version>0.2.0</version>
     <url>https://github.com/bitpesa/bitpesa-sdk-java8</url>
     <description>Java 8 library for the BitPesa API</description>
     <scm>

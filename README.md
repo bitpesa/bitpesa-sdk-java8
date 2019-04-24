@@ -45,7 +45,7 @@ Add this dependency to your project's POM:
 <dependency>
   <groupId>co.bitpesa.sdk</groupId>
   <artifactId>bitpesa-sdk-java8</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
+  <version>0.2.0</version>
   <scope>compile</scope>
 </dependency>
 ```
@@ -55,7 +55,7 @@ Add this dependency to your project's POM:
 Add this dependency to your project's build file:
 
 ```groovy
-compile "co.bitpesa.sdk:bitpesa-sdk-java8:1.0.0-SNAPSHOT"
+compile "co.bitpesa.sdk:bitpesa-sdk-java8:0.2.0"
 ```
 
 ### Others
@@ -68,7 +68,7 @@ mvn clean package
 
 Then manually install the following JARs:
 
-* `target/bitpesa-sdk-java8-1.0.0-SNAPSHOT.jar`
+* `target/bitpesa-sdk-java8-0.2.0.jar`
 * `target/lib/*.jar`
 
 ## Getting Started
