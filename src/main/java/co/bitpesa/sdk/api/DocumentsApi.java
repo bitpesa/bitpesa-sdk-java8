@@ -39,38 +39,37 @@ import java.util.List;
 import java.util.Map;
 
 public class DocumentsApi {
-    private ApiClient apiClient;
+    private ApiClient localVarApiClient;
 
     public DocumentsApi() {
         this(Configuration.getDefaultApiClient());
     }
 
     public DocumentsApi(ApiClient apiClient) {
-        this.apiClient = apiClient;
+        this.localVarApiClient = apiClient;
     }
 
     public ApiClient getApiClient() {
-        return apiClient;
+        return localVarApiClient;
     }
 
     public void setApiClient(ApiClient apiClient) {
-        this.apiClient = apiClient;
+        this.localVarApiClient = apiClient;
     }
 
     /**
      * Build call for getDocument
      * @param documentID ID of the document to get.  Example: &#x60;/v1/documents/bf9ff782-e182-45ac-abea-5bce83ad6670&#x60; (required)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
+     * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public okhttp3.Call getDocumentCall(UUID documentID, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public okhttp3.Call getDocumentCall(UUID documentID, final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = new Object();
 
         // create path and map variables
         String localVarPath = "/documents/{Document ID}"
-            .replaceAll("\\{" + "Document ID" + "\\}", apiClient.escapeString(documentID.toString()));
+            .replaceAll("\\{" + "Document ID" + "\\}", localVarApiClient.escapeString(documentID.toString()));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -79,7 +78,7 @@ public class DocumentsApi {
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -87,27 +86,15 @@ public class DocumentsApi {
         final String[] localVarContentTypes = {
             
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
-                @Override
-                public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
-                    okhttp3.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                            .build();
-                }
-            }).build());
-        }
-
         String[] localVarAuthNames = new String[] { "AuthorizationKey", "AuthorizationNonce", "AuthorizationSecret", "AuthorizationSignature" };
-        return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call getDocumentValidateBeforeCall(UUID documentID, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private okhttp3.Call getDocumentValidateBeforeCall(UUID documentID, final ApiCallback _callback) throws ApiException {
         
         // verify the required parameter 'documentID' is set
         if (documentID == null) {
@@ -115,8 +102,8 @@ public class DocumentsApi {
         }
         
 
-        okhttp3.Call call = getDocumentCall(documentID, progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = getDocumentCall(documentID, _callback);
+        return localVarCall;
 
     }
 
@@ -128,8 +115,8 @@ public class DocumentsApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public DocumentResponse getDocument(UUID documentID) throws ApiException {
-        ApiResponse<DocumentResponse> resp = getDocumentWithHttpInfo(documentID);
-        return resp.getData();
+        ApiResponse<DocumentResponse> localVarResp = getDocumentWithHttpInfo(documentID);
+        return localVarResp.getData();
     }
 
     /**
@@ -140,55 +127,35 @@ public class DocumentsApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<DocumentResponse> getDocumentWithHttpInfo(UUID documentID) throws ApiException {
-        okhttp3.Call call = getDocumentValidateBeforeCall(documentID, null, null);
+        okhttp3.Call localVarCall = getDocumentValidateBeforeCall(documentID, null);
         Type localVarReturnType = new TypeToken<DocumentResponse>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
      * Fetching a document (asynchronously)
      * Returns a single document by the Documents ID
      * @param documentID ID of the document to get.  Example: &#x60;/v1/documents/bf9ff782-e182-45ac-abea-5bce83ad6670&#x60; (required)
-     * @param callback The callback to be executed when the API call finishes
+     * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call getDocumentAsync(UUID documentID, final ApiCallback<DocumentResponse> callback) throws ApiException {
+    public okhttp3.Call getDocumentAsync(UUID documentID, final ApiCallback<DocumentResponse> _callback) throws ApiException {
 
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        okhttp3.Call call = getDocumentValidateBeforeCall(documentID, progressListener, progressRequestListener);
+        okhttp3.Call localVarCall = getDocumentValidateBeforeCall(documentID, _callback);
         Type localVarReturnType = new TypeToken<DocumentResponse>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
     }
     /**
      * Build call for getDocuments
      * @param page The page number to request (defaults to 1) (optional)
      * @param per The number of results to load per page (defaults to 10) (optional)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
+     * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public okhttp3.Call getDocumentsCall(Integer page, Integer per, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public okhttp3.Call getDocumentsCall(Integer page, Integer per, final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = new Object();
 
         // create path and map variables
@@ -197,11 +164,11 @@ public class DocumentsApi {
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
         if (page != null) {
-            localVarQueryParams.addAll(apiClient.parameterToPair("page", page));
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("page", page));
         }
 
         if (per != null) {
-            localVarQueryParams.addAll(apiClient.parameterToPair("per", per));
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("per", per));
         }
 
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
@@ -209,7 +176,7 @@ public class DocumentsApi {
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -217,31 +184,19 @@ public class DocumentsApi {
         final String[] localVarContentTypes = {
             
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
-                @Override
-                public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
-                    okhttp3.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                            .build();
-                }
-            }).build());
-        }
-
         String[] localVarAuthNames = new String[] { "AuthorizationKey", "AuthorizationNonce", "AuthorizationSecret", "AuthorizationSignature" };
-        return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call getDocumentsValidateBeforeCall(Integer page, Integer per, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private okhttp3.Call getDocumentsValidateBeforeCall(Integer page, Integer per, final ApiCallback _callback) throws ApiException {
         
 
-        okhttp3.Call call = getDocumentsCall(page, per, progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = getDocumentsCall(page, per, _callback);
+        return localVarCall;
 
     }
 
@@ -254,8 +209,8 @@ public class DocumentsApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public DocumentListResponse getDocuments(Integer page, Integer per) throws ApiException {
-        ApiResponse<DocumentListResponse> resp = getDocumentsWithHttpInfo(page, per);
-        return resp.getData();
+        ApiResponse<DocumentListResponse> localVarResp = getDocumentsWithHttpInfo(page, per);
+        return localVarResp.getData();
     }
 
     /**
@@ -267,9 +222,9 @@ public class DocumentsApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<DocumentListResponse> getDocumentsWithHttpInfo(Integer page, Integer per) throws ApiException {
-        okhttp3.Call call = getDocumentsValidateBeforeCall(page, per, null, null);
+        okhttp3.Call localVarCall = getDocumentsValidateBeforeCall(page, per, null);
         Type localVarReturnType = new TypeToken<DocumentListResponse>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
@@ -277,45 +232,25 @@ public class DocumentsApi {
      * Fetches a list of documents.
      * @param page The page number to request (defaults to 1) (optional)
      * @param per The number of results to load per page (defaults to 10) (optional)
-     * @param callback The callback to be executed when the API call finishes
+     * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call getDocumentsAsync(Integer page, Integer per, final ApiCallback<DocumentListResponse> callback) throws ApiException {
+    public okhttp3.Call getDocumentsAsync(Integer page, Integer per, final ApiCallback<DocumentListResponse> _callback) throws ApiException {
 
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        okhttp3.Call call = getDocumentsValidateBeforeCall(page, per, progressListener, progressRequestListener);
+        okhttp3.Call localVarCall = getDocumentsValidateBeforeCall(page, per, _callback);
         Type localVarReturnType = new TypeToken<DocumentListResponse>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
     }
     /**
      * Build call for postDocuments
      * @param documentRequest  (required)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
+     * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public okhttp3.Call postDocumentsCall(DocumentRequest documentRequest, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public okhttp3.Call postDocumentsCall(DocumentRequest documentRequest, final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = documentRequest;
 
         // create path and map variables
@@ -328,7 +263,7 @@ public class DocumentsApi {
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -336,27 +271,15 @@ public class DocumentsApi {
         final String[] localVarContentTypes = {
             "application/json"
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
-                @Override
-                public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
-                    okhttp3.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                            .build();
-                }
-            }).build());
-        }
-
         String[] localVarAuthNames = new String[] { "AuthorizationKey", "AuthorizationNonce", "AuthorizationSecret", "AuthorizationSignature" };
-        return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call postDocumentsValidateBeforeCall(DocumentRequest documentRequest, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private okhttp3.Call postDocumentsValidateBeforeCall(DocumentRequest documentRequest, final ApiCallback _callback) throws ApiException {
         
         // verify the required parameter 'documentRequest' is set
         if (documentRequest == null) {
@@ -364,8 +287,8 @@ public class DocumentsApi {
         }
         
 
-        okhttp3.Call call = postDocumentsCall(documentRequest, progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = postDocumentsCall(documentRequest, _callback);
+        return localVarCall;
 
     }
 
@@ -377,8 +300,8 @@ public class DocumentsApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public DocumentResponse postDocuments(DocumentRequest documentRequest) throws ApiException {
-        ApiResponse<DocumentResponse> resp = postDocumentsWithHttpInfo(documentRequest);
-        return resp.getData();
+        ApiResponse<DocumentResponse> localVarResp = postDocumentsWithHttpInfo(documentRequest);
+        return localVarResp.getData();
     }
 
     /**
@@ -389,43 +312,24 @@ public class DocumentsApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<DocumentResponse> postDocumentsWithHttpInfo(DocumentRequest documentRequest) throws ApiException {
-        okhttp3.Call call = postDocumentsValidateBeforeCall(documentRequest, null, null);
+        okhttp3.Call localVarCall = postDocumentsValidateBeforeCall(documentRequest, null);
         Type localVarReturnType = new TypeToken<DocumentResponse>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
      * Creating a document (asynchronously)
      * Creates a new document
      * @param documentRequest  (required)
-     * @param callback The callback to be executed when the API call finishes
+     * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call postDocumentsAsync(DocumentRequest documentRequest, final ApiCallback<DocumentResponse> callback) throws ApiException {
+    public okhttp3.Call postDocumentsAsync(DocumentRequest documentRequest, final ApiCallback<DocumentResponse> _callback) throws ApiException {
 
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        okhttp3.Call call = postDocumentsValidateBeforeCall(documentRequest, progressListener, progressRequestListener);
+        okhttp3.Call localVarCall = postDocumentsValidateBeforeCall(documentRequest, _callback);
         Type localVarReturnType = new TypeToken<DocumentResponse>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
     }
 }

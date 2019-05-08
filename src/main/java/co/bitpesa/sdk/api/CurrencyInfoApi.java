@@ -37,32 +37,31 @@ import java.util.List;
 import java.util.Map;
 
 public class CurrencyInfoApi {
-    private ApiClient apiClient;
+    private ApiClient localVarApiClient;
 
     public CurrencyInfoApi() {
         this(Configuration.getDefaultApiClient());
     }
 
     public CurrencyInfoApi(ApiClient apiClient) {
-        this.apiClient = apiClient;
+        this.localVarApiClient = apiClient;
     }
 
     public ApiClient getApiClient() {
-        return apiClient;
+        return localVarApiClient;
     }
 
     public void setApiClient(ApiClient apiClient) {
-        this.apiClient = apiClient;
+        this.localVarApiClient = apiClient;
     }
 
     /**
      * Build call for infoCurrencies
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
+     * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public okhttp3.Call infoCurrenciesCall(final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public okhttp3.Call infoCurrenciesCall(final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = new Object();
 
         // create path and map variables
@@ -75,7 +74,7 @@ public class CurrencyInfoApi {
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -83,31 +82,19 @@ public class CurrencyInfoApi {
         final String[] localVarContentTypes = {
             
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
-                @Override
-                public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
-                    okhttp3.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                            .build();
-                }
-            }).build());
-        }
-
         String[] localVarAuthNames = new String[] { "AuthorizationKey", "AuthorizationNonce", "AuthorizationSecret", "AuthorizationSignature" };
-        return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call infoCurrenciesValidateBeforeCall(final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private okhttp3.Call infoCurrenciesValidateBeforeCall(final ApiCallback _callback) throws ApiException {
         
 
-        okhttp3.Call call = infoCurrenciesCall(progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = infoCurrenciesCall(_callback);
+        return localVarCall;
 
     }
 
@@ -118,8 +105,8 @@ public class CurrencyInfoApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public CurrencyListResponse infoCurrencies() throws ApiException {
-        ApiResponse<CurrencyListResponse> resp = infoCurrenciesWithHttpInfo();
-        return resp.getData();
+        ApiResponse<CurrencyListResponse> localVarResp = infoCurrenciesWithHttpInfo();
+        return localVarResp.getData();
     }
 
     /**
@@ -129,52 +116,32 @@ public class CurrencyInfoApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<CurrencyListResponse> infoCurrenciesWithHttpInfo() throws ApiException {
-        okhttp3.Call call = infoCurrenciesValidateBeforeCall(null, null);
+        okhttp3.Call localVarCall = infoCurrenciesValidateBeforeCall(null);
         Type localVarReturnType = new TypeToken<CurrencyListResponse>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
      * Getting a list of possible requested currencies (asynchronously)
      * Fetches a list of currencies available to use in other API requests. Usually the 3-character alpha ISO 4217 currency code (eg. USD) is used as the identifier.
-     * @param callback The callback to be executed when the API call finishes
+     * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call infoCurrenciesAsync(final ApiCallback<CurrencyListResponse> callback) throws ApiException {
+    public okhttp3.Call infoCurrenciesAsync(final ApiCallback<CurrencyListResponse> _callback) throws ApiException {
 
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        okhttp3.Call call = infoCurrenciesValidateBeforeCall(progressListener, progressRequestListener);
+        okhttp3.Call localVarCall = infoCurrenciesValidateBeforeCall(_callback);
         Type localVarReturnType = new TypeToken<CurrencyListResponse>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
     }
     /**
      * Build call for infoCurrenciesIn
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
+     * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public okhttp3.Call infoCurrenciesInCall(final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public okhttp3.Call infoCurrenciesInCall(final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = new Object();
 
         // create path and map variables
@@ -187,7 +154,7 @@ public class CurrencyInfoApi {
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -195,31 +162,19 @@ public class CurrencyInfoApi {
         final String[] localVarContentTypes = {
             
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
-                @Override
-                public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
-                    okhttp3.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                            .build();
-                }
-            }).build());
-        }
-
         String[] localVarAuthNames = new String[] { "AuthorizationKey", "AuthorizationNonce", "AuthorizationSecret", "AuthorizationSignature" };
-        return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call infoCurrenciesInValidateBeforeCall(final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private okhttp3.Call infoCurrenciesInValidateBeforeCall(final ApiCallback _callback) throws ApiException {
         
 
-        okhttp3.Call call = infoCurrenciesInCall(progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = infoCurrenciesInCall(_callback);
+        return localVarCall;
 
     }
 
@@ -230,8 +185,8 @@ public class CurrencyInfoApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public CurrencyExchangeListResponse infoCurrenciesIn() throws ApiException {
-        ApiResponse<CurrencyExchangeListResponse> resp = infoCurrenciesInWithHttpInfo();
-        return resp.getData();
+        ApiResponse<CurrencyExchangeListResponse> localVarResp = infoCurrenciesInWithHttpInfo();
+        return localVarResp.getData();
     }
 
     /**
@@ -241,52 +196,32 @@ public class CurrencyInfoApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<CurrencyExchangeListResponse> infoCurrenciesInWithHttpInfo() throws ApiException {
-        okhttp3.Call call = infoCurrenciesInValidateBeforeCall(null, null);
+        okhttp3.Call localVarCall = infoCurrenciesInValidateBeforeCall(null);
         Type localVarReturnType = new TypeToken<CurrencyExchangeListResponse>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
      * Getting a list of possible input currencies (asynchronously)
      * Fetches a list of currencies available to use as the input currency in other API requests. Usually the 3-character alpha ISO 4217 currency code (eg. USD) is used as the identifier. Use this endpoint to determine the current exchange rate from a specific input currency to any output currency that&#39;s available. 
-     * @param callback The callback to be executed when the API call finishes
+     * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call infoCurrenciesInAsync(final ApiCallback<CurrencyExchangeListResponse> callback) throws ApiException {
+    public okhttp3.Call infoCurrenciesInAsync(final ApiCallback<CurrencyExchangeListResponse> _callback) throws ApiException {
 
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        okhttp3.Call call = infoCurrenciesInValidateBeforeCall(progressListener, progressRequestListener);
+        okhttp3.Call localVarCall = infoCurrenciesInValidateBeforeCall(_callback);
         Type localVarReturnType = new TypeToken<CurrencyExchangeListResponse>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
     }
     /**
      * Build call for infoCurrenciesOut
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
+     * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public okhttp3.Call infoCurrenciesOutCall(final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public okhttp3.Call infoCurrenciesOutCall(final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = new Object();
 
         // create path and map variables
@@ -299,7 +234,7 @@ public class CurrencyInfoApi {
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -307,31 +242,19 @@ public class CurrencyInfoApi {
         final String[] localVarContentTypes = {
             
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
-                @Override
-                public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
-                    okhttp3.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                            .build();
-                }
-            }).build());
-        }
-
         String[] localVarAuthNames = new String[] { "AuthorizationKey", "AuthorizationNonce", "AuthorizationSecret", "AuthorizationSignature" };
-        return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call infoCurrenciesOutValidateBeforeCall(final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private okhttp3.Call infoCurrenciesOutValidateBeforeCall(final ApiCallback _callback) throws ApiException {
         
 
-        okhttp3.Call call = infoCurrenciesOutCall(progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = infoCurrenciesOutCall(_callback);
+        return localVarCall;
 
     }
 
@@ -342,8 +265,8 @@ public class CurrencyInfoApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public CurrencyExchangeListResponse infoCurrenciesOut() throws ApiException {
-        ApiResponse<CurrencyExchangeListResponse> resp = infoCurrenciesOutWithHttpInfo();
-        return resp.getData();
+        ApiResponse<CurrencyExchangeListResponse> localVarResp = infoCurrenciesOutWithHttpInfo();
+        return localVarResp.getData();
     }
 
     /**
@@ -353,42 +276,23 @@ public class CurrencyInfoApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<CurrencyExchangeListResponse> infoCurrenciesOutWithHttpInfo() throws ApiException {
-        okhttp3.Call call = infoCurrenciesOutValidateBeforeCall(null, null);
+        okhttp3.Call localVarCall = infoCurrenciesOutValidateBeforeCall(null);
         Type localVarReturnType = new TypeToken<CurrencyExchangeListResponse>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
      * Getting a list of possible output currencies (asynchronously)
      * Fetches a list of currencies available to use as the output currency and their exchange rates against the available input currencies. Usually the 3-character alpha ISO 4217 currency code (eg. USD) is used as the identifier. 
-     * @param callback The callback to be executed when the API call finishes
+     * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call infoCurrenciesOutAsync(final ApiCallback<CurrencyExchangeListResponse> callback) throws ApiException {
+    public okhttp3.Call infoCurrenciesOutAsync(final ApiCallback<CurrencyExchangeListResponse> _callback) throws ApiException {
 
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        okhttp3.Call call = infoCurrenciesOutValidateBeforeCall(progressListener, progressRequestListener);
+        okhttp3.Call localVarCall = infoCurrenciesOutValidateBeforeCall(_callback);
         Type localVarReturnType = new TypeToken<CurrencyExchangeListResponse>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
     }
 }

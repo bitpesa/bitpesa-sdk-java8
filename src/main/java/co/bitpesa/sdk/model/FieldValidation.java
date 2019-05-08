@@ -46,7 +46,7 @@ public class FieldValidation {
    * Describes whether the field is mandatory or not
    * @return presence
   **/
-  @ApiModelProperty(value = "Describes whether the field is mandatory or not")
+  @ApiModelProperty(example = "true", value = "Describes whether the field is mandatory or not")
   public Boolean getPresence() {
     return presence;
   }

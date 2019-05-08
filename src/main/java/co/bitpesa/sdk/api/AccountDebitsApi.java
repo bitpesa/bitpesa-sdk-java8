@@ -39,38 +39,37 @@ import java.util.List;
 import java.util.Map;
 
 public class AccountDebitsApi {
-    private ApiClient apiClient;
+    private ApiClient localVarApiClient;
 
     public AccountDebitsApi() {
         this(Configuration.getDefaultApiClient());
     }
 
     public AccountDebitsApi(ApiClient apiClient) {
-        this.apiClient = apiClient;
+        this.localVarApiClient = apiClient;
     }
 
     public ApiClient getApiClient() {
-        return apiClient;
+        return localVarApiClient;
     }
 
     public void setApiClient(ApiClient apiClient) {
-        this.apiClient = apiClient;
+        this.localVarApiClient = apiClient;
     }
 
     /**
      * Build call for getAccountsDebit
      * @param accountDebitID ID of the account debit to get.  Example: &#x60;/v1/accounts/debits/9170c890-1a45-46bd-9b79-3deeb8b4ff3d&#x60; (required)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
+     * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public okhttp3.Call getAccountsDebitCall(UUID accountDebitID, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public okhttp3.Call getAccountsDebitCall(UUID accountDebitID, final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = new Object();
 
         // create path and map variables
         String localVarPath = "/accounts/debits/{Account Debit ID}"
-            .replaceAll("\\{" + "Account Debit ID" + "\\}", apiClient.escapeString(accountDebitID.toString()));
+            .replaceAll("\\{" + "Account Debit ID" + "\\}", localVarApiClient.escapeString(accountDebitID.toString()));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -79,7 +78,7 @@ public class AccountDebitsApi {
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -87,27 +86,15 @@ public class AccountDebitsApi {
         final String[] localVarContentTypes = {
             
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
-                @Override
-                public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
-                    okhttp3.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                            .build();
-                }
-            }).build());
-        }
-
         String[] localVarAuthNames = new String[] { "AuthorizationKey", "AuthorizationNonce", "AuthorizationSecret", "AuthorizationSignature" };
-        return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call getAccountsDebitValidateBeforeCall(UUID accountDebitID, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private okhttp3.Call getAccountsDebitValidateBeforeCall(UUID accountDebitID, final ApiCallback _callback) throws ApiException {
         
         // verify the required parameter 'accountDebitID' is set
         if (accountDebitID == null) {
@@ -115,8 +102,8 @@ public class AccountDebitsApi {
         }
         
 
-        okhttp3.Call call = getAccountsDebitCall(accountDebitID, progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = getAccountsDebitCall(accountDebitID, _callback);
+        return localVarCall;
 
     }
 
@@ -128,8 +115,8 @@ public class AccountDebitsApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public DebitResponse getAccountsDebit(UUID accountDebitID) throws ApiException {
-        ApiResponse<DebitResponse> resp = getAccountsDebitWithHttpInfo(accountDebitID);
-        return resp.getData();
+        ApiResponse<DebitResponse> localVarResp = getAccountsDebitWithHttpInfo(accountDebitID);
+        return localVarResp.getData();
     }
 
     /**
@@ -140,55 +127,35 @@ public class AccountDebitsApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<DebitResponse> getAccountsDebitWithHttpInfo(UUID accountDebitID) throws ApiException {
-        okhttp3.Call call = getAccountsDebitValidateBeforeCall(accountDebitID, null, null);
+        okhttp3.Call localVarCall = getAccountsDebitValidateBeforeCall(accountDebitID, null);
         Type localVarReturnType = new TypeToken<DebitResponse>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
      * Fetching an account debit (asynchronously)
      * Returns a single account debit by the account debit ID
      * @param accountDebitID ID of the account debit to get.  Example: &#x60;/v1/accounts/debits/9170c890-1a45-46bd-9b79-3deeb8b4ff3d&#x60; (required)
-     * @param callback The callback to be executed when the API call finishes
+     * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call getAccountsDebitAsync(UUID accountDebitID, final ApiCallback<DebitResponse> callback) throws ApiException {
+    public okhttp3.Call getAccountsDebitAsync(UUID accountDebitID, final ApiCallback<DebitResponse> _callback) throws ApiException {
 
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        okhttp3.Call call = getAccountsDebitValidateBeforeCall(accountDebitID, progressListener, progressRequestListener);
+        okhttp3.Call localVarCall = getAccountsDebitValidateBeforeCall(accountDebitID, _callback);
         Type localVarReturnType = new TypeToken<DebitResponse>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
     }
     /**
      * Build call for getAccountsDebits
      * @param page The page number to request (defaults to 1) (optional)
      * @param per The number of results to load per page (defaults to 10) (optional)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
+     * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public okhttp3.Call getAccountsDebitsCall(Integer page, Integer per, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public okhttp3.Call getAccountsDebitsCall(Integer page, Integer per, final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = new Object();
 
         // create path and map variables
@@ -197,11 +164,11 @@ public class AccountDebitsApi {
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
         if (page != null) {
-            localVarQueryParams.addAll(apiClient.parameterToPair("page", page));
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("page", page));
         }
 
         if (per != null) {
-            localVarQueryParams.addAll(apiClient.parameterToPair("per", per));
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("per", per));
         }
 
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
@@ -209,7 +176,7 @@ public class AccountDebitsApi {
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -217,31 +184,19 @@ public class AccountDebitsApi {
         final String[] localVarContentTypes = {
             
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
-                @Override
-                public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
-                    okhttp3.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                            .build();
-                }
-            }).build());
-        }
-
         String[] localVarAuthNames = new String[] { "AuthorizationKey", "AuthorizationNonce", "AuthorizationSecret", "AuthorizationSignature" };
-        return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call getAccountsDebitsValidateBeforeCall(Integer page, Integer per, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private okhttp3.Call getAccountsDebitsValidateBeforeCall(Integer page, Integer per, final ApiCallback _callback) throws ApiException {
         
 
-        okhttp3.Call call = getAccountsDebitsCall(page, per, progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = getAccountsDebitsCall(page, per, _callback);
+        return localVarCall;
 
     }
 
@@ -254,8 +209,8 @@ public class AccountDebitsApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public DebitListResponse getAccountsDebits(Integer page, Integer per) throws ApiException {
-        ApiResponse<DebitListResponse> resp = getAccountsDebitsWithHttpInfo(page, per);
-        return resp.getData();
+        ApiResponse<DebitListResponse> localVarResp = getAccountsDebitsWithHttpInfo(page, per);
+        return localVarResp.getData();
     }
 
     /**
@@ -267,9 +222,9 @@ public class AccountDebitsApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<DebitListResponse> getAccountsDebitsWithHttpInfo(Integer page, Integer per) throws ApiException {
-        okhttp3.Call call = getAccountsDebitsValidateBeforeCall(page, per, null, null);
+        okhttp3.Call localVarCall = getAccountsDebitsValidateBeforeCall(page, per, null);
         Type localVarReturnType = new TypeToken<DebitListResponse>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
@@ -277,47 +232,27 @@ public class AccountDebitsApi {
      * Get a list of accounts debits
      * @param page The page number to request (defaults to 1) (optional)
      * @param per The number of results to load per page (defaults to 10) (optional)
-     * @param callback The callback to be executed when the API call finishes
+     * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call getAccountsDebitsAsync(Integer page, Integer per, final ApiCallback<DebitListResponse> callback) throws ApiException {
+    public okhttp3.Call getAccountsDebitsAsync(Integer page, Integer per, final ApiCallback<DebitListResponse> _callback) throws ApiException {
 
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        okhttp3.Call call = getAccountsDebitsValidateBeforeCall(page, per, progressListener, progressRequestListener);
+        okhttp3.Call localVarCall = getAccountsDebitsValidateBeforeCall(page, per, _callback);
         Type localVarReturnType = new TypeToken<DebitListResponse>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
     }
     /**
      * Build call for postAccountsDebits
      * @param debitRequestWrapper  (required)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
+     * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      * Funding Transaction guide including alternative ways to fund transactions.
      * @see <a href="https://github.com/bitpesa/api-documentation/blob/master/transaction-flow.md#funding-transactions">Creating an account debit Documentation</a>
      */
-    public okhttp3.Call postAccountsDebitsCall(DebitRequestWrapper debitRequestWrapper, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public okhttp3.Call postAccountsDebitsCall(DebitRequestWrapper debitRequestWrapper, final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = debitRequestWrapper;
 
         // create path and map variables
@@ -330,7 +265,7 @@ public class AccountDebitsApi {
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -338,27 +273,15 @@ public class AccountDebitsApi {
         final String[] localVarContentTypes = {
             "application/json"
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
-                @Override
-                public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
-                    okhttp3.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                            .build();
-                }
-            }).build());
-        }
-
         String[] localVarAuthNames = new String[] { "AuthorizationKey", "AuthorizationNonce", "AuthorizationSecret", "AuthorizationSignature" };
-        return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call postAccountsDebitsValidateBeforeCall(DebitRequestWrapper debitRequestWrapper, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private okhttp3.Call postAccountsDebitsValidateBeforeCall(DebitRequestWrapper debitRequestWrapper, final ApiCallback _callback) throws ApiException {
         
         // verify the required parameter 'debitRequestWrapper' is set
         if (debitRequestWrapper == null) {
@@ -366,8 +289,8 @@ public class AccountDebitsApi {
         }
         
 
-        okhttp3.Call call = postAccountsDebitsCall(debitRequestWrapper, progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = postAccountsDebitsCall(debitRequestWrapper, _callback);
+        return localVarCall;
 
     }
 
@@ -381,8 +304,8 @@ public class AccountDebitsApi {
      * @see <a href="https://github.com/bitpesa/api-documentation/blob/master/transaction-flow.md#funding-transactions">Creating an account debit Documentation</a>
      */
     public DebitListResponse postAccountsDebits(DebitRequestWrapper debitRequestWrapper) throws ApiException {
-        ApiResponse<DebitListResponse> resp = postAccountsDebitsWithHttpInfo(debitRequestWrapper);
-        return resp.getData();
+        ApiResponse<DebitListResponse> localVarResp = postAccountsDebitsWithHttpInfo(debitRequestWrapper);
+        return localVarResp.getData();
     }
 
     /**
@@ -395,45 +318,26 @@ public class AccountDebitsApi {
      * @see <a href="https://github.com/bitpesa/api-documentation/blob/master/transaction-flow.md#funding-transactions">Creating an account debit Documentation</a>
      */
     public ApiResponse<DebitListResponse> postAccountsDebitsWithHttpInfo(DebitRequestWrapper debitRequestWrapper) throws ApiException {
-        okhttp3.Call call = postAccountsDebitsValidateBeforeCall(debitRequestWrapper, null, null);
+        okhttp3.Call localVarCall = postAccountsDebitsValidateBeforeCall(debitRequestWrapper, null);
         Type localVarReturnType = new TypeToken<DebitListResponse>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
      * Creating an account debit (asynchronously)
      * Creates a new account debit finding transaction through the internal balance  To successfully fund a transaction - - The currency needs to be the same as the input_currency on the transaction - The amount has to be the same as the input_amount on the transaction - The to_id is the id of the transaction - You need to have enough balance of the appropriate currency inside your wallet  Once the transaction is funded, we will immediately start trying to pay out the recipient(s).  It is also possible to create multiple account debits by supplying an array of debit objects 
      * @param debitRequestWrapper  (required)
-     * @param callback The callback to be executed when the API call finishes
+     * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      * Funding Transaction guide including alternative ways to fund transactions.
      * @see <a href="https://github.com/bitpesa/api-documentation/blob/master/transaction-flow.md#funding-transactions">Creating an account debit Documentation</a>
      */
-    public okhttp3.Call postAccountsDebitsAsync(DebitRequestWrapper debitRequestWrapper, final ApiCallback<DebitListResponse> callback) throws ApiException {
+    public okhttp3.Call postAccountsDebitsAsync(DebitRequestWrapper debitRequestWrapper, final ApiCallback<DebitListResponse> _callback) throws ApiException {
 
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        okhttp3.Call call = postAccountsDebitsValidateBeforeCall(debitRequestWrapper, progressListener, progressRequestListener);
+        okhttp3.Call localVarCall = postAccountsDebitsValidateBeforeCall(debitRequestWrapper, _callback);
         Type localVarReturnType = new TypeToken<DebitListResponse>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
     }
 }

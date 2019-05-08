@@ -49,13 +49,13 @@ public enum PayoutMethodGenderEnum {
     return String.valueOf(value);
   }
 
-  public static PayoutMethodGenderEnum fromValue(String text) {
+  public static PayoutMethodGenderEnum fromValue(String value) {
     for (PayoutMethodGenderEnum b : PayoutMethodGenderEnum.values()) {
-      if (String.valueOf(b.value).equals(text)) {
+      if (b.value.equals(value)) {
         return b;
       }
     }
-    throw new IllegalArgumentException("Unexpected value '" + text + "'");
+    throw new IllegalArgumentException("Unexpected value '" + value + "'");
   }
 
   public static class Adapter extends TypeAdapter<PayoutMethodGenderEnum> {
@@ -67,7 +67,7 @@ public enum PayoutMethodGenderEnum {
     @Override
     public PayoutMethodGenderEnum read(final JsonReader jsonReader) throws IOException {
       String value = jsonReader.nextString();
-      return PayoutMethodGenderEnum.fromValue(String.valueOf(value));
+      return PayoutMethodGenderEnum.fromValue(value);
     }
   }
 }

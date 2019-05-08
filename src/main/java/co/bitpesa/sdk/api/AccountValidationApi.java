@@ -37,35 +37,34 @@ import java.util.List;
 import java.util.Map;
 
 public class AccountValidationApi {
-    private ApiClient apiClient;
+    private ApiClient localVarApiClient;
 
     public AccountValidationApi() {
         this(Configuration.getDefaultApiClient());
     }
 
     public AccountValidationApi(ApiClient apiClient) {
-        this.apiClient = apiClient;
+        this.localVarApiClient = apiClient;
     }
 
     public ApiClient getApiClient() {
-        return apiClient;
+        return localVarApiClient;
     }
 
     public void setApiClient(ApiClient apiClient) {
-        this.apiClient = apiClient;
+        this.localVarApiClient = apiClient;
     }
 
     /**
      * Build call for postAccountValidations
      * @param accountValidationRequest  (required)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
+     * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      * More information on account validation and bank account name enquiry
      * @see <a href="https://github.com/bitpesa/api-documentation/blob/master/additional-features.md#bank-account-name-enquiry">Validates the existence of a bank account Documentation</a>
      */
-    public okhttp3.Call postAccountValidationsCall(AccountValidationRequest accountValidationRequest, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public okhttp3.Call postAccountValidationsCall(AccountValidationRequest accountValidationRequest, final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = accountValidationRequest;
 
         // create path and map variables
@@ -78,7 +77,7 @@ public class AccountValidationApi {
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -86,27 +85,15 @@ public class AccountValidationApi {
         final String[] localVarContentTypes = {
             "application/json"
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
-                @Override
-                public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
-                    okhttp3.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                            .build();
-                }
-            }).build());
-        }
-
         String[] localVarAuthNames = new String[] { "AuthorizationKey", "AuthorizationNonce", "AuthorizationSecret", "AuthorizationSignature" };
-        return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call postAccountValidationsValidateBeforeCall(AccountValidationRequest accountValidationRequest, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private okhttp3.Call postAccountValidationsValidateBeforeCall(AccountValidationRequest accountValidationRequest, final ApiCallback _callback) throws ApiException {
         
         // verify the required parameter 'accountValidationRequest' is set
         if (accountValidationRequest == null) {
@@ -114,8 +101,8 @@ public class AccountValidationApi {
         }
         
 
-        okhttp3.Call call = postAccountValidationsCall(accountValidationRequest, progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = postAccountValidationsCall(accountValidationRequest, _callback);
+        return localVarCall;
 
     }
 
@@ -129,8 +116,8 @@ public class AccountValidationApi {
      * @see <a href="https://github.com/bitpesa/api-documentation/blob/master/additional-features.md#bank-account-name-enquiry">Validates the existence of a bank account Documentation</a>
      */
     public AccountValidationResponse postAccountValidations(AccountValidationRequest accountValidationRequest) throws ApiException {
-        ApiResponse<AccountValidationResponse> resp = postAccountValidationsWithHttpInfo(accountValidationRequest);
-        return resp.getData();
+        ApiResponse<AccountValidationResponse> localVarResp = postAccountValidationsWithHttpInfo(accountValidationRequest);
+        return localVarResp.getData();
     }
 
     /**
@@ -143,45 +130,26 @@ public class AccountValidationApi {
      * @see <a href="https://github.com/bitpesa/api-documentation/blob/master/additional-features.md#bank-account-name-enquiry">Validates the existence of a bank account Documentation</a>
      */
     public ApiResponse<AccountValidationResponse> postAccountValidationsWithHttpInfo(AccountValidationRequest accountValidationRequest) throws ApiException {
-        okhttp3.Call call = postAccountValidationsValidateBeforeCall(accountValidationRequest, null, null);
+        okhttp3.Call localVarCall = postAccountValidationsValidateBeforeCall(accountValidationRequest, null);
         Type localVarReturnType = new TypeToken<AccountValidationResponse>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
      * Validates the existence of a bank account (asynchronously)
      * Validates the existence of a bank account and returns the associated customer name
      * @param accountValidationRequest  (required)
-     * @param callback The callback to be executed when the API call finishes
+     * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      * More information on account validation and bank account name enquiry
      * @see <a href="https://github.com/bitpesa/api-documentation/blob/master/additional-features.md#bank-account-name-enquiry">Validates the existence of a bank account Documentation</a>
      */
-    public okhttp3.Call postAccountValidationsAsync(AccountValidationRequest accountValidationRequest, final ApiCallback<AccountValidationResponse> callback) throws ApiException {
+    public okhttp3.Call postAccountValidationsAsync(AccountValidationRequest accountValidationRequest, final ApiCallback<AccountValidationResponse> _callback) throws ApiException {
 
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        okhttp3.Call call = postAccountValidationsValidateBeforeCall(accountValidationRequest, progressListener, progressRequestListener);
+        okhttp3.Call localVarCall = postAccountValidationsValidateBeforeCall(accountValidationRequest, _callback);
         Type localVarReturnType = new TypeToken<AccountValidationResponse>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
     }
 }

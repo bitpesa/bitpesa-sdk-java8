@@ -1,7 +1,9 @@
 
+
 # Sender
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **type** | [**TypeEnum**](#TypeEnum) | Type of sender to create - either person or business (defaults to person)  |  [optional]
@@ -32,8 +34,9 @@ Name | Type | Description | Notes
 **errors** | [**Map&lt;String, List&lt;ValidationErrorDescription&gt;&gt;**](List.md) | The fields that have some problems and don&#39;t pass validation |  [optional]
 
 
-<a name="TypeEnum"></a>
+
 ## Enum: TypeEnum
+
 Name | Value
 ---- | -----
 PERSON | &quot;person&quot;

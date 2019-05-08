@@ -81,7 +81,7 @@ public class PaymentMethod {
    * Are over the counter transactions permitted?
    * @return otcPermitted
   **/
-  @ApiModelProperty(value = "Are over the counter transactions permitted?")
+  @ApiModelProperty(example = "false", value = "Are over the counter transactions permitted?")
   public Boolean getOtcPermitted() {
     return otcPermitted;
   }
@@ -99,7 +99,7 @@ public class PaymentMethod {
    * Boolean revealing whether this is the default payout method. Only present on payout methods
    * @return _default
   **/
-  @ApiModelProperty(value = "Boolean revealing whether this is the default payout method. Only present on payout methods")
+  @ApiModelProperty(example = "false", value = "Boolean revealing whether this is the default payout method. Only present on payout methods")
   public Boolean getDefault() {
     return _default;
   }

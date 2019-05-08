@@ -40,38 +40,37 @@ import java.util.List;
 import java.util.Map;
 
 public class WebhooksApi {
-    private ApiClient apiClient;
+    private ApiClient localVarApiClient;
 
     public WebhooksApi() {
         this(Configuration.getDefaultApiClient());
     }
 
     public WebhooksApi(ApiClient apiClient) {
-        this.apiClient = apiClient;
+        this.localVarApiClient = apiClient;
     }
 
     public ApiClient getApiClient() {
-        return apiClient;
+        return localVarApiClient;
     }
 
     public void setApiClient(ApiClient apiClient) {
-        this.apiClient = apiClient;
+        this.localVarApiClient = apiClient;
     }
 
     /**
      * Build call for deleteWebhook
      * @param webhookID The ID of webhook to cancel.  Example: &#x60;/v1/webhooks/9d4d7b73-a94c-4979-ab57-09074fd55d33&#x60; (required)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
+     * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public okhttp3.Call deleteWebhookCall(String webhookID, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public okhttp3.Call deleteWebhookCall(String webhookID, final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = new Object();
 
         // create path and map variables
         String localVarPath = "/webhooks/{Webhook ID}"
-            .replaceAll("\\{" + "Webhook ID" + "\\}", apiClient.escapeString(webhookID.toString()));
+            .replaceAll("\\{" + "Webhook ID" + "\\}", localVarApiClient.escapeString(webhookID.toString()));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -80,7 +79,7 @@ public class WebhooksApi {
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -88,27 +87,15 @@ public class WebhooksApi {
         final String[] localVarContentTypes = {
             
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
-                @Override
-                public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
-                    okhttp3.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                            .build();
-                }
-            }).build());
-        }
-
         String[] localVarAuthNames = new String[] { "AuthorizationKey", "AuthorizationNonce", "AuthorizationSecret", "AuthorizationSignature" };
-        return apiClient.buildCall(localVarPath, "DELETE", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "DELETE", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call deleteWebhookValidateBeforeCall(String webhookID, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private okhttp3.Call deleteWebhookValidateBeforeCall(String webhookID, final ApiCallback _callback) throws ApiException {
         
         // verify the required parameter 'webhookID' is set
         if (webhookID == null) {
@@ -116,8 +103,8 @@ public class WebhooksApi {
         }
         
 
-        okhttp3.Call call = deleteWebhookCall(webhookID, progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = deleteWebhookCall(webhookID, _callback);
+        return localVarCall;
 
     }
 
@@ -129,8 +116,8 @@ public class WebhooksApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public WebhookDefinitionResponse deleteWebhook(String webhookID) throws ApiException {
-        ApiResponse<WebhookDefinitionResponse> resp = deleteWebhookWithHttpInfo(webhookID);
-        return resp.getData();
+        ApiResponse<WebhookDefinitionResponse> localVarResp = deleteWebhookWithHttpInfo(webhookID);
+        return localVarResp.getData();
     }
 
     /**
@@ -141,59 +128,39 @@ public class WebhooksApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<WebhookDefinitionResponse> deleteWebhookWithHttpInfo(String webhookID) throws ApiException {
-        okhttp3.Call call = deleteWebhookValidateBeforeCall(webhookID, null, null);
+        okhttp3.Call localVarCall = deleteWebhookValidateBeforeCall(webhookID, null);
         Type localVarReturnType = new TypeToken<WebhookDefinitionResponse>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
      * Unsubscribing from a webhook (asynchronously)
      * Unsubscribes from a webhook specified
      * @param webhookID The ID of webhook to cancel.  Example: &#x60;/v1/webhooks/9d4d7b73-a94c-4979-ab57-09074fd55d33&#x60; (required)
-     * @param callback The callback to be executed when the API call finishes
+     * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call deleteWebhookAsync(String webhookID, final ApiCallback<WebhookDefinitionResponse> callback) throws ApiException {
+    public okhttp3.Call deleteWebhookAsync(String webhookID, final ApiCallback<WebhookDefinitionResponse> _callback) throws ApiException {
 
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        okhttp3.Call call = deleteWebhookValidateBeforeCall(webhookID, progressListener, progressRequestListener);
+        okhttp3.Call localVarCall = deleteWebhookValidateBeforeCall(webhookID, _callback);
         Type localVarReturnType = new TypeToken<WebhookDefinitionResponse>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
     }
     /**
      * Build call for getWebhook
      * @param webhookID The ID of the Webhook to look up  Example: &#x60;/v1/webhooks/9d4d7b73-a94c-4979-ab57-09074fd55d33&#x60; (required)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
+     * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public okhttp3.Call getWebhookCall(UUID webhookID, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public okhttp3.Call getWebhookCall(UUID webhookID, final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = new Object();
 
         // create path and map variables
         String localVarPath = "/webhooks/{Webhook ID}"
-            .replaceAll("\\{" + "Webhook ID" + "\\}", apiClient.escapeString(webhookID.toString()));
+            .replaceAll("\\{" + "Webhook ID" + "\\}", localVarApiClient.escapeString(webhookID.toString()));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -202,7 +169,7 @@ public class WebhooksApi {
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -210,27 +177,15 @@ public class WebhooksApi {
         final String[] localVarContentTypes = {
             
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
-                @Override
-                public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
-                    okhttp3.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                            .build();
-                }
-            }).build());
-        }
-
         String[] localVarAuthNames = new String[] { "AuthorizationKey", "AuthorizationNonce", "AuthorizationSecret", "AuthorizationSignature" };
-        return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call getWebhookValidateBeforeCall(UUID webhookID, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private okhttp3.Call getWebhookValidateBeforeCall(UUID webhookID, final ApiCallback _callback) throws ApiException {
         
         // verify the required parameter 'webhookID' is set
         if (webhookID == null) {
@@ -238,8 +193,8 @@ public class WebhooksApi {
         }
         
 
-        okhttp3.Call call = getWebhookCall(webhookID, progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = getWebhookCall(webhookID, _callback);
+        return localVarCall;
 
     }
 
@@ -251,8 +206,8 @@ public class WebhooksApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public WebhookDefinitionResponse getWebhook(UUID webhookID) throws ApiException {
-        ApiResponse<WebhookDefinitionResponse> resp = getWebhookWithHttpInfo(webhookID);
-        return resp.getData();
+        ApiResponse<WebhookDefinitionResponse> localVarResp = getWebhookWithHttpInfo(webhookID);
+        return localVarResp.getData();
     }
 
     /**
@@ -263,53 +218,33 @@ public class WebhooksApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<WebhookDefinitionResponse> getWebhookWithHttpInfo(UUID webhookID) throws ApiException {
-        okhttp3.Call call = getWebhookValidateBeforeCall(webhookID, null, null);
+        okhttp3.Call localVarCall = getWebhookValidateBeforeCall(webhookID, null);
         Type localVarReturnType = new TypeToken<WebhookDefinitionResponse>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
      * Find a webhook&#39;s details (asynchronously)
      * Look up a webhook&#39;s details with its ID
      * @param webhookID The ID of the Webhook to look up  Example: &#x60;/v1/webhooks/9d4d7b73-a94c-4979-ab57-09074fd55d33&#x60; (required)
-     * @param callback The callback to be executed when the API call finishes
+     * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call getWebhookAsync(UUID webhookID, final ApiCallback<WebhookDefinitionResponse> callback) throws ApiException {
+    public okhttp3.Call getWebhookAsync(UUID webhookID, final ApiCallback<WebhookDefinitionResponse> _callback) throws ApiException {
 
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        okhttp3.Call call = getWebhookValidateBeforeCall(webhookID, progressListener, progressRequestListener);
+        okhttp3.Call localVarCall = getWebhookValidateBeforeCall(webhookID, _callback);
         Type localVarReturnType = new TypeToken<WebhookDefinitionResponse>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
     }
     /**
      * Build call for getWebhookEvents
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
+     * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public okhttp3.Call getWebhookEventsCall(final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public okhttp3.Call getWebhookEventsCall(final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = new Object();
 
         // create path and map variables
@@ -322,7 +257,7 @@ public class WebhooksApi {
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -330,31 +265,19 @@ public class WebhooksApi {
         final String[] localVarContentTypes = {
             
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
-                @Override
-                public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
-                    okhttp3.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                            .build();
-                }
-            }).build());
-        }
-
         String[] localVarAuthNames = new String[] { "AuthorizationKey", "AuthorizationNonce", "AuthorizationSecret", "AuthorizationSignature" };
-        return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call getWebhookEventsValidateBeforeCall(final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private okhttp3.Call getWebhookEventsValidateBeforeCall(final ApiCallback _callback) throws ApiException {
         
 
-        okhttp3.Call call = getWebhookEventsCall(progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = getWebhookEventsCall(_callback);
+        return localVarCall;
 
     }
 
@@ -365,8 +288,8 @@ public class WebhooksApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public WebhookDefinitionEventListResponse getWebhookEvents() throws ApiException {
-        ApiResponse<WebhookDefinitionEventListResponse> resp = getWebhookEventsWithHttpInfo();
-        return resp.getData();
+        ApiResponse<WebhookDefinitionEventListResponse> localVarResp = getWebhookEventsWithHttpInfo();
+        return localVarResp.getData();
     }
 
     /**
@@ -376,54 +299,34 @@ public class WebhooksApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<WebhookDefinitionEventListResponse> getWebhookEventsWithHttpInfo() throws ApiException {
-        okhttp3.Call call = getWebhookEventsValidateBeforeCall(null, null);
+        okhttp3.Call localVarCall = getWebhookEventsValidateBeforeCall(null);
         Type localVarReturnType = new TypeToken<WebhookDefinitionEventListResponse>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
      * Find possible webhook events (asynchronously)
      * Fetching possible webhook events
-     * @param callback The callback to be executed when the API call finishes
+     * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call getWebhookEventsAsync(final ApiCallback<WebhookDefinitionEventListResponse> callback) throws ApiException {
+    public okhttp3.Call getWebhookEventsAsync(final ApiCallback<WebhookDefinitionEventListResponse> _callback) throws ApiException {
 
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        okhttp3.Call call = getWebhookEventsValidateBeforeCall(progressListener, progressRequestListener);
+        okhttp3.Call localVarCall = getWebhookEventsValidateBeforeCall(_callback);
         Type localVarReturnType = new TypeToken<WebhookDefinitionEventListResponse>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
     }
     /**
      * Build call for getWebhooks
      * @param page The page number to request (defaults to 1) (optional)
      * @param per The number of results to load per page (defaults to 10) (optional)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
+     * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public okhttp3.Call getWebhooksCall(Integer page, Integer per, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public okhttp3.Call getWebhooksCall(Integer page, Integer per, final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = new Object();
 
         // create path and map variables
@@ -432,11 +335,11 @@ public class WebhooksApi {
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
         if (page != null) {
-            localVarQueryParams.addAll(apiClient.parameterToPair("page", page));
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("page", page));
         }
 
         if (per != null) {
-            localVarQueryParams.addAll(apiClient.parameterToPair("per", per));
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("per", per));
         }
 
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
@@ -444,7 +347,7 @@ public class WebhooksApi {
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -452,31 +355,19 @@ public class WebhooksApi {
         final String[] localVarContentTypes = {
             
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
-                @Override
-                public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
-                    okhttp3.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                            .build();
-                }
-            }).build());
-        }
-
         String[] localVarAuthNames = new String[] { "AuthorizationKey", "AuthorizationNonce", "AuthorizationSecret", "AuthorizationSignature" };
-        return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call getWebhooksValidateBeforeCall(Integer page, Integer per, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private okhttp3.Call getWebhooksValidateBeforeCall(Integer page, Integer per, final ApiCallback _callback) throws ApiException {
         
 
-        okhttp3.Call call = getWebhooksCall(page, per, progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = getWebhooksCall(page, per, _callback);
+        return localVarCall;
 
     }
 
@@ -489,8 +380,8 @@ public class WebhooksApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public WebhookDefinitionListResponse getWebhooks(Integer page, Integer per) throws ApiException {
-        ApiResponse<WebhookDefinitionListResponse> resp = getWebhooksWithHttpInfo(page, per);
-        return resp.getData();
+        ApiResponse<WebhookDefinitionListResponse> localVarResp = getWebhooksWithHttpInfo(page, per);
+        return localVarResp.getData();
     }
 
     /**
@@ -502,9 +393,9 @@ public class WebhooksApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<WebhookDefinitionListResponse> getWebhooksWithHttpInfo(Integer page, Integer per) throws ApiException {
-        okhttp3.Call call = getWebhooksValidateBeforeCall(page, per, null, null);
+        okhttp3.Call localVarCall = getWebhooksValidateBeforeCall(page, per, null);
         Type localVarReturnType = new TypeToken<WebhookDefinitionListResponse>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
@@ -512,47 +403,27 @@ public class WebhooksApi {
      * Get a list of created webhooks
      * @param page The page number to request (defaults to 1) (optional)
      * @param per The number of results to load per page (defaults to 10) (optional)
-     * @param callback The callback to be executed when the API call finishes
+     * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call getWebhooksAsync(Integer page, Integer per, final ApiCallback<WebhookDefinitionListResponse> callback) throws ApiException {
+    public okhttp3.Call getWebhooksAsync(Integer page, Integer per, final ApiCallback<WebhookDefinitionListResponse> _callback) throws ApiException {
 
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        okhttp3.Call call = getWebhooksValidateBeforeCall(page, per, progressListener, progressRequestListener);
+        okhttp3.Call localVarCall = getWebhooksValidateBeforeCall(page, per, _callback);
         Type localVarReturnType = new TypeToken<WebhookDefinitionListResponse>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
     }
     /**
      * Build call for postWebhooks
      * @param webhookDefinitionRequest  (required)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
+     * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      * More information about webhooks
      * @see <a href="https://github.com/bitpesa/api-documentation#webhooks">Creating a webhook Documentation</a>
      */
-    public okhttp3.Call postWebhooksCall(WebhookDefinitionRequest webhookDefinitionRequest, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public okhttp3.Call postWebhooksCall(WebhookDefinitionRequest webhookDefinitionRequest, final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = webhookDefinitionRequest;
 
         // create path and map variables
@@ -565,7 +436,7 @@ public class WebhooksApi {
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -573,27 +444,15 @@ public class WebhooksApi {
         final String[] localVarContentTypes = {
             "application/json"
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
-                @Override
-                public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
-                    okhttp3.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                            .build();
-                }
-            }).build());
-        }
-
         String[] localVarAuthNames = new String[] { "AuthorizationKey", "AuthorizationNonce", "AuthorizationSecret", "AuthorizationSignature" };
-        return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call postWebhooksValidateBeforeCall(WebhookDefinitionRequest webhookDefinitionRequest, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private okhttp3.Call postWebhooksValidateBeforeCall(WebhookDefinitionRequest webhookDefinitionRequest, final ApiCallback _callback) throws ApiException {
         
         // verify the required parameter 'webhookDefinitionRequest' is set
         if (webhookDefinitionRequest == null) {
@@ -601,8 +460,8 @@ public class WebhooksApi {
         }
         
 
-        okhttp3.Call call = postWebhooksCall(webhookDefinitionRequest, progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = postWebhooksCall(webhookDefinitionRequest, _callback);
+        return localVarCall;
 
     }
 
@@ -616,8 +475,8 @@ public class WebhooksApi {
      * @see <a href="https://github.com/bitpesa/api-documentation#webhooks">Creating a webhook Documentation</a>
      */
     public WebhookDefinitionResponse postWebhooks(WebhookDefinitionRequest webhookDefinitionRequest) throws ApiException {
-        ApiResponse<WebhookDefinitionResponse> resp = postWebhooksWithHttpInfo(webhookDefinitionRequest);
-        return resp.getData();
+        ApiResponse<WebhookDefinitionResponse> localVarResp = postWebhooksWithHttpInfo(webhookDefinitionRequest);
+        return localVarResp.getData();
     }
 
     /**
@@ -630,45 +489,26 @@ public class WebhooksApi {
      * @see <a href="https://github.com/bitpesa/api-documentation#webhooks">Creating a webhook Documentation</a>
      */
     public ApiResponse<WebhookDefinitionResponse> postWebhooksWithHttpInfo(WebhookDefinitionRequest webhookDefinitionRequest) throws ApiException {
-        okhttp3.Call call = postWebhooksValidateBeforeCall(webhookDefinitionRequest, null, null);
+        okhttp3.Call localVarCall = postWebhooksValidateBeforeCall(webhookDefinitionRequest, null);
         Type localVarReturnType = new TypeToken<WebhookDefinitionResponse>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
      * Creating a webhook (asynchronously)
      * Creates a new webhook, subscribing the provided endpoint to the specified event(s) 
      * @param webhookDefinitionRequest  (required)
-     * @param callback The callback to be executed when the API call finishes
+     * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      * More information about webhooks
      * @see <a href="https://github.com/bitpesa/api-documentation#webhooks">Creating a webhook Documentation</a>
      */
-    public okhttp3.Call postWebhooksAsync(WebhookDefinitionRequest webhookDefinitionRequest, final ApiCallback<WebhookDefinitionResponse> callback) throws ApiException {
+    public okhttp3.Call postWebhooksAsync(WebhookDefinitionRequest webhookDefinitionRequest, final ApiCallback<WebhookDefinitionResponse> _callback) throws ApiException {
 
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        okhttp3.Call call = postWebhooksValidateBeforeCall(webhookDefinitionRequest, progressListener, progressRequestListener);
+        okhttp3.Call localVarCall = postWebhooksValidateBeforeCall(webhookDefinitionRequest, _callback);
         Type localVarReturnType = new TypeToken<WebhookDefinitionResponse>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
     }
 }

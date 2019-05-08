@@ -39,38 +39,37 @@ import java.util.List;
 import java.util.Map;
 
 public class SendersApi {
-    private ApiClient apiClient;
+    private ApiClient localVarApiClient;
 
     public SendersApi() {
         this(Configuration.getDefaultApiClient());
     }
 
     public SendersApi(ApiClient apiClient) {
-        this.apiClient = apiClient;
+        this.localVarApiClient = apiClient;
     }
 
     public ApiClient getApiClient() {
-        return apiClient;
+        return localVarApiClient;
     }
 
     public void setApiClient(ApiClient apiClient) {
-        this.apiClient = apiClient;
+        this.localVarApiClient = apiClient;
     }
 
     /**
      * Build call for deleteSender
      * @param senderID ID of the sender to delete.  Example: &#x60;/v1/senders/bf9ff782-e182-45ac-abea-5bce83ad6670&#x60; (required)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
+     * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public okhttp3.Call deleteSenderCall(UUID senderID, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public okhttp3.Call deleteSenderCall(UUID senderID, final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = new Object();
 
         // create path and map variables
         String localVarPath = "/senders/{Sender ID}"
-            .replaceAll("\\{" + "Sender ID" + "\\}", apiClient.escapeString(senderID.toString()));
+            .replaceAll("\\{" + "Sender ID" + "\\}", localVarApiClient.escapeString(senderID.toString()));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -79,7 +78,7 @@ public class SendersApi {
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -87,27 +86,15 @@ public class SendersApi {
         final String[] localVarContentTypes = {
             
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
-                @Override
-                public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
-                    okhttp3.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                            .build();
-                }
-            }).build());
-        }
-
         String[] localVarAuthNames = new String[] { "AuthorizationKey", "AuthorizationNonce", "AuthorizationSecret", "AuthorizationSignature" };
-        return apiClient.buildCall(localVarPath, "DELETE", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "DELETE", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call deleteSenderValidateBeforeCall(UUID senderID, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private okhttp3.Call deleteSenderValidateBeforeCall(UUID senderID, final ApiCallback _callback) throws ApiException {
         
         // verify the required parameter 'senderID' is set
         if (senderID == null) {
@@ -115,8 +102,8 @@ public class SendersApi {
         }
         
 
-        okhttp3.Call call = deleteSenderCall(senderID, progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = deleteSenderCall(senderID, _callback);
+        return localVarCall;
 
     }
 
@@ -128,8 +115,8 @@ public class SendersApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public SenderResponse deleteSender(UUID senderID) throws ApiException {
-        ApiResponse<SenderResponse> resp = deleteSenderWithHttpInfo(senderID);
-        return resp.getData();
+        ApiResponse<SenderResponse> localVarResp = deleteSenderWithHttpInfo(senderID);
+        return localVarResp.getData();
     }
 
     /**
@@ -140,59 +127,39 @@ public class SendersApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<SenderResponse> deleteSenderWithHttpInfo(UUID senderID) throws ApiException {
-        okhttp3.Call call = deleteSenderValidateBeforeCall(senderID, null, null);
+        okhttp3.Call localVarCall = deleteSenderValidateBeforeCall(senderID, null);
         Type localVarReturnType = new TypeToken<SenderResponse>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
      * Deleting a sender (asynchronously)
      * Deletes a single sender by the Sender ID
      * @param senderID ID of the sender to delete.  Example: &#x60;/v1/senders/bf9ff782-e182-45ac-abea-5bce83ad6670&#x60; (required)
-     * @param callback The callback to be executed when the API call finishes
+     * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call deleteSenderAsync(UUID senderID, final ApiCallback<SenderResponse> callback) throws ApiException {
+    public okhttp3.Call deleteSenderAsync(UUID senderID, final ApiCallback<SenderResponse> _callback) throws ApiException {
 
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        okhttp3.Call call = deleteSenderValidateBeforeCall(senderID, progressListener, progressRequestListener);
+        okhttp3.Call localVarCall = deleteSenderValidateBeforeCall(senderID, _callback);
         Type localVarReturnType = new TypeToken<SenderResponse>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
     }
     /**
      * Build call for getSender
      * @param senderID ID of the sender to get.  Example: &#x60;/v1/senders/bf9ff782-e182-45ac-abea-5bce83ad6670&#x60; (required)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
+     * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public okhttp3.Call getSenderCall(UUID senderID, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public okhttp3.Call getSenderCall(UUID senderID, final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = new Object();
 
         // create path and map variables
         String localVarPath = "/senders/{Sender ID}"
-            .replaceAll("\\{" + "Sender ID" + "\\}", apiClient.escapeString(senderID.toString()));
+            .replaceAll("\\{" + "Sender ID" + "\\}", localVarApiClient.escapeString(senderID.toString()));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -201,7 +168,7 @@ public class SendersApi {
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -209,27 +176,15 @@ public class SendersApi {
         final String[] localVarContentTypes = {
             
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
-                @Override
-                public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
-                    okhttp3.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                            .build();
-                }
-            }).build());
-        }
-
         String[] localVarAuthNames = new String[] { "AuthorizationKey", "AuthorizationNonce", "AuthorizationSecret", "AuthorizationSignature" };
-        return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call getSenderValidateBeforeCall(UUID senderID, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private okhttp3.Call getSenderValidateBeforeCall(UUID senderID, final ApiCallback _callback) throws ApiException {
         
         // verify the required parameter 'senderID' is set
         if (senderID == null) {
@@ -237,8 +192,8 @@ public class SendersApi {
         }
         
 
-        okhttp3.Call call = getSenderCall(senderID, progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = getSenderCall(senderID, _callback);
+        return localVarCall;
 
     }
 
@@ -250,8 +205,8 @@ public class SendersApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public SenderResponse getSender(UUID senderID) throws ApiException {
-        ApiResponse<SenderResponse> resp = getSenderWithHttpInfo(senderID);
-        return resp.getData();
+        ApiResponse<SenderResponse> localVarResp = getSenderWithHttpInfo(senderID);
+        return localVarResp.getData();
     }
 
     /**
@@ -262,44 +217,25 @@ public class SendersApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<SenderResponse> getSenderWithHttpInfo(UUID senderID) throws ApiException {
-        okhttp3.Call call = getSenderValidateBeforeCall(senderID, null, null);
+        okhttp3.Call localVarCall = getSenderValidateBeforeCall(senderID, null);
         Type localVarReturnType = new TypeToken<SenderResponse>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
      * Fetching a sender (asynchronously)
      * Returns a single sender by the Sender ID
      * @param senderID ID of the sender to get.  Example: &#x60;/v1/senders/bf9ff782-e182-45ac-abea-5bce83ad6670&#x60; (required)
-     * @param callback The callback to be executed when the API call finishes
+     * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call getSenderAsync(UUID senderID, final ApiCallback<SenderResponse> callback) throws ApiException {
+    public okhttp3.Call getSenderAsync(UUID senderID, final ApiCallback<SenderResponse> _callback) throws ApiException {
 
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        okhttp3.Call call = getSenderValidateBeforeCall(senderID, progressListener, progressRequestListener);
+        okhttp3.Call localVarCall = getSenderValidateBeforeCall(senderID, _callback);
         Type localVarReturnType = new TypeToken<SenderResponse>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
     }
     /**
      * Build call for getSenders
@@ -308,12 +244,11 @@ public class SendersApi {
      * @param createdAtFrom Start date to filter recipients by created_at range Allows filtering results by the specified &#x60;created_at&#x60; timeframe.  Example: &#x60;/v1/recipients?created_at_from&#x3D;2018-06-06&amp;created_at_to&#x3D;2018-06-08&#x60; (optional)
      * @param createdAtTo End date to filter recipients by created_at range Allows filtering results by the specified &#x60;created_at&#x60; timeframe.  Example: &#x60;/v1/recipients?created_at_from&#x3D;2018-06-06&amp;created_at_to&#x3D;2018-06-08&#x60; (optional)
      * @param externalId Allows filtering results by &#x60;external_id&#x60;.  Example: &#x60;/v1/senders?external_id&#x3D;26ec8517-2f0d-48c0-b74f-0bccb9ab3a87&#x60; (optional)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
+     * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public okhttp3.Call getSendersCall(Integer page, Integer per, String createdAtFrom, String createdAtTo, String externalId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public okhttp3.Call getSendersCall(Integer page, Integer per, String createdAtFrom, String createdAtTo, String externalId, final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = new Object();
 
         // create path and map variables
@@ -322,23 +257,23 @@ public class SendersApi {
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
         if (page != null) {
-            localVarQueryParams.addAll(apiClient.parameterToPair("page", page));
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("page", page));
         }
 
         if (per != null) {
-            localVarQueryParams.addAll(apiClient.parameterToPair("per", per));
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("per", per));
         }
 
         if (createdAtFrom != null) {
-            localVarQueryParams.addAll(apiClient.parameterToPair("created_at_from", createdAtFrom));
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("created_at_from", createdAtFrom));
         }
 
         if (createdAtTo != null) {
-            localVarQueryParams.addAll(apiClient.parameterToPair("created_at_to", createdAtTo));
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("created_at_to", createdAtTo));
         }
 
         if (externalId != null) {
-            localVarQueryParams.addAll(apiClient.parameterToPair("external_id", externalId));
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("external_id", externalId));
         }
 
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
@@ -346,7 +281,7 @@ public class SendersApi {
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -354,31 +289,19 @@ public class SendersApi {
         final String[] localVarContentTypes = {
             
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
-                @Override
-                public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
-                    okhttp3.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                            .build();
-                }
-            }).build());
-        }
-
         String[] localVarAuthNames = new String[] { "AuthorizationKey", "AuthorizationNonce", "AuthorizationSecret", "AuthorizationSignature" };
-        return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call getSendersValidateBeforeCall(Integer page, Integer per, String createdAtFrom, String createdAtTo, String externalId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private okhttp3.Call getSendersValidateBeforeCall(Integer page, Integer per, String createdAtFrom, String createdAtTo, String externalId, final ApiCallback _callback) throws ApiException {
         
 
-        okhttp3.Call call = getSendersCall(page, per, createdAtFrom, createdAtTo, externalId, progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = getSendersCall(page, per, createdAtFrom, createdAtTo, externalId, _callback);
+        return localVarCall;
 
     }
 
@@ -394,8 +317,8 @@ public class SendersApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public SenderListResponse getSenders(Integer page, Integer per, String createdAtFrom, String createdAtTo, String externalId) throws ApiException {
-        ApiResponse<SenderListResponse> resp = getSendersWithHttpInfo(page, per, createdAtFrom, createdAtTo, externalId);
-        return resp.getData();
+        ApiResponse<SenderListResponse> localVarResp = getSendersWithHttpInfo(page, per, createdAtFrom, createdAtTo, externalId);
+        return localVarResp.getData();
     }
 
     /**
@@ -410,9 +333,9 @@ public class SendersApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<SenderListResponse> getSendersWithHttpInfo(Integer page, Integer per, String createdAtFrom, String createdAtTo, String externalId) throws ApiException {
-        okhttp3.Call call = getSendersValidateBeforeCall(page, per, createdAtFrom, createdAtTo, externalId, null, null);
+        okhttp3.Call localVarCall = getSendersValidateBeforeCall(page, per, createdAtFrom, createdAtTo, externalId, null);
         Type localVarReturnType = new TypeToken<SenderListResponse>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
@@ -423,51 +346,31 @@ public class SendersApi {
      * @param createdAtFrom Start date to filter recipients by created_at range Allows filtering results by the specified &#x60;created_at&#x60; timeframe.  Example: &#x60;/v1/recipients?created_at_from&#x3D;2018-06-06&amp;created_at_to&#x3D;2018-06-08&#x60; (optional)
      * @param createdAtTo End date to filter recipients by created_at range Allows filtering results by the specified &#x60;created_at&#x60; timeframe.  Example: &#x60;/v1/recipients?created_at_from&#x3D;2018-06-06&amp;created_at_to&#x3D;2018-06-08&#x60; (optional)
      * @param externalId Allows filtering results by &#x60;external_id&#x60;.  Example: &#x60;/v1/senders?external_id&#x3D;26ec8517-2f0d-48c0-b74f-0bccb9ab3a87&#x60; (optional)
-     * @param callback The callback to be executed when the API call finishes
+     * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call getSendersAsync(Integer page, Integer per, String createdAtFrom, String createdAtTo, String externalId, final ApiCallback<SenderListResponse> callback) throws ApiException {
+    public okhttp3.Call getSendersAsync(Integer page, Integer per, String createdAtFrom, String createdAtTo, String externalId, final ApiCallback<SenderListResponse> _callback) throws ApiException {
 
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        okhttp3.Call call = getSendersValidateBeforeCall(page, per, createdAtFrom, createdAtTo, externalId, progressListener, progressRequestListener);
+        okhttp3.Call localVarCall = getSendersValidateBeforeCall(page, per, createdAtFrom, createdAtTo, externalId, _callback);
         Type localVarReturnType = new TypeToken<SenderListResponse>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
     }
     /**
      * Build call for patchSender
      * @param senderID ID of the sender to get.  Example: &#x60;/v1/senders/bf9ff782-e182-45ac-abea-5bce83ad6670&#x60; (required)
      * @param senderRequest  (required)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
+     * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public okhttp3.Call patchSenderCall(UUID senderID, SenderRequest senderRequest, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public okhttp3.Call patchSenderCall(UUID senderID, SenderRequest senderRequest, final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = senderRequest;
 
         // create path and map variables
         String localVarPath = "/senders/{Sender ID}"
-            .replaceAll("\\{" + "Sender ID" + "\\}", apiClient.escapeString(senderID.toString()));
+            .replaceAll("\\{" + "Sender ID" + "\\}", localVarApiClient.escapeString(senderID.toString()));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -476,7 +379,7 @@ public class SendersApi {
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -484,27 +387,15 @@ public class SendersApi {
         final String[] localVarContentTypes = {
             "application/json"
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
-                @Override
-                public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
-                    okhttp3.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                            .build();
-                }
-            }).build());
-        }
-
         String[] localVarAuthNames = new String[] { "AuthorizationKey", "AuthorizationNonce", "AuthorizationSecret", "AuthorizationSignature" };
-        return apiClient.buildCall(localVarPath, "PATCH", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "PATCH", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call patchSenderValidateBeforeCall(UUID senderID, SenderRequest senderRequest, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private okhttp3.Call patchSenderValidateBeforeCall(UUID senderID, SenderRequest senderRequest, final ApiCallback _callback) throws ApiException {
         
         // verify the required parameter 'senderID' is set
         if (senderID == null) {
@@ -517,8 +408,8 @@ public class SendersApi {
         }
         
 
-        okhttp3.Call call = patchSenderCall(senderID, senderRequest, progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = patchSenderCall(senderID, senderRequest, _callback);
+        return localVarCall;
 
     }
 
@@ -531,8 +422,8 @@ public class SendersApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public SenderResponse patchSender(UUID senderID, SenderRequest senderRequest) throws ApiException {
-        ApiResponse<SenderResponse> resp = patchSenderWithHttpInfo(senderID, senderRequest);
-        return resp.getData();
+        ApiResponse<SenderResponse> localVarResp = patchSenderWithHttpInfo(senderID, senderRequest);
+        return localVarResp.getData();
     }
 
     /**
@@ -544,9 +435,9 @@ public class SendersApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<SenderResponse> patchSenderWithHttpInfo(UUID senderID, SenderRequest senderRequest) throws ApiException {
-        okhttp3.Call call = patchSenderValidateBeforeCall(senderID, senderRequest, null, null);
+        okhttp3.Call localVarCall = patchSenderValidateBeforeCall(senderID, senderRequest, null);
         Type localVarReturnType = new TypeToken<SenderResponse>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
@@ -554,45 +445,25 @@ public class SendersApi {
      * Updates the sender specified in the URL path.
      * @param senderID ID of the sender to get.  Example: &#x60;/v1/senders/bf9ff782-e182-45ac-abea-5bce83ad6670&#x60; (required)
      * @param senderRequest  (required)
-     * @param callback The callback to be executed when the API call finishes
+     * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call patchSenderAsync(UUID senderID, SenderRequest senderRequest, final ApiCallback<SenderResponse> callback) throws ApiException {
+    public okhttp3.Call patchSenderAsync(UUID senderID, SenderRequest senderRequest, final ApiCallback<SenderResponse> _callback) throws ApiException {
 
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        okhttp3.Call call = patchSenderValidateBeforeCall(senderID, senderRequest, progressListener, progressRequestListener);
+        okhttp3.Call localVarCall = patchSenderValidateBeforeCall(senderID, senderRequest, _callback);
         Type localVarReturnType = new TypeToken<SenderResponse>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
     }
     /**
      * Build call for postSenders
      * @param senderRequest  (required)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
+     * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public okhttp3.Call postSendersCall(SenderRequest senderRequest, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public okhttp3.Call postSendersCall(SenderRequest senderRequest, final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = senderRequest;
 
         // create path and map variables
@@ -605,7 +476,7 @@ public class SendersApi {
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -613,27 +484,15 @@ public class SendersApi {
         final String[] localVarContentTypes = {
             "application/json"
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
-                @Override
-                public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
-                    okhttp3.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                            .build();
-                }
-            }).build());
-        }
-
         String[] localVarAuthNames = new String[] { "AuthorizationKey", "AuthorizationNonce", "AuthorizationSecret", "AuthorizationSignature" };
-        return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call postSendersValidateBeforeCall(SenderRequest senderRequest, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private okhttp3.Call postSendersValidateBeforeCall(SenderRequest senderRequest, final ApiCallback _callback) throws ApiException {
         
         // verify the required parameter 'senderRequest' is set
         if (senderRequest == null) {
@@ -641,8 +500,8 @@ public class SendersApi {
         }
         
 
-        okhttp3.Call call = postSendersCall(senderRequest, progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = postSendersCall(senderRequest, _callback);
+        return localVarCall;
 
     }
 
@@ -654,8 +513,8 @@ public class SendersApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public SenderResponse postSenders(SenderRequest senderRequest) throws ApiException {
-        ApiResponse<SenderResponse> resp = postSendersWithHttpInfo(senderRequest);
-        return resp.getData();
+        ApiResponse<SenderResponse> localVarResp = postSendersWithHttpInfo(senderRequest);
+        return localVarResp.getData();
     }
 
     /**
@@ -666,43 +525,24 @@ public class SendersApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<SenderResponse> postSendersWithHttpInfo(SenderRequest senderRequest) throws ApiException {
-        okhttp3.Call call = postSendersValidateBeforeCall(senderRequest, null, null);
+        okhttp3.Call localVarCall = postSendersValidateBeforeCall(senderRequest, null);
         Type localVarReturnType = new TypeToken<SenderResponse>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
      * Creating a sender (asynchronously)
      * Creates a new sender in our system. 
      * @param senderRequest  (required)
-     * @param callback The callback to be executed when the API call finishes
+     * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call postSendersAsync(SenderRequest senderRequest, final ApiCallback<SenderResponse> callback) throws ApiException {
+    public okhttp3.Call postSendersAsync(SenderRequest senderRequest, final ApiCallback<SenderResponse> _callback) throws ApiException {
 
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        okhttp3.Call call = postSendersValidateBeforeCall(senderRequest, progressListener, progressRequestListener);
+        okhttp3.Call localVarCall = postSendersValidateBeforeCall(senderRequest, _callback);
         Type localVarReturnType = new TypeToken<SenderResponse>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
     }
 }

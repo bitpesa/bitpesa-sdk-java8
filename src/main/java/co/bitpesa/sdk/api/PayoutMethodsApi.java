@@ -40,38 +40,37 @@ import java.util.List;
 import java.util.Map;
 
 public class PayoutMethodsApi {
-    private ApiClient apiClient;
+    private ApiClient localVarApiClient;
 
     public PayoutMethodsApi() {
         this(Configuration.getDefaultApiClient());
     }
 
     public PayoutMethodsApi(ApiClient apiClient) {
-        this.apiClient = apiClient;
+        this.localVarApiClient = apiClient;
     }
 
     public ApiClient getApiClient() {
-        return apiClient;
+        return localVarApiClient;
     }
 
     public void setApiClient(ApiClient apiClient) {
-        this.apiClient = apiClient;
+        this.localVarApiClient = apiClient;
     }
 
     /**
      * Build call for deletePayoutMethod
      * @param payoutMethodID ID of the payout method to delete.  Example: &#x60;/v1/payout_methods/bf9ff782-e182-45ac-abea-5bce83ad6670&#x60; (required)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
+     * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public okhttp3.Call deletePayoutMethodCall(UUID payoutMethodID, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public okhttp3.Call deletePayoutMethodCall(UUID payoutMethodID, final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = new Object();
 
         // create path and map variables
         String localVarPath = "/payout_methods/{Payout Method ID}"
-            .replaceAll("\\{" + "Payout Method ID" + "\\}", apiClient.escapeString(payoutMethodID.toString()));
+            .replaceAll("\\{" + "Payout Method ID" + "\\}", localVarApiClient.escapeString(payoutMethodID.toString()));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -80,7 +79,7 @@ public class PayoutMethodsApi {
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -88,27 +87,15 @@ public class PayoutMethodsApi {
         final String[] localVarContentTypes = {
             
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
-                @Override
-                public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
-                    okhttp3.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                            .build();
-                }
-            }).build());
-        }
-
         String[] localVarAuthNames = new String[] { "AuthorizationKey", "AuthorizationNonce", "AuthorizationSecret", "AuthorizationSignature" };
-        return apiClient.buildCall(localVarPath, "DELETE", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "DELETE", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call deletePayoutMethodValidateBeforeCall(UUID payoutMethodID, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private okhttp3.Call deletePayoutMethodValidateBeforeCall(UUID payoutMethodID, final ApiCallback _callback) throws ApiException {
         
         // verify the required parameter 'payoutMethodID' is set
         if (payoutMethodID == null) {
@@ -116,8 +103,8 @@ public class PayoutMethodsApi {
         }
         
 
-        okhttp3.Call call = deletePayoutMethodCall(payoutMethodID, progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = deletePayoutMethodCall(payoutMethodID, _callback);
+        return localVarCall;
 
     }
 
@@ -129,8 +116,8 @@ public class PayoutMethodsApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public PayoutMethodResponse deletePayoutMethod(UUID payoutMethodID) throws ApiException {
-        ApiResponse<PayoutMethodResponse> resp = deletePayoutMethodWithHttpInfo(payoutMethodID);
-        return resp.getData();
+        ApiResponse<PayoutMethodResponse> localVarResp = deletePayoutMethodWithHttpInfo(payoutMethodID);
+        return localVarResp.getData();
     }
 
     /**
@@ -141,59 +128,39 @@ public class PayoutMethodsApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<PayoutMethodResponse> deletePayoutMethodWithHttpInfo(UUID payoutMethodID) throws ApiException {
-        okhttp3.Call call = deletePayoutMethodValidateBeforeCall(payoutMethodID, null, null);
+        okhttp3.Call localVarCall = deletePayoutMethodValidateBeforeCall(payoutMethodID, null);
         Type localVarReturnType = new TypeToken<PayoutMethodResponse>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
      * Deleting a payout method (asynchronously)
      * Deletes a single payout method by the Payout Method ID
      * @param payoutMethodID ID of the payout method to delete.  Example: &#x60;/v1/payout_methods/bf9ff782-e182-45ac-abea-5bce83ad6670&#x60; (required)
-     * @param callback The callback to be executed when the API call finishes
+     * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call deletePayoutMethodAsync(UUID payoutMethodID, final ApiCallback<PayoutMethodResponse> callback) throws ApiException {
+    public okhttp3.Call deletePayoutMethodAsync(UUID payoutMethodID, final ApiCallback<PayoutMethodResponse> _callback) throws ApiException {
 
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        okhttp3.Call call = deletePayoutMethodValidateBeforeCall(payoutMethodID, progressListener, progressRequestListener);
+        okhttp3.Call localVarCall = deletePayoutMethodValidateBeforeCall(payoutMethodID, _callback);
         Type localVarReturnType = new TypeToken<PayoutMethodResponse>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
     }
     /**
      * Build call for getPayoutMethod
      * @param payoutMethodID ID of the payout method to get.  Example: &#x60;/v1/payout_methods/bf9ff782-e182-45ac-abea-5bce83ad6670&#x60; (required)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
+     * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public okhttp3.Call getPayoutMethodCall(UUID payoutMethodID, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public okhttp3.Call getPayoutMethodCall(UUID payoutMethodID, final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = new Object();
 
         // create path and map variables
         String localVarPath = "/payout_methods/{Payout Method ID}"
-            .replaceAll("\\{" + "Payout Method ID" + "\\}", apiClient.escapeString(payoutMethodID.toString()));
+            .replaceAll("\\{" + "Payout Method ID" + "\\}", localVarApiClient.escapeString(payoutMethodID.toString()));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -202,7 +169,7 @@ public class PayoutMethodsApi {
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -210,27 +177,15 @@ public class PayoutMethodsApi {
         final String[] localVarContentTypes = {
             
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
-                @Override
-                public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
-                    okhttp3.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                            .build();
-                }
-            }).build());
-        }
-
         String[] localVarAuthNames = new String[] { "AuthorizationKey", "AuthorizationNonce", "AuthorizationSecret", "AuthorizationSignature" };
-        return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call getPayoutMethodValidateBeforeCall(UUID payoutMethodID, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private okhttp3.Call getPayoutMethodValidateBeforeCall(UUID payoutMethodID, final ApiCallback _callback) throws ApiException {
         
         // verify the required parameter 'payoutMethodID' is set
         if (payoutMethodID == null) {
@@ -238,8 +193,8 @@ public class PayoutMethodsApi {
         }
         
 
-        okhttp3.Call call = getPayoutMethodCall(payoutMethodID, progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = getPayoutMethodCall(payoutMethodID, _callback);
+        return localVarCall;
 
     }
 
@@ -251,8 +206,8 @@ public class PayoutMethodsApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public PayoutMethodResponse getPayoutMethod(UUID payoutMethodID) throws ApiException {
-        ApiResponse<PayoutMethodResponse> resp = getPayoutMethodWithHttpInfo(payoutMethodID);
-        return resp.getData();
+        ApiResponse<PayoutMethodResponse> localVarResp = getPayoutMethodWithHttpInfo(payoutMethodID);
+        return localVarResp.getData();
     }
 
     /**
@@ -263,44 +218,25 @@ public class PayoutMethodsApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<PayoutMethodResponse> getPayoutMethodWithHttpInfo(UUID payoutMethodID) throws ApiException {
-        okhttp3.Call call = getPayoutMethodValidateBeforeCall(payoutMethodID, null, null);
+        okhttp3.Call localVarCall = getPayoutMethodValidateBeforeCall(payoutMethodID, null);
         Type localVarReturnType = new TypeToken<PayoutMethodResponse>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
      * Fetching a payout method (asynchronously)
      * Show a payout method by id
      * @param payoutMethodID ID of the payout method to get.  Example: &#x60;/v1/payout_methods/bf9ff782-e182-45ac-abea-5bce83ad6670&#x60; (required)
-     * @param callback The callback to be executed when the API call finishes
+     * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call getPayoutMethodAsync(UUID payoutMethodID, final ApiCallback<PayoutMethodResponse> callback) throws ApiException {
+    public okhttp3.Call getPayoutMethodAsync(UUID payoutMethodID, final ApiCallback<PayoutMethodResponse> _callback) throws ApiException {
 
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        okhttp3.Call call = getPayoutMethodValidateBeforeCall(payoutMethodID, progressListener, progressRequestListener);
+        okhttp3.Call localVarCall = getPayoutMethodValidateBeforeCall(payoutMethodID, _callback);
         Type localVarReturnType = new TypeToken<PayoutMethodResponse>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
     }
     /**
      * Build call for getPayoutMethods
@@ -311,12 +247,11 @@ public class PayoutMethodsApi {
      * @param per The number of results to load per page (defaults to 10) (optional)
      * @param createdAtFrom Start date to filter recipients by created_at range Allows filtering results by the specified &#x60;created_at&#x60; timeframe.  Example: &#x60;/v1/recipients?created_at_from&#x3D;2018-06-06&amp;created_at_to&#x3D;2018-06-08&#x60; (optional)
      * @param createdAtTo End date to filter recipients by created_at range Allows filtering results by the specified &#x60;created_at&#x60; timeframe.  Example: &#x60;/v1/recipients?created_at_from&#x3D;2018-06-06&amp;created_at_to&#x3D;2018-06-08&#x60; (optional)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
+     * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public okhttp3.Call getPayoutMethodsCall(List<String> state, List<String> type, String senderId, Integer page, Integer per, String createdAtFrom, String createdAtTo, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public okhttp3.Call getPayoutMethodsCall(List<String> state, List<String> type, String senderId, Integer page, Integer per, String createdAtFrom, String createdAtTo, final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = new Object();
 
         // create path and map variables
@@ -325,31 +260,31 @@ public class PayoutMethodsApi {
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
         if (state != null) {
-            localVarCollectionQueryParams.addAll(apiClient.parameterToPairs("multi", "state", state));
+            localVarCollectionQueryParams.addAll(localVarApiClient.parameterToPairs("multi", "state", state));
         }
 
         if (type != null) {
-            localVarCollectionQueryParams.addAll(apiClient.parameterToPairs("multi", "type", type));
+            localVarCollectionQueryParams.addAll(localVarApiClient.parameterToPairs("multi", "type", type));
         }
 
         if (senderId != null) {
-            localVarQueryParams.addAll(apiClient.parameterToPair("sender_id", senderId));
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("sender_id", senderId));
         }
 
         if (page != null) {
-            localVarQueryParams.addAll(apiClient.parameterToPair("page", page));
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("page", page));
         }
 
         if (per != null) {
-            localVarQueryParams.addAll(apiClient.parameterToPair("per", per));
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("per", per));
         }
 
         if (createdAtFrom != null) {
-            localVarQueryParams.addAll(apiClient.parameterToPair("created_at_from", createdAtFrom));
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("created_at_from", createdAtFrom));
         }
 
         if (createdAtTo != null) {
-            localVarQueryParams.addAll(apiClient.parameterToPair("created_at_to", createdAtTo));
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("created_at_to", createdAtTo));
         }
 
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
@@ -357,7 +292,7 @@ public class PayoutMethodsApi {
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -365,31 +300,19 @@ public class PayoutMethodsApi {
         final String[] localVarContentTypes = {
             
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
-                @Override
-                public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
-                    okhttp3.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                            .build();
-                }
-            }).build());
-        }
-
         String[] localVarAuthNames = new String[] { "AuthorizationKey", "AuthorizationNonce", "AuthorizationSecret", "AuthorizationSignature" };
-        return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call getPayoutMethodsValidateBeforeCall(List<String> state, List<String> type, String senderId, Integer page, Integer per, String createdAtFrom, String createdAtTo, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private okhttp3.Call getPayoutMethodsValidateBeforeCall(List<String> state, List<String> type, String senderId, Integer page, Integer per, String createdAtFrom, String createdAtTo, final ApiCallback _callback) throws ApiException {
         
 
-        okhttp3.Call call = getPayoutMethodsCall(state, type, senderId, page, per, createdAtFrom, createdAtTo, progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = getPayoutMethodsCall(state, type, senderId, page, per, createdAtFrom, createdAtTo, _callback);
+        return localVarCall;
 
     }
 
@@ -407,8 +330,8 @@ public class PayoutMethodsApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public PayoutMethodListResponse getPayoutMethods(List<String> state, List<String> type, String senderId, Integer page, Integer per, String createdAtFrom, String createdAtTo) throws ApiException {
-        ApiResponse<PayoutMethodListResponse> resp = getPayoutMethodsWithHttpInfo(state, type, senderId, page, per, createdAtFrom, createdAtTo);
-        return resp.getData();
+        ApiResponse<PayoutMethodListResponse> localVarResp = getPayoutMethodsWithHttpInfo(state, type, senderId, page, per, createdAtFrom, createdAtTo);
+        return localVarResp.getData();
     }
 
     /**
@@ -425,9 +348,9 @@ public class PayoutMethodsApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<PayoutMethodListResponse> getPayoutMethodsWithHttpInfo(List<String> state, List<String> type, String senderId, Integer page, Integer per, String createdAtFrom, String createdAtTo) throws ApiException {
-        okhttp3.Call call = getPayoutMethodsValidateBeforeCall(state, type, senderId, page, per, createdAtFrom, createdAtTo, null, null);
+        okhttp3.Call localVarCall = getPayoutMethodsValidateBeforeCall(state, type, senderId, page, per, createdAtFrom, createdAtTo, null);
         Type localVarReturnType = new TypeToken<PayoutMethodListResponse>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
@@ -440,51 +363,31 @@ public class PayoutMethodsApi {
      * @param per The number of results to load per page (defaults to 10) (optional)
      * @param createdAtFrom Start date to filter recipients by created_at range Allows filtering results by the specified &#x60;created_at&#x60; timeframe.  Example: &#x60;/v1/recipients?created_at_from&#x3D;2018-06-06&amp;created_at_to&#x3D;2018-06-08&#x60; (optional)
      * @param createdAtTo End date to filter recipients by created_at range Allows filtering results by the specified &#x60;created_at&#x60; timeframe.  Example: &#x60;/v1/recipients?created_at_from&#x3D;2018-06-06&amp;created_at_to&#x3D;2018-06-08&#x60; (optional)
-     * @param callback The callback to be executed when the API call finishes
+     * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call getPayoutMethodsAsync(List<String> state, List<String> type, String senderId, Integer page, Integer per, String createdAtFrom, String createdAtTo, final ApiCallback<PayoutMethodListResponse> callback) throws ApiException {
+    public okhttp3.Call getPayoutMethodsAsync(List<String> state, List<String> type, String senderId, Integer page, Integer per, String createdAtFrom, String createdAtTo, final ApiCallback<PayoutMethodListResponse> _callback) throws ApiException {
 
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        okhttp3.Call call = getPayoutMethodsValidateBeforeCall(state, type, senderId, page, per, createdAtFrom, createdAtTo, progressListener, progressRequestListener);
+        okhttp3.Call localVarCall = getPayoutMethodsValidateBeforeCall(state, type, senderId, page, per, createdAtFrom, createdAtTo, _callback);
         Type localVarReturnType = new TypeToken<PayoutMethodListResponse>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
     }
     /**
      * Build call for patchPayoutMethod
      * @param payoutMethodID ID of the payout method to get.  Example: &#x60;/v1/payout_methods/bf9ff782-e182-45ac-abea-5bce83ad6670&#x60; (required)
      * @param payoutMethod  (required)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
+     * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public okhttp3.Call patchPayoutMethodCall(UUID payoutMethodID, PayoutMethod payoutMethod, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public okhttp3.Call patchPayoutMethodCall(UUID payoutMethodID, PayoutMethod payoutMethod, final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = payoutMethod;
 
         // create path and map variables
         String localVarPath = "/payout_methods/{Payout Method ID}"
-            .replaceAll("\\{" + "Payout Method ID" + "\\}", apiClient.escapeString(payoutMethodID.toString()));
+            .replaceAll("\\{" + "Payout Method ID" + "\\}", localVarApiClient.escapeString(payoutMethodID.toString()));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -493,7 +396,7 @@ public class PayoutMethodsApi {
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -501,27 +404,15 @@ public class PayoutMethodsApi {
         final String[] localVarContentTypes = {
             "application/json"
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
-                @Override
-                public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
-                    okhttp3.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                            .build();
-                }
-            }).build());
-        }
-
         String[] localVarAuthNames = new String[] { "AuthorizationKey", "AuthorizationNonce", "AuthorizationSecret", "AuthorizationSignature" };
-        return apiClient.buildCall(localVarPath, "PATCH", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "PATCH", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call patchPayoutMethodValidateBeforeCall(UUID payoutMethodID, PayoutMethod payoutMethod, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private okhttp3.Call patchPayoutMethodValidateBeforeCall(UUID payoutMethodID, PayoutMethod payoutMethod, final ApiCallback _callback) throws ApiException {
         
         // verify the required parameter 'payoutMethodID' is set
         if (payoutMethodID == null) {
@@ -534,8 +425,8 @@ public class PayoutMethodsApi {
         }
         
 
-        okhttp3.Call call = patchPayoutMethodCall(payoutMethodID, payoutMethod, progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = patchPayoutMethodCall(payoutMethodID, payoutMethod, _callback);
+        return localVarCall;
 
     }
 
@@ -548,8 +439,8 @@ public class PayoutMethodsApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public PayoutMethodResponse patchPayoutMethod(UUID payoutMethodID, PayoutMethod payoutMethod) throws ApiException {
-        ApiResponse<PayoutMethodResponse> resp = patchPayoutMethodWithHttpInfo(payoutMethodID, payoutMethod);
-        return resp.getData();
+        ApiResponse<PayoutMethodResponse> localVarResp = patchPayoutMethodWithHttpInfo(payoutMethodID, payoutMethod);
+        return localVarResp.getData();
     }
 
     /**
@@ -561,9 +452,9 @@ public class PayoutMethodsApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<PayoutMethodResponse> patchPayoutMethodWithHttpInfo(UUID payoutMethodID, PayoutMethod payoutMethod) throws ApiException {
-        okhttp3.Call call = patchPayoutMethodValidateBeforeCall(payoutMethodID, payoutMethod, null, null);
+        okhttp3.Call localVarCall = patchPayoutMethodValidateBeforeCall(payoutMethodID, payoutMethod, null);
         Type localVarReturnType = new TypeToken<PayoutMethodResponse>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
@@ -571,45 +462,25 @@ public class PayoutMethodsApi {
      * Updates the payout method specified in the URL path.
      * @param payoutMethodID ID of the payout method to get.  Example: &#x60;/v1/payout_methods/bf9ff782-e182-45ac-abea-5bce83ad6670&#x60; (required)
      * @param payoutMethod  (required)
-     * @param callback The callback to be executed when the API call finishes
+     * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call patchPayoutMethodAsync(UUID payoutMethodID, PayoutMethod payoutMethod, final ApiCallback<PayoutMethodResponse> callback) throws ApiException {
+    public okhttp3.Call patchPayoutMethodAsync(UUID payoutMethodID, PayoutMethod payoutMethod, final ApiCallback<PayoutMethodResponse> _callback) throws ApiException {
 
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        okhttp3.Call call = patchPayoutMethodValidateBeforeCall(payoutMethodID, payoutMethod, progressListener, progressRequestListener);
+        okhttp3.Call localVarCall = patchPayoutMethodValidateBeforeCall(payoutMethodID, payoutMethod, _callback);
         Type localVarReturnType = new TypeToken<PayoutMethodResponse>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
     }
     /**
      * Build call for postPayoutMethods
      * @param payoutMethodRequest  (required)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
+     * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public okhttp3.Call postPayoutMethodsCall(PayoutMethodRequest payoutMethodRequest, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public okhttp3.Call postPayoutMethodsCall(PayoutMethodRequest payoutMethodRequest, final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = payoutMethodRequest;
 
         // create path and map variables
@@ -622,7 +493,7 @@ public class PayoutMethodsApi {
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -630,27 +501,15 @@ public class PayoutMethodsApi {
         final String[] localVarContentTypes = {
             "application/json"
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
-                @Override
-                public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
-                    okhttp3.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                            .build();
-                }
-            }).build());
-        }
-
         String[] localVarAuthNames = new String[] { "AuthorizationKey", "AuthorizationNonce", "AuthorizationSecret", "AuthorizationSignature" };
-        return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call postPayoutMethodsValidateBeforeCall(PayoutMethodRequest payoutMethodRequest, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private okhttp3.Call postPayoutMethodsValidateBeforeCall(PayoutMethodRequest payoutMethodRequest, final ApiCallback _callback) throws ApiException {
         
         // verify the required parameter 'payoutMethodRequest' is set
         if (payoutMethodRequest == null) {
@@ -658,8 +517,8 @@ public class PayoutMethodsApi {
         }
         
 
-        okhttp3.Call call = postPayoutMethodsCall(payoutMethodRequest, progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = postPayoutMethodsCall(payoutMethodRequest, _callback);
+        return localVarCall;
 
     }
 
@@ -671,8 +530,8 @@ public class PayoutMethodsApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public PayoutMethodResponse postPayoutMethods(PayoutMethodRequest payoutMethodRequest) throws ApiException {
-        ApiResponse<PayoutMethodResponse> resp = postPayoutMethodsWithHttpInfo(payoutMethodRequest);
-        return resp.getData();
+        ApiResponse<PayoutMethodResponse> localVarResp = postPayoutMethodsWithHttpInfo(payoutMethodRequest);
+        return localVarResp.getData();
     }
 
     /**
@@ -683,43 +542,24 @@ public class PayoutMethodsApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<PayoutMethodResponse> postPayoutMethodsWithHttpInfo(PayoutMethodRequest payoutMethodRequest) throws ApiException {
-        okhttp3.Call call = postPayoutMethodsValidateBeforeCall(payoutMethodRequest, null, null);
+        okhttp3.Call localVarCall = postPayoutMethodsValidateBeforeCall(payoutMethodRequest, null);
         Type localVarReturnType = new TypeToken<PayoutMethodResponse>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
      * Creating a payout method (asynchronously)
      * Creates a new payout method in our system. 
      * @param payoutMethodRequest  (required)
-     * @param callback The callback to be executed when the API call finishes
+     * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call postPayoutMethodsAsync(PayoutMethodRequest payoutMethodRequest, final ApiCallback<PayoutMethodResponse> callback) throws ApiException {
+    public okhttp3.Call postPayoutMethodsAsync(PayoutMethodRequest payoutMethodRequest, final ApiCallback<PayoutMethodResponse> _callback) throws ApiException {
 
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        okhttp3.Call call = postPayoutMethodsValidateBeforeCall(payoutMethodRequest, progressListener, progressRequestListener);
+        okhttp3.Call localVarCall = postPayoutMethodsValidateBeforeCall(payoutMethodRequest, _callback);
         Type localVarReturnType = new TypeToken<PayoutMethodResponse>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
     }
 }

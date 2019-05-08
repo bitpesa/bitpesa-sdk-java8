@@ -36,32 +36,31 @@ import java.util.List;
 import java.util.Map;
 
 public class PaymentMethodsApi {
-    private ApiClient apiClient;
+    private ApiClient localVarApiClient;
 
     public PaymentMethodsApi() {
         this(Configuration.getDefaultApiClient());
     }
 
     public PaymentMethodsApi(ApiClient apiClient) {
-        this.apiClient = apiClient;
+        this.localVarApiClient = apiClient;
     }
 
     public ApiClient getApiClient() {
-        return apiClient;
+        return localVarApiClient;
     }
 
     public void setApiClient(ApiClient apiClient) {
-        this.apiClient = apiClient;
+        this.localVarApiClient = apiClient;
     }
 
     /**
      * Build call for paymentMethodsIn
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
+     * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public okhttp3.Call paymentMethodsInCall(final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public okhttp3.Call paymentMethodsInCall(final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = new Object();
 
         // create path and map variables
@@ -74,7 +73,7 @@ public class PaymentMethodsApi {
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -82,31 +81,19 @@ public class PaymentMethodsApi {
         final String[] localVarContentTypes = {
             
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
-                @Override
-                public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
-                    okhttp3.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                            .build();
-                }
-            }).build());
-        }
-
         String[] localVarAuthNames = new String[] { "AuthorizationKey", "AuthorizationNonce", "AuthorizationSecret", "AuthorizationSignature" };
-        return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call paymentMethodsInValidateBeforeCall(final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private okhttp3.Call paymentMethodsInValidateBeforeCall(final ApiCallback _callback) throws ApiException {
         
 
-        okhttp3.Call call = paymentMethodsInCall(progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = paymentMethodsInCall(_callback);
+        return localVarCall;
 
     }
 
@@ -117,8 +104,8 @@ public class PaymentMethodsApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public PaymentMethodListResponse paymentMethodsIn() throws ApiException {
-        ApiResponse<PaymentMethodListResponse> resp = paymentMethodsInWithHttpInfo();
-        return resp.getData();
+        ApiResponse<PaymentMethodListResponse> localVarResp = paymentMethodsInWithHttpInfo();
+        return localVarResp.getData();
     }
 
     /**
@@ -128,52 +115,32 @@ public class PaymentMethodsApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<PaymentMethodListResponse> paymentMethodsInWithHttpInfo() throws ApiException {
-        okhttp3.Call call = paymentMethodsInValidateBeforeCall(null, null);
+        okhttp3.Call localVarCall = paymentMethodsInValidateBeforeCall(null);
         Type localVarReturnType = new TypeToken<PaymentMethodListResponse>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
      * This method returns possible payin methods. (asynchronously)
      * Fetching possible payin methods. 
-     * @param callback The callback to be executed when the API call finishes
+     * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call paymentMethodsInAsync(final ApiCallback<PaymentMethodListResponse> callback) throws ApiException {
+    public okhttp3.Call paymentMethodsInAsync(final ApiCallback<PaymentMethodListResponse> _callback) throws ApiException {
 
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        okhttp3.Call call = paymentMethodsInValidateBeforeCall(progressListener, progressRequestListener);
+        okhttp3.Call localVarCall = paymentMethodsInValidateBeforeCall(_callback);
         Type localVarReturnType = new TypeToken<PaymentMethodListResponse>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
     }
     /**
      * Build call for paymentMethodsOut
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
+     * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public okhttp3.Call paymentMethodsOutCall(final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public okhttp3.Call paymentMethodsOutCall(final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = new Object();
 
         // create path and map variables
@@ -186,7 +153,7 @@ public class PaymentMethodsApi {
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -194,31 +161,19 @@ public class PaymentMethodsApi {
         final String[] localVarContentTypes = {
             
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
-                @Override
-                public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
-                    okhttp3.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                            .build();
-                }
-            }).build());
-        }
-
         String[] localVarAuthNames = new String[] { "AuthorizationKey", "AuthorizationNonce", "AuthorizationSecret", "AuthorizationSignature" };
-        return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call paymentMethodsOutValidateBeforeCall(final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private okhttp3.Call paymentMethodsOutValidateBeforeCall(final ApiCallback _callback) throws ApiException {
         
 
-        okhttp3.Call call = paymentMethodsOutCall(progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = paymentMethodsOutCall(_callback);
+        return localVarCall;
 
     }
 
@@ -229,8 +184,8 @@ public class PaymentMethodsApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public PaymentMethodListResponse paymentMethodsOut() throws ApiException {
-        ApiResponse<PaymentMethodListResponse> resp = paymentMethodsOutWithHttpInfo();
-        return resp.getData();
+        ApiResponse<PaymentMethodListResponse> localVarResp = paymentMethodsOutWithHttpInfo();
+        return localVarResp.getData();
     }
 
     /**
@@ -240,42 +195,23 @@ public class PaymentMethodsApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<PaymentMethodListResponse> paymentMethodsOutWithHttpInfo() throws ApiException {
-        okhttp3.Call call = paymentMethodsOutValidateBeforeCall(null, null);
+        okhttp3.Call localVarCall = paymentMethodsOutValidateBeforeCall(null);
         Type localVarReturnType = new TypeToken<PaymentMethodListResponse>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
      * This method returns possible payout methods. (asynchronously)
      * Fetching possible payout methods. 
-     * @param callback The callback to be executed when the API call finishes
+     * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call paymentMethodsOutAsync(final ApiCallback<PaymentMethodListResponse> callback) throws ApiException {
+    public okhttp3.Call paymentMethodsOutAsync(final ApiCallback<PaymentMethodListResponse> _callback) throws ApiException {
 
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        okhttp3.Call call = paymentMethodsOutValidateBeforeCall(progressListener, progressRequestListener);
+        okhttp3.Call localVarCall = paymentMethodsOutValidateBeforeCall(_callback);
         Type localVarReturnType = new TypeToken<PaymentMethodListResponse>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
     }
 }

@@ -39,40 +39,39 @@ import java.util.List;
 import java.util.Map;
 
 public class RecipientsApi {
-    private ApiClient apiClient;
+    private ApiClient localVarApiClient;
 
     public RecipientsApi() {
         this(Configuration.getDefaultApiClient());
     }
 
     public RecipientsApi(ApiClient apiClient) {
-        this.apiClient = apiClient;
+        this.localVarApiClient = apiClient;
     }
 
     public ApiClient getApiClient() {
-        return apiClient;
+        return localVarApiClient;
     }
 
     public void setApiClient(ApiClient apiClient) {
-        this.apiClient = apiClient;
+        this.localVarApiClient = apiClient;
     }
 
     /**
      * Build call for deleteRecipient
      * @param recipientID ID of recipient to cancel.  Example: &#x60;/v1/recipients/9d4d7b73-a94c-4979-ab57-09074fd55d33&#x60; (required)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
+     * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      * More details on cancelling recipients
      * @see <a href="https://github.com/bitpesa/api-documentation/blob/master/transaction-flow.md#cancelling-recipients-and-transactions">Cancelling a recipient Documentation</a>
      */
-    public okhttp3.Call deleteRecipientCall(UUID recipientID, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public okhttp3.Call deleteRecipientCall(UUID recipientID, final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = new Object();
 
         // create path and map variables
         String localVarPath = "/recipients/{Recipient ID}"
-            .replaceAll("\\{" + "Recipient ID" + "\\}", apiClient.escapeString(recipientID.toString()));
+            .replaceAll("\\{" + "Recipient ID" + "\\}", localVarApiClient.escapeString(recipientID.toString()));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -81,7 +80,7 @@ public class RecipientsApi {
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -89,27 +88,15 @@ public class RecipientsApi {
         final String[] localVarContentTypes = {
             
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
-                @Override
-                public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
-                    okhttp3.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                            .build();
-                }
-            }).build());
-        }
-
         String[] localVarAuthNames = new String[] { "AuthorizationKey", "AuthorizationNonce", "AuthorizationSecret", "AuthorizationSignature" };
-        return apiClient.buildCall(localVarPath, "DELETE", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "DELETE", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call deleteRecipientValidateBeforeCall(UUID recipientID, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private okhttp3.Call deleteRecipientValidateBeforeCall(UUID recipientID, final ApiCallback _callback) throws ApiException {
         
         // verify the required parameter 'recipientID' is set
         if (recipientID == null) {
@@ -117,8 +104,8 @@ public class RecipientsApi {
         }
         
 
-        okhttp3.Call call = deleteRecipientCall(recipientID, progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = deleteRecipientCall(recipientID, _callback);
+        return localVarCall;
 
     }
 
@@ -132,8 +119,8 @@ public class RecipientsApi {
      * @see <a href="https://github.com/bitpesa/api-documentation/blob/master/transaction-flow.md#cancelling-recipients-and-transactions">Cancelling a recipient Documentation</a>
      */
     public RecipientResponse deleteRecipient(UUID recipientID) throws ApiException {
-        ApiResponse<RecipientResponse> resp = deleteRecipientWithHttpInfo(recipientID);
-        return resp.getData();
+        ApiResponse<RecipientResponse> localVarResp = deleteRecipientWithHttpInfo(recipientID);
+        return localVarResp.getData();
     }
 
     /**
@@ -146,46 +133,27 @@ public class RecipientsApi {
      * @see <a href="https://github.com/bitpesa/api-documentation/blob/master/transaction-flow.md#cancelling-recipients-and-transactions">Cancelling a recipient Documentation</a>
      */
     public ApiResponse<RecipientResponse> deleteRecipientWithHttpInfo(UUID recipientID) throws ApiException {
-        okhttp3.Call call = deleteRecipientValidateBeforeCall(recipientID, null, null);
+        okhttp3.Call localVarCall = deleteRecipientValidateBeforeCall(recipientID, null);
         Type localVarReturnType = new TypeToken<RecipientResponse>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
      * Cancelling a recipient (asynchronously)
      * Cancels the payment to the recipient specified in the URL path.  Please note only recipients where the &#x60;may_cancel&#x60; attribute is true can be cancelled.
      * @param recipientID ID of recipient to cancel.  Example: &#x60;/v1/recipients/9d4d7b73-a94c-4979-ab57-09074fd55d33&#x60; (required)
-     * @param callback The callback to be executed when the API call finishes
+     * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      * More details on cancelling recipients
      * @see <a href="https://github.com/bitpesa/api-documentation/blob/master/transaction-flow.md#cancelling-recipients-and-transactions">Cancelling a recipient Documentation</a>
      */
-    public okhttp3.Call deleteRecipientAsync(UUID recipientID, final ApiCallback<RecipientResponse> callback) throws ApiException {
+    public okhttp3.Call deleteRecipientAsync(UUID recipientID, final ApiCallback<RecipientResponse> _callback) throws ApiException {
 
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        okhttp3.Call call = deleteRecipientValidateBeforeCall(recipientID, progressListener, progressRequestListener);
+        okhttp3.Call localVarCall = deleteRecipientValidateBeforeCall(recipientID, _callback);
         Type localVarReturnType = new TypeToken<RecipientResponse>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
     }
     /**
      * Build call for getRecipients
@@ -197,12 +165,11 @@ public class RecipientsApi {
      * @param amountTo Max amount to filter recipients by amount range.  Allows filtering results by the specified &#x60;amount&#x60; range. When using this filter, the &#x60;currency&#x60; should also be specified.  Example: &#x60;/v1/recipients?currency&#x3D;NGN&amp;amount_from&#x3D;83.76672339&amp;amount_to&#x3D;83.76672339&#x60; (optional)
      * @param state Allows filtering results by &#x60;state&#x60; of recipient. See [API Documentation - Recipient state](https://github.com/bitpesa/api-documentation/blob/master/transaction-flow.md#state-1) for possible states.  Example: &#x60;/v1/recipients?state[]&#x3D;error&amp;state[]&#x3D;initial&#x60; (optional)
      * @param currency Allows filtering results by &#x60;input_currency&#x60;.  Additionally required when filtering by an amount range Example: &#x60;/v1/recipients?currency[]&#x3D;KES&amp;currency[]&#x3D;NGN&#x60; (optional)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
+     * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public okhttp3.Call getRecipientsCall(Integer page, Integer per, String createdAtFrom, String createdAtTo, String amountFrom, String amountTo, List<String> state, List<String> currency, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public okhttp3.Call getRecipientsCall(Integer page, Integer per, String createdAtFrom, String createdAtTo, String amountFrom, String amountTo, List<String> state, List<String> currency, final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = new Object();
 
         // create path and map variables
@@ -211,35 +178,35 @@ public class RecipientsApi {
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
         if (page != null) {
-            localVarQueryParams.addAll(apiClient.parameterToPair("page", page));
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("page", page));
         }
 
         if (per != null) {
-            localVarQueryParams.addAll(apiClient.parameterToPair("per", per));
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("per", per));
         }
 
         if (createdAtFrom != null) {
-            localVarQueryParams.addAll(apiClient.parameterToPair("created_at_from", createdAtFrom));
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("created_at_from", createdAtFrom));
         }
 
         if (createdAtTo != null) {
-            localVarQueryParams.addAll(apiClient.parameterToPair("created_at_to", createdAtTo));
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("created_at_to", createdAtTo));
         }
 
         if (amountFrom != null) {
-            localVarQueryParams.addAll(apiClient.parameterToPair("amount_from", amountFrom));
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("amount_from", amountFrom));
         }
 
         if (amountTo != null) {
-            localVarQueryParams.addAll(apiClient.parameterToPair("amount_to", amountTo));
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("amount_to", amountTo));
         }
 
         if (state != null) {
-            localVarCollectionQueryParams.addAll(apiClient.parameterToPairs("multi", "state", state));
+            localVarCollectionQueryParams.addAll(localVarApiClient.parameterToPairs("multi", "state", state));
         }
 
         if (currency != null) {
-            localVarCollectionQueryParams.addAll(apiClient.parameterToPairs("multi", "currency", currency));
+            localVarCollectionQueryParams.addAll(localVarApiClient.parameterToPairs("multi", "currency", currency));
         }
 
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
@@ -247,7 +214,7 @@ public class RecipientsApi {
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -255,31 +222,19 @@ public class RecipientsApi {
         final String[] localVarContentTypes = {
             
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
-                @Override
-                public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
-                    okhttp3.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                            .build();
-                }
-            }).build());
-        }
-
         String[] localVarAuthNames = new String[] { "AuthorizationKey", "AuthorizationNonce", "AuthorizationSecret", "AuthorizationSignature" };
-        return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call getRecipientsValidateBeforeCall(Integer page, Integer per, String createdAtFrom, String createdAtTo, String amountFrom, String amountTo, List<String> state, List<String> currency, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private okhttp3.Call getRecipientsValidateBeforeCall(Integer page, Integer per, String createdAtFrom, String createdAtTo, String amountFrom, String amountTo, List<String> state, List<String> currency, final ApiCallback _callback) throws ApiException {
         
 
-        okhttp3.Call call = getRecipientsCall(page, per, createdAtFrom, createdAtTo, amountFrom, amountTo, state, currency, progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = getRecipientsCall(page, per, createdAtFrom, createdAtTo, amountFrom, amountTo, state, currency, _callback);
+        return localVarCall;
 
     }
 
@@ -298,8 +253,8 @@ public class RecipientsApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public RecipientListResponse getRecipients(Integer page, Integer per, String createdAtFrom, String createdAtTo, String amountFrom, String amountTo, List<String> state, List<String> currency) throws ApiException {
-        ApiResponse<RecipientListResponse> resp = getRecipientsWithHttpInfo(page, per, createdAtFrom, createdAtTo, amountFrom, amountTo, state, currency);
-        return resp.getData();
+        ApiResponse<RecipientListResponse> localVarResp = getRecipientsWithHttpInfo(page, per, createdAtFrom, createdAtTo, amountFrom, amountTo, state, currency);
+        return localVarResp.getData();
     }
 
     /**
@@ -317,9 +272,9 @@ public class RecipientsApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<RecipientListResponse> getRecipientsWithHttpInfo(Integer page, Integer per, String createdAtFrom, String createdAtTo, String amountFrom, String amountTo, List<String> state, List<String> currency) throws ApiException {
-        okhttp3.Call call = getRecipientsValidateBeforeCall(page, per, createdAtFrom, createdAtTo, amountFrom, amountTo, state, currency, null, null);
+        okhttp3.Call localVarCall = getRecipientsValidateBeforeCall(page, per, createdAtFrom, createdAtTo, amountFrom, amountTo, state, currency, null);
         Type localVarReturnType = new TypeToken<RecipientListResponse>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
@@ -333,51 +288,31 @@ public class RecipientsApi {
      * @param amountTo Max amount to filter recipients by amount range.  Allows filtering results by the specified &#x60;amount&#x60; range. When using this filter, the &#x60;currency&#x60; should also be specified.  Example: &#x60;/v1/recipients?currency&#x3D;NGN&amp;amount_from&#x3D;83.76672339&amp;amount_to&#x3D;83.76672339&#x60; (optional)
      * @param state Allows filtering results by &#x60;state&#x60; of recipient. See [API Documentation - Recipient state](https://github.com/bitpesa/api-documentation/blob/master/transaction-flow.md#state-1) for possible states.  Example: &#x60;/v1/recipients?state[]&#x3D;error&amp;state[]&#x3D;initial&#x60; (optional)
      * @param currency Allows filtering results by &#x60;input_currency&#x60;.  Additionally required when filtering by an amount range Example: &#x60;/v1/recipients?currency[]&#x3D;KES&amp;currency[]&#x3D;NGN&#x60; (optional)
-     * @param callback The callback to be executed when the API call finishes
+     * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call getRecipientsAsync(Integer page, Integer per, String createdAtFrom, String createdAtTo, String amountFrom, String amountTo, List<String> state, List<String> currency, final ApiCallback<RecipientListResponse> callback) throws ApiException {
+    public okhttp3.Call getRecipientsAsync(Integer page, Integer per, String createdAtFrom, String createdAtTo, String amountFrom, String amountTo, List<String> state, List<String> currency, final ApiCallback<RecipientListResponse> _callback) throws ApiException {
 
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        okhttp3.Call call = getRecipientsValidateBeforeCall(page, per, createdAtFrom, createdAtTo, amountFrom, amountTo, state, currency, progressListener, progressRequestListener);
+        okhttp3.Call localVarCall = getRecipientsValidateBeforeCall(page, per, createdAtFrom, createdAtTo, amountFrom, amountTo, state, currency, _callback);
         Type localVarReturnType = new TypeToken<RecipientListResponse>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
     }
     /**
      * Build call for patchRecipient
      * @param recipientID ID of recipient to update.  Example: &#x60;/v1/recipients/9d4d7b73-a94c-4979-ab57-09074fd55d33&#x60; (required)
      * @param recipientRequest  (required)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
+     * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public okhttp3.Call patchRecipientCall(UUID recipientID, RecipientRequest recipientRequest, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public okhttp3.Call patchRecipientCall(UUID recipientID, RecipientRequest recipientRequest, final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = recipientRequest;
 
         // create path and map variables
         String localVarPath = "/recipients/{Recipient ID}"
-            .replaceAll("\\{" + "Recipient ID" + "\\}", apiClient.escapeString(recipientID.toString()));
+            .replaceAll("\\{" + "Recipient ID" + "\\}", localVarApiClient.escapeString(recipientID.toString()));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -386,7 +321,7 @@ public class RecipientsApi {
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -394,27 +329,15 @@ public class RecipientsApi {
         final String[] localVarContentTypes = {
             "application/json"
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
-                @Override
-                public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
-                    okhttp3.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                            .build();
-                }
-            }).build());
-        }
-
         String[] localVarAuthNames = new String[] { "AuthorizationKey", "AuthorizationNonce", "AuthorizationSecret", "AuthorizationSignature" };
-        return apiClient.buildCall(localVarPath, "PATCH", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "PATCH", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call patchRecipientValidateBeforeCall(UUID recipientID, RecipientRequest recipientRequest, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private okhttp3.Call patchRecipientValidateBeforeCall(UUID recipientID, RecipientRequest recipientRequest, final ApiCallback _callback) throws ApiException {
         
         // verify the required parameter 'recipientID' is set
         if (recipientID == null) {
@@ -427,8 +350,8 @@ public class RecipientsApi {
         }
         
 
-        okhttp3.Call call = patchRecipientCall(recipientID, recipientRequest, progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = patchRecipientCall(recipientID, recipientRequest, _callback);
+        return localVarCall;
 
     }
 
@@ -441,8 +364,8 @@ public class RecipientsApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public RecipientResponse patchRecipient(UUID recipientID, RecipientRequest recipientRequest) throws ApiException {
-        ApiResponse<RecipientResponse> resp = patchRecipientWithHttpInfo(recipientID, recipientRequest);
-        return resp.getData();
+        ApiResponse<RecipientResponse> localVarResp = patchRecipientWithHttpInfo(recipientID, recipientRequest);
+        return localVarResp.getData();
     }
 
     /**
@@ -454,9 +377,9 @@ public class RecipientsApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<RecipientResponse> patchRecipientWithHttpInfo(UUID recipientID, RecipientRequest recipientRequest) throws ApiException {
-        okhttp3.Call call = patchRecipientValidateBeforeCall(recipientID, recipientRequest, null, null);
+        okhttp3.Call localVarCall = patchRecipientValidateBeforeCall(recipientID, recipientRequest, null);
         Type localVarReturnType = new TypeToken<RecipientResponse>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
@@ -464,34 +387,15 @@ public class RecipientsApi {
      * Updates the recipient specified in the URL path.  Please note that only recipients where the &#x60;editable&#x60; field is true can be modified. Once the recipient is modified any subsequent payout tries will be sent to the updated details.
      * @param recipientID ID of recipient to update.  Example: &#x60;/v1/recipients/9d4d7b73-a94c-4979-ab57-09074fd55d33&#x60; (required)
      * @param recipientRequest  (required)
-     * @param callback The callback to be executed when the API call finishes
+     * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call patchRecipientAsync(UUID recipientID, RecipientRequest recipientRequest, final ApiCallback<RecipientResponse> callback) throws ApiException {
+    public okhttp3.Call patchRecipientAsync(UUID recipientID, RecipientRequest recipientRequest, final ApiCallback<RecipientResponse> _callback) throws ApiException {
 
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        okhttp3.Call call = patchRecipientValidateBeforeCall(recipientID, recipientRequest, progressListener, progressRequestListener);
+        okhttp3.Call localVarCall = patchRecipientValidateBeforeCall(recipientID, recipientRequest, _callback);
         Type localVarReturnType = new TypeToken<RecipientResponse>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
     }
 }

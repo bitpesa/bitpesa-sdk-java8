@@ -1,7 +1,9 @@
 
+
 # CurrencyOpposite
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **code** | **String** | The currency code in 3-character alpha ISO 4217 currency format |  [optional]

@@ -51,13 +51,13 @@ public enum PayoutMethodIdentityCardTypeEnum {
     return String.valueOf(value);
   }
 
-  public static PayoutMethodIdentityCardTypeEnum fromValue(String text) {
+  public static PayoutMethodIdentityCardTypeEnum fromValue(String value) {
     for (PayoutMethodIdentityCardTypeEnum b : PayoutMethodIdentityCardTypeEnum.values()) {
-      if (String.valueOf(b.value).equals(text)) {
+      if (b.value.equals(value)) {
         return b;
       }
     }
-    throw new IllegalArgumentException("Unexpected value '" + text + "'");
+    throw new IllegalArgumentException("Unexpected value '" + value + "'");
   }
 
   public static class Adapter extends TypeAdapter<PayoutMethodIdentityCardTypeEnum> {
@@ -69,7 +69,7 @@ public enum PayoutMethodIdentityCardTypeEnum {
     @Override
     public PayoutMethodIdentityCardTypeEnum read(final JsonReader jsonReader) throws IOException {
       String value = jsonReader.nextString();
-      return PayoutMethodIdentityCardTypeEnum.fromValue(String.valueOf(value));
+      return PayoutMethodIdentityCardTypeEnum.fromValue(value);
     }
   }
 }

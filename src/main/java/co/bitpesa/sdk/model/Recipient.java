@@ -205,7 +205,7 @@ public class Recipient {
    * Shows whether the recipient can be edited using the PATCH /v1/recipients/{id} endpoint or not
    * @return editable
   **/
-  @ApiModelProperty(value = "Shows whether the recipient can be edited using the PATCH /v1/recipients/{id} endpoint or not")
+  @ApiModelProperty(example = "true", value = "Shows whether the recipient can be edited using the PATCH /v1/recipients/{id} endpoint or not")
   public Boolean getEditable() {
     return editable;
   }
@@ -223,7 +223,7 @@ public class Recipient {
    * Shows whether the payment can be cancelled using the DELETE /v1/recipients/{id} endpoint or not. The payment can not be cancelled if the payout is pending.
    * @return mayCancel
   **/
-  @ApiModelProperty(value = "Shows whether the payment can be cancelled using the DELETE /v1/recipients/{id} endpoint or not. The payment can not be cancelled if the payout is pending.")
+  @ApiModelProperty(example = "true", value = "Shows whether the payment can be cancelled using the DELETE /v1/recipients/{id} endpoint or not. The payment can not be cancelled if the payout is pending.")
   public Boolean getMayCancel() {
     return mayCancel;
   }

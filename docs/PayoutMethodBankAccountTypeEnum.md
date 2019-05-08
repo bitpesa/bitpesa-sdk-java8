@@ -1,4 +1,5 @@
 
+
 # PayoutMethodBankAccountTypeEnum
 
 ## Enum

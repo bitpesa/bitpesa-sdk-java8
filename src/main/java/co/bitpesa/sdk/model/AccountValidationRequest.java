@@ -61,13 +61,13 @@ public class AccountValidationRequest {
       return String.valueOf(value);
     }
 
-    public static CountryEnum fromValue(String text) {
+    public static CountryEnum fromValue(String value) {
       for (CountryEnum b : CountryEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
+        if (b.value.equals(value)) {
           return b;
         }
       }
-      throw new IllegalArgumentException("Unexpected value '" + text + "'");
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
 
     public static class Adapter extends TypeAdapter<CountryEnum> {
@@ -79,7 +79,7 @@ public class AccountValidationRequest {
       @Override
       public CountryEnum read(final JsonReader jsonReader) throws IOException {
         String value = jsonReader.nextString();
-        return CountryEnum.fromValue(String.valueOf(value));
+        return CountryEnum.fromValue(value);
       }
     }
   }
@@ -112,13 +112,13 @@ public class AccountValidationRequest {
       return String.valueOf(value);
     }
 
-    public static CurrencyEnum fromValue(String text) {
+    public static CurrencyEnum fromValue(String value) {
       for (CurrencyEnum b : CurrencyEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
+        if (b.value.equals(value)) {
           return b;
         }
       }
-      throw new IllegalArgumentException("Unexpected value '" + text + "'");
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
 
     public static class Adapter extends TypeAdapter<CurrencyEnum> {
@@ -130,7 +130,7 @@ public class AccountValidationRequest {
       @Override
       public CurrencyEnum read(final JsonReader jsonReader) throws IOException {
         String value = jsonReader.nextString();
-        return CurrencyEnum.fromValue(String.valueOf(value));
+        return CurrencyEnum.fromValue(value);
       }
     }
   }
@@ -161,13 +161,13 @@ public class AccountValidationRequest {
       return String.valueOf(value);
     }
 
-    public static MethodEnum fromValue(String text) {
+    public static MethodEnum fromValue(String value) {
       for (MethodEnum b : MethodEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
+        if (b.value.equals(value)) {
           return b;
         }
       }
-      throw new IllegalArgumentException("Unexpected value '" + text + "'");
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
 
     public static class Adapter extends TypeAdapter<MethodEnum> {
@@ -179,7 +179,7 @@ public class AccountValidationRequest {
       @Override
       public MethodEnum read(final JsonReader jsonReader) throws IOException {
         String value = jsonReader.nextString();
-        return MethodEnum.fromValue(String.valueOf(value));
+        return MethodEnum.fromValue(value);
       }
     }
   }

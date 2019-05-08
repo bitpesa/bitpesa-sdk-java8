@@ -49,13 +49,13 @@ public enum PayoutMethodBankAccountTypeEnum {
     return String.valueOf(value);
   }
 
-  public static PayoutMethodBankAccountTypeEnum fromValue(String text) {
+  public static PayoutMethodBankAccountTypeEnum fromValue(String value) {
     for (PayoutMethodBankAccountTypeEnum b : PayoutMethodBankAccountTypeEnum.values()) {
-      if (String.valueOf(b.value).equals(text)) {
+      if (b.value.equals(value)) {
         return b;
       }
     }
-    throw new IllegalArgumentException("Unexpected value '" + text + "'");
+    throw new IllegalArgumentException("Unexpected value '" + value + "'");
   }
 
   public static class Adapter extends TypeAdapter<PayoutMethodBankAccountTypeEnum> {
@@ -67,7 +67,7 @@ public enum PayoutMethodBankAccountTypeEnum {
     @Override
     public PayoutMethodBankAccountTypeEnum read(final JsonReader jsonReader) throws IOException {
       String value = jsonReader.nextString();
-      return PayoutMethodBankAccountTypeEnum.fromValue(String.valueOf(value));
+      return PayoutMethodBankAccountTypeEnum.fromValue(value);
     }
   }
 }

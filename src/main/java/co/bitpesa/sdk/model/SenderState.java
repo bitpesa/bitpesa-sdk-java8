@@ -57,13 +57,13 @@ public enum SenderState {
     return String.valueOf(value);
   }
 
-  public static SenderState fromValue(String text) {
+  public static SenderState fromValue(String value) {
     for (SenderState b : SenderState.values()) {
-      if (String.valueOf(b.value).equals(text)) {
+      if (b.value.equals(value)) {
         return b;
       }
     }
-    throw new IllegalArgumentException("Unexpected value '" + text + "'");
+    throw new IllegalArgumentException("Unexpected value '" + value + "'");
   }
 
   public static class Adapter extends TypeAdapter<SenderState> {
@@ -75,7 +75,7 @@ public enum SenderState {
     @Override
     public SenderState read(final JsonReader jsonReader) throws IOException {
       String value = jsonReader.nextString();
-      return SenderState.fromValue(String.valueOf(value));
+      return SenderState.fromValue(value);
     }
   }
 }

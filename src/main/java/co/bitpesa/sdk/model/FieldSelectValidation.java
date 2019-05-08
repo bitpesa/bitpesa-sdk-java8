@@ -50,7 +50,7 @@ public class FieldSelectValidation {
    * Describes whether the field is optional or not
    * @return allowBlank
   **/
-  @ApiModelProperty(value = "Describes whether the field is optional or not")
+  @ApiModelProperty(example = "false", value = "Describes whether the field is optional or not")
   public Boolean getAllowBlank() {
     return allowBlank;
   }

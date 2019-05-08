@@ -49,13 +49,13 @@ public enum PayoutMethodMobileProviderEnum {
     return String.valueOf(value);
   }
 
-  public static PayoutMethodMobileProviderEnum fromValue(String text) {
+  public static PayoutMethodMobileProviderEnum fromValue(String value) {
     for (PayoutMethodMobileProviderEnum b : PayoutMethodMobileProviderEnum.values()) {
-      if (String.valueOf(b.value).equals(text)) {
+      if (b.value.equals(value)) {
         return b;
       }
     }
-    throw new IllegalArgumentException("Unexpected value '" + text + "'");
+    throw new IllegalArgumentException("Unexpected value '" + value + "'");
   }
 
   public static class Adapter extends TypeAdapter<PayoutMethodMobileProviderEnum> {
@@ -67,7 +67,7 @@ public enum PayoutMethodMobileProviderEnum {
     @Override
     public PayoutMethodMobileProviderEnum read(final JsonReader jsonReader) throws IOException {
       String value = jsonReader.nextString();
-      return PayoutMethodMobileProviderEnum.fromValue(String.valueOf(value));
+      return PayoutMethodMobileProviderEnum.fromValue(value);
     }
   }
 }

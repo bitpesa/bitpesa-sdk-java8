@@ -41,33 +41,32 @@ import java.util.List;
 import java.util.Map;
 
 public class TransactionsApi {
-    private ApiClient apiClient;
+    private ApiClient localVarApiClient;
 
     public TransactionsApi() {
         this(Configuration.getDefaultApiClient());
     }
 
     public TransactionsApi(ApiClient apiClient) {
-        this.apiClient = apiClient;
+        this.localVarApiClient = apiClient;
     }
 
     public ApiClient getApiClient() {
-        return apiClient;
+        return localVarApiClient;
     }
 
     public void setApiClient(ApiClient apiClient) {
-        this.apiClient = apiClient;
+        this.localVarApiClient = apiClient;
     }
 
     /**
      * Build call for calculateTransactions
      * @param transactionRequest  (required)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
+     * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public okhttp3.Call calculateTransactionsCall(TransactionRequest transactionRequest, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public okhttp3.Call calculateTransactionsCall(TransactionRequest transactionRequest, final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = transactionRequest;
 
         // create path and map variables
@@ -80,7 +79,7 @@ public class TransactionsApi {
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -88,27 +87,15 @@ public class TransactionsApi {
         final String[] localVarContentTypes = {
             "application/json"
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
-                @Override
-                public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
-                    okhttp3.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                            .build();
-                }
-            }).build());
-        }
-
         String[] localVarAuthNames = new String[] { "AuthorizationKey", "AuthorizationNonce", "AuthorizationSecret", "AuthorizationSignature" };
-        return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call calculateTransactionsValidateBeforeCall(TransactionRequest transactionRequest, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private okhttp3.Call calculateTransactionsValidateBeforeCall(TransactionRequest transactionRequest, final ApiCallback _callback) throws ApiException {
         
         // verify the required parameter 'transactionRequest' is set
         if (transactionRequest == null) {
@@ -116,8 +103,8 @@ public class TransactionsApi {
         }
         
 
-        okhttp3.Call call = calculateTransactionsCall(transactionRequest, progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = calculateTransactionsCall(transactionRequest, _callback);
+        return localVarCall;
 
     }
 
@@ -129,8 +116,8 @@ public class TransactionsApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public TransactionResponse calculateTransactions(TransactionRequest transactionRequest) throws ApiException {
-        ApiResponse<TransactionResponse> resp = calculateTransactionsWithHttpInfo(transactionRequest);
-        return resp.getData();
+        ApiResponse<TransactionResponse> localVarResp = calculateTransactionsWithHttpInfo(transactionRequest);
+        return localVarResp.getData();
     }
 
     /**
@@ -141,59 +128,39 @@ public class TransactionsApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<TransactionResponse> calculateTransactionsWithHttpInfo(TransactionRequest transactionRequest) throws ApiException {
-        okhttp3.Call call = calculateTransactionsValidateBeforeCall(transactionRequest, null, null);
+        okhttp3.Call localVarCall = calculateTransactionsValidateBeforeCall(transactionRequest, null);
         Type localVarReturnType = new TypeToken<TransactionResponse>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
      * Calculates transaction amounts for a transaction payload (asynchronously)
      * Calculates the input, output and fee amounts for the recipients in a transaction payload
      * @param transactionRequest  (required)
-     * @param callback The callback to be executed when the API call finishes
+     * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call calculateTransactionsAsync(TransactionRequest transactionRequest, final ApiCallback<TransactionResponse> callback) throws ApiException {
+    public okhttp3.Call calculateTransactionsAsync(TransactionRequest transactionRequest, final ApiCallback<TransactionResponse> _callback) throws ApiException {
 
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        okhttp3.Call call = calculateTransactionsValidateBeforeCall(transactionRequest, progressListener, progressRequestListener);
+        okhttp3.Call localVarCall = calculateTransactionsValidateBeforeCall(transactionRequest, _callback);
         Type localVarReturnType = new TypeToken<TransactionResponse>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
     }
     /**
      * Build call for getTransaction
      * @param transactionID ID of the transaction.  Example: &#x60;/v1/transactions/bf9ff782-e182-45ac-abea-5bce83ad6670&#x60; (required)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
+     * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public okhttp3.Call getTransactionCall(UUID transactionID, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public okhttp3.Call getTransactionCall(UUID transactionID, final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = new Object();
 
         // create path and map variables
         String localVarPath = "/transactions/{Transaction ID}"
-            .replaceAll("\\{" + "Transaction ID" + "\\}", apiClient.escapeString(transactionID.toString()));
+            .replaceAll("\\{" + "Transaction ID" + "\\}", localVarApiClient.escapeString(transactionID.toString()));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -202,7 +169,7 @@ public class TransactionsApi {
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -210,27 +177,15 @@ public class TransactionsApi {
         final String[] localVarContentTypes = {
             
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
-                @Override
-                public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
-                    okhttp3.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                            .build();
-                }
-            }).build());
-        }
-
         String[] localVarAuthNames = new String[] { "AuthorizationKey", "AuthorizationNonce", "AuthorizationSecret", "AuthorizationSignature" };
-        return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call getTransactionValidateBeforeCall(UUID transactionID, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private okhttp3.Call getTransactionValidateBeforeCall(UUID transactionID, final ApiCallback _callback) throws ApiException {
         
         // verify the required parameter 'transactionID' is set
         if (transactionID == null) {
@@ -238,8 +193,8 @@ public class TransactionsApi {
         }
         
 
-        okhttp3.Call call = getTransactionCall(transactionID, progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = getTransactionCall(transactionID, _callback);
+        return localVarCall;
 
     }
 
@@ -251,8 +206,8 @@ public class TransactionsApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public TransactionResponse getTransaction(UUID transactionID) throws ApiException {
-        ApiResponse<TransactionResponse> resp = getTransactionWithHttpInfo(transactionID);
-        return resp.getData();
+        ApiResponse<TransactionResponse> localVarResp = getTransactionWithHttpInfo(transactionID);
+        return localVarResp.getData();
     }
 
     /**
@@ -263,56 +218,36 @@ public class TransactionsApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<TransactionResponse> getTransactionWithHttpInfo(UUID transactionID) throws ApiException {
-        okhttp3.Call call = getTransactionValidateBeforeCall(transactionID, null, null);
+        okhttp3.Call localVarCall = getTransactionValidateBeforeCall(transactionID, null);
         Type localVarReturnType = new TypeToken<TransactionResponse>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
      * Fetch a single transaction (asynchronously)
      * Finds and returns a Transaction created by the requesting API key, using the provided Transaction ID.
      * @param transactionID ID of the transaction.  Example: &#x60;/v1/transactions/bf9ff782-e182-45ac-abea-5bce83ad6670&#x60; (required)
-     * @param callback The callback to be executed when the API call finishes
+     * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call getTransactionAsync(UUID transactionID, final ApiCallback<TransactionResponse> callback) throws ApiException {
+    public okhttp3.Call getTransactionAsync(UUID transactionID, final ApiCallback<TransactionResponse> _callback) throws ApiException {
 
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        okhttp3.Call call = getTransactionValidateBeforeCall(transactionID, progressListener, progressRequestListener);
+        okhttp3.Call localVarCall = getTransactionValidateBeforeCall(transactionID, _callback);
         Type localVarReturnType = new TypeToken<TransactionResponse>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
     }
     /**
      * Build call for getTransactions
      * @param page The page number to request (defaults to 1) (optional)
      * @param per The number of results to load per page (defaults to 10) (optional)
      * @param externalId Allows filtering results by &#x60;external_id&#x60;.  Example: &#x60;/v1/senders?external_id&#x3D;26ec8517-2f0d-48c0-b74f-0bccb9ab3a87&#x60; (optional)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
+     * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public okhttp3.Call getTransactionsCall(Integer page, Integer per, String externalId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public okhttp3.Call getTransactionsCall(Integer page, Integer per, String externalId, final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = new Object();
 
         // create path and map variables
@@ -321,15 +256,15 @@ public class TransactionsApi {
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
         if (page != null) {
-            localVarQueryParams.addAll(apiClient.parameterToPair("page", page));
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("page", page));
         }
 
         if (per != null) {
-            localVarQueryParams.addAll(apiClient.parameterToPair("per", per));
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("per", per));
         }
 
         if (externalId != null) {
-            localVarQueryParams.addAll(apiClient.parameterToPair("external_id", externalId));
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("external_id", externalId));
         }
 
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
@@ -337,7 +272,7 @@ public class TransactionsApi {
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -345,31 +280,19 @@ public class TransactionsApi {
         final String[] localVarContentTypes = {
             
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
-                @Override
-                public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
-                    okhttp3.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                            .build();
-                }
-            }).build());
-        }
-
         String[] localVarAuthNames = new String[] { "AuthorizationKey", "AuthorizationNonce", "AuthorizationSecret", "AuthorizationSignature" };
-        return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call getTransactionsValidateBeforeCall(Integer page, Integer per, String externalId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private okhttp3.Call getTransactionsValidateBeforeCall(Integer page, Integer per, String externalId, final ApiCallback _callback) throws ApiException {
         
 
-        okhttp3.Call call = getTransactionsCall(page, per, externalId, progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = getTransactionsCall(page, per, externalId, _callback);
+        return localVarCall;
 
     }
 
@@ -383,8 +306,8 @@ public class TransactionsApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public TransactionListResponse getTransactions(Integer page, Integer per, String externalId) throws ApiException {
-        ApiResponse<TransactionListResponse> resp = getTransactionsWithHttpInfo(page, per, externalId);
-        return resp.getData();
+        ApiResponse<TransactionListResponse> localVarResp = getTransactionsWithHttpInfo(page, per, externalId);
+        return localVarResp.getData();
     }
 
     /**
@@ -397,9 +320,9 @@ public class TransactionsApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<TransactionListResponse> getTransactionsWithHttpInfo(Integer page, Integer per, String externalId) throws ApiException {
-        okhttp3.Call call = getTransactionsValidateBeforeCall(page, per, externalId, null, null);
+        okhttp3.Call localVarCall = getTransactionsValidateBeforeCall(page, per, externalId, null);
         Type localVarReturnType = new TypeToken<TransactionListResponse>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
@@ -408,51 +331,31 @@ public class TransactionsApi {
      * @param page The page number to request (defaults to 1) (optional)
      * @param per The number of results to load per page (defaults to 10) (optional)
      * @param externalId Allows filtering results by &#x60;external_id&#x60;.  Example: &#x60;/v1/senders?external_id&#x3D;26ec8517-2f0d-48c0-b74f-0bccb9ab3a87&#x60; (optional)
-     * @param callback The callback to be executed when the API call finishes
+     * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call getTransactionsAsync(Integer page, Integer per, String externalId, final ApiCallback<TransactionListResponse> callback) throws ApiException {
+    public okhttp3.Call getTransactionsAsync(Integer page, Integer per, String externalId, final ApiCallback<TransactionListResponse> _callback) throws ApiException {
 
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        okhttp3.Call call = getTransactionsValidateBeforeCall(page, per, externalId, progressListener, progressRequestListener);
+        okhttp3.Call localVarCall = getTransactionsValidateBeforeCall(page, per, externalId, _callback);
         Type localVarReturnType = new TypeToken<TransactionListResponse>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
     }
     /**
      * Build call for payinTransaction
      * @param transactionID ID of the transaction to payin.  Example: &#x60;/v1/transactions/bf9ff782-e182-45ac-abea-5bce83ad6670/payin&#x60; (required)
      * @param payinMethodRequest  (required)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
+     * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public okhttp3.Call payinTransactionCall(UUID transactionID, PayinMethodRequest payinMethodRequest, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public okhttp3.Call payinTransactionCall(UUID transactionID, PayinMethodRequest payinMethodRequest, final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = payinMethodRequest;
 
         // create path and map variables
         String localVarPath = "/transactions/{Transaction ID}/payin"
-            .replaceAll("\\{" + "Transaction ID" + "\\}", apiClient.escapeString(transactionID.toString()));
+            .replaceAll("\\{" + "Transaction ID" + "\\}", localVarApiClient.escapeString(transactionID.toString()));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -461,7 +364,7 @@ public class TransactionsApi {
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -469,27 +372,15 @@ public class TransactionsApi {
         final String[] localVarContentTypes = {
             "application/json"
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
-                @Override
-                public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
-                    okhttp3.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                            .build();
-                }
-            }).build());
-        }
-
         String[] localVarAuthNames = new String[] { "AuthorizationKey", "AuthorizationNonce", "AuthorizationSecret", "AuthorizationSignature" };
-        return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call payinTransactionValidateBeforeCall(UUID transactionID, PayinMethodRequest payinMethodRequest, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private okhttp3.Call payinTransactionValidateBeforeCall(UUID transactionID, PayinMethodRequest payinMethodRequest, final ApiCallback _callback) throws ApiException {
         
         // verify the required parameter 'transactionID' is set
         if (transactionID == null) {
@@ -502,8 +393,8 @@ public class TransactionsApi {
         }
         
 
-        okhttp3.Call call = payinTransactionCall(transactionID, payinMethodRequest, progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = payinTransactionCall(transactionID, payinMethodRequest, _callback);
+        return localVarCall;
 
     }
 
@@ -516,8 +407,8 @@ public class TransactionsApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public TransactionResponse payinTransaction(UUID transactionID, PayinMethodRequest payinMethodRequest) throws ApiException {
-        ApiResponse<TransactionResponse> resp = payinTransactionWithHttpInfo(transactionID, payinMethodRequest);
-        return resp.getData();
+        ApiResponse<TransactionResponse> localVarResp = payinTransactionWithHttpInfo(transactionID, payinMethodRequest);
+        return localVarResp.getData();
     }
 
     /**
@@ -529,9 +420,9 @@ public class TransactionsApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<TransactionResponse> payinTransactionWithHttpInfo(UUID transactionID, PayinMethodRequest payinMethodRequest) throws ApiException {
-        okhttp3.Call call = payinTransactionValidateBeforeCall(transactionID, payinMethodRequest, null, null);
+        okhttp3.Call localVarCall = payinTransactionValidateBeforeCall(transactionID, payinMethodRequest, null);
         Type localVarReturnType = new TypeToken<TransactionResponse>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
@@ -539,50 +430,30 @@ public class TransactionsApi {
      * This method is available only in sandbox environment and is supposed to be used only for testing integration. It allows you to emulate a payin without paying actual money. 
      * @param transactionID ID of the transaction to payin.  Example: &#x60;/v1/transactions/bf9ff782-e182-45ac-abea-5bce83ad6670/payin&#x60; (required)
      * @param payinMethodRequest  (required)
-     * @param callback The callback to be executed when the API call finishes
+     * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call payinTransactionAsync(UUID transactionID, PayinMethodRequest payinMethodRequest, final ApiCallback<TransactionResponse> callback) throws ApiException {
+    public okhttp3.Call payinTransactionAsync(UUID transactionID, PayinMethodRequest payinMethodRequest, final ApiCallback<TransactionResponse> _callback) throws ApiException {
 
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        okhttp3.Call call = payinTransactionValidateBeforeCall(transactionID, payinMethodRequest, progressListener, progressRequestListener);
+        okhttp3.Call localVarCall = payinTransactionValidateBeforeCall(transactionID, payinMethodRequest, _callback);
         Type localVarReturnType = new TypeToken<TransactionResponse>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
     }
     /**
      * Build call for payoutTransaction
      * @param transactionID ID of the transaction to payout.  Example: &#x60;/v1/transactions/bf9ff782-e182-45ac-abea-5bce83ad6670/payout&#x60; (required)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
+     * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public okhttp3.Call payoutTransactionCall(UUID transactionID, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public okhttp3.Call payoutTransactionCall(UUID transactionID, final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = new Object();
 
         // create path and map variables
         String localVarPath = "/transactions/{Transaction ID}/payout"
-            .replaceAll("\\{" + "Transaction ID" + "\\}", apiClient.escapeString(transactionID.toString()));
+            .replaceAll("\\{" + "Transaction ID" + "\\}", localVarApiClient.escapeString(transactionID.toString()));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -591,7 +462,7 @@ public class TransactionsApi {
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -599,27 +470,15 @@ public class TransactionsApi {
         final String[] localVarContentTypes = {
             
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
-                @Override
-                public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
-                    okhttp3.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                            .build();
-                }
-            }).build());
-        }
-
         String[] localVarAuthNames = new String[] { "AuthorizationKey", "AuthorizationNonce", "AuthorizationSecret", "AuthorizationSignature" };
-        return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call payoutTransactionValidateBeforeCall(UUID transactionID, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private okhttp3.Call payoutTransactionValidateBeforeCall(UUID transactionID, final ApiCallback _callback) throws ApiException {
         
         // verify the required parameter 'transactionID' is set
         if (transactionID == null) {
@@ -627,8 +486,8 @@ public class TransactionsApi {
         }
         
 
-        okhttp3.Call call = payoutTransactionCall(transactionID, progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = payoutTransactionCall(transactionID, _callback);
+        return localVarCall;
 
     }
 
@@ -640,8 +499,8 @@ public class TransactionsApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public TransactionResponse payoutTransaction(UUID transactionID) throws ApiException {
-        ApiResponse<TransactionResponse> resp = payoutTransactionWithHttpInfo(transactionID);
-        return resp.getData();
+        ApiResponse<TransactionResponse> localVarResp = payoutTransactionWithHttpInfo(transactionID);
+        return localVarResp.getData();
     }
 
     /**
@@ -652,56 +511,36 @@ public class TransactionsApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<TransactionResponse> payoutTransactionWithHttpInfo(UUID transactionID) throws ApiException {
-        okhttp3.Call call = payoutTransactionValidateBeforeCall(transactionID, null, null);
+        okhttp3.Call localVarCall = payoutTransactionValidateBeforeCall(transactionID, null);
         Type localVarReturnType = new TypeToken<TransactionResponse>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
      * Creates a fake payout for transaction (asynchronously)
      * This method is available only in sandbox environment and is supposed to be used only for testing. It allows you to emulate the payout of a transaction after payin. 
      * @param transactionID ID of the transaction to payout.  Example: &#x60;/v1/transactions/bf9ff782-e182-45ac-abea-5bce83ad6670/payout&#x60; (required)
-     * @param callback The callback to be executed when the API call finishes
+     * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call payoutTransactionAsync(UUID transactionID, final ApiCallback<TransactionResponse> callback) throws ApiException {
+    public okhttp3.Call payoutTransactionAsync(UUID transactionID, final ApiCallback<TransactionResponse> _callback) throws ApiException {
 
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        okhttp3.Call call = payoutTransactionValidateBeforeCall(transactionID, progressListener, progressRequestListener);
+        okhttp3.Call localVarCall = payoutTransactionValidateBeforeCall(transactionID, _callback);
         Type localVarReturnType = new TypeToken<TransactionResponse>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
     }
     /**
      * Build call for postTransactions
      * @param transactionRequest  (required)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
+     * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      * API Documentation - Create Transaction
      * @see <a href="https://github.com/bitpesa/api-documentation/blob/master/transaction-flow.md">Creates a new transaction Documentation</a>
      */
-    public okhttp3.Call postTransactionsCall(TransactionRequest transactionRequest, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public okhttp3.Call postTransactionsCall(TransactionRequest transactionRequest, final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = transactionRequest;
 
         // create path and map variables
@@ -714,7 +553,7 @@ public class TransactionsApi {
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -722,27 +561,15 @@ public class TransactionsApi {
         final String[] localVarContentTypes = {
             "application/json"
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
-                @Override
-                public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
-                    okhttp3.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                            .build();
-                }
-            }).build());
-        }
-
         String[] localVarAuthNames = new String[] { "AuthorizationKey", "AuthorizationNonce", "AuthorizationSecret", "AuthorizationSignature" };
-        return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call postTransactionsValidateBeforeCall(TransactionRequest transactionRequest, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private okhttp3.Call postTransactionsValidateBeforeCall(TransactionRequest transactionRequest, final ApiCallback _callback) throws ApiException {
         
         // verify the required parameter 'transactionRequest' is set
         if (transactionRequest == null) {
@@ -750,8 +577,8 @@ public class TransactionsApi {
         }
         
 
-        okhttp3.Call call = postTransactionsCall(transactionRequest, progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = postTransactionsCall(transactionRequest, _callback);
+        return localVarCall;
 
     }
 
@@ -765,8 +592,8 @@ public class TransactionsApi {
      * @see <a href="https://github.com/bitpesa/api-documentation/blob/master/transaction-flow.md">Creates a new transaction Documentation</a>
      */
     public TransactionResponse postTransactions(TransactionRequest transactionRequest) throws ApiException {
-        ApiResponse<TransactionResponse> resp = postTransactionsWithHttpInfo(transactionRequest);
-        return resp.getData();
+        ApiResponse<TransactionResponse> localVarResp = postTransactionsWithHttpInfo(transactionRequest);
+        return localVarResp.getData();
     }
 
     /**
@@ -779,56 +606,36 @@ public class TransactionsApi {
      * @see <a href="https://github.com/bitpesa/api-documentation/blob/master/transaction-flow.md">Creates a new transaction Documentation</a>
      */
     public ApiResponse<TransactionResponse> postTransactionsWithHttpInfo(TransactionRequest transactionRequest) throws ApiException {
-        okhttp3.Call call = postTransactionsValidateBeforeCall(transactionRequest, null, null);
+        okhttp3.Call localVarCall = postTransactionsValidateBeforeCall(transactionRequest, null);
         Type localVarReturnType = new TypeToken<TransactionResponse>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
      * Creates a new transaction (asynchronously)
      * Transactions are the main objects in the BitPesa API, so it&#39;s important to understand how to create and manage them. Transactions facilitate money movement from one Sender in a specific currency to one or multiple Recipients in another currency.  The main flow of a successful transaction flow is the following - - Transaction is created linking the Sender to the Recipient(s) with the requested amounts. - Once the sender is KYC&#39;d and approved the transaction can be funded. - Once the transaction is funded, we will initiate the payout to the recipient(s). - After the recipient (or all recipients) has received the money, the transaction is finished.
      * @param transactionRequest  (required)
-     * @param callback The callback to be executed when the API call finishes
+     * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      * API Documentation - Create Transaction
      * @see <a href="https://github.com/bitpesa/api-documentation/blob/master/transaction-flow.md">Creates a new transaction Documentation</a>
      */
-    public okhttp3.Call postTransactionsAsync(TransactionRequest transactionRequest, final ApiCallback<TransactionResponse> callback) throws ApiException {
+    public okhttp3.Call postTransactionsAsync(TransactionRequest transactionRequest, final ApiCallback<TransactionResponse> _callback) throws ApiException {
 
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        okhttp3.Call call = postTransactionsValidateBeforeCall(transactionRequest, progressListener, progressRequestListener);
+        okhttp3.Call localVarCall = postTransactionsValidateBeforeCall(transactionRequest, _callback);
         Type localVarReturnType = new TypeToken<TransactionResponse>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
     }
     /**
      * Build call for validateTransactions
      * @param transactionRequest  (required)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
+     * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public okhttp3.Call validateTransactionsCall(TransactionRequest transactionRequest, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public okhttp3.Call validateTransactionsCall(TransactionRequest transactionRequest, final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = transactionRequest;
 
         // create path and map variables
@@ -841,7 +648,7 @@ public class TransactionsApi {
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -849,27 +656,15 @@ public class TransactionsApi {
         final String[] localVarContentTypes = {
             "application/json"
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
-                @Override
-                public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
-                    okhttp3.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                            .build();
-                }
-            }).build());
-        }
-
         String[] localVarAuthNames = new String[] { "AuthorizationKey", "AuthorizationNonce", "AuthorizationSecret", "AuthorizationSignature" };
-        return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call validateTransactionsValidateBeforeCall(TransactionRequest transactionRequest, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private okhttp3.Call validateTransactionsValidateBeforeCall(TransactionRequest transactionRequest, final ApiCallback _callback) throws ApiException {
         
         // verify the required parameter 'transactionRequest' is set
         if (transactionRequest == null) {
@@ -877,8 +672,8 @@ public class TransactionsApi {
         }
         
 
-        okhttp3.Call call = validateTransactionsCall(transactionRequest, progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = validateTransactionsCall(transactionRequest, _callback);
+        return localVarCall;
 
     }
 
@@ -890,8 +685,8 @@ public class TransactionsApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public TransactionResponse validateTransactions(TransactionRequest transactionRequest) throws ApiException {
-        ApiResponse<TransactionResponse> resp = validateTransactionsWithHttpInfo(transactionRequest);
-        return resp.getData();
+        ApiResponse<TransactionResponse> localVarResp = validateTransactionsWithHttpInfo(transactionRequest);
+        return localVarResp.getData();
     }
 
     /**
@@ -902,43 +697,24 @@ public class TransactionsApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<TransactionResponse> validateTransactionsWithHttpInfo(TransactionRequest transactionRequest) throws ApiException {
-        okhttp3.Call call = validateTransactionsValidateBeforeCall(transactionRequest, null, null);
+        okhttp3.Call localVarCall = validateTransactionsValidateBeforeCall(transactionRequest, null);
         Type localVarReturnType = new TypeToken<TransactionResponse>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
      * Validates a transaction payload (asynchronously)
      * Validates fields in a transaction payload and displays invalid or missing fields
      * @param transactionRequest  (required)
-     * @param callback The callback to be executed when the API call finishes
+     * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call validateTransactionsAsync(TransactionRequest transactionRequest, final ApiCallback<TransactionResponse> callback) throws ApiException {
+    public okhttp3.Call validateTransactionsAsync(TransactionRequest transactionRequest, final ApiCallback<TransactionResponse> _callback) throws ApiException {
 
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        okhttp3.Call call = validateTransactionsValidateBeforeCall(transactionRequest, progressListener, progressRequestListener);
+        okhttp3.Call localVarCall = validateTransactionsValidateBeforeCall(transactionRequest, _callback);
         Type localVarReturnType = new TypeToken<TransactionResponse>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
     }
 }

@@ -1,7 +1,9 @@
 
+
 # AccountValidationRequest
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **bankAccount** | **String** | Account Number to query | 
@@ -11,24 +13,27 @@ Name | Type | Description | Notes
 **method** | [**MethodEnum**](#MethodEnum) | The method of the payment. Currently only bank is supported | 
 
 
-<a name="CountryEnum"></a>
+
 ## Enum: CountryEnum
+
 Name | Value
 ---- | -----
 NG | &quot;NG&quot;
 GH | &quot;GH&quot;
 
 
-<a name="CurrencyEnum"></a>
+
 ## Enum: CurrencyEnum
+
 Name | Value
 ---- | -----
 NGN | &quot;NGN&quot;
 GHS | &quot;GHS&quot;
 
 
-<a name="MethodEnum"></a>
+
 ## Enum: MethodEnum
+
 Name | Value
 ---- | -----
 BANK | &quot;bank&quot;

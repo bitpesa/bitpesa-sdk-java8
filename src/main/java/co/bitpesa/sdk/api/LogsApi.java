@@ -38,38 +38,37 @@ import java.util.List;
 import java.util.Map;
 
 public class LogsApi {
-    private ApiClient apiClient;
+    private ApiClient localVarApiClient;
 
     public LogsApi() {
         this(Configuration.getDefaultApiClient());
     }
 
     public LogsApi(ApiClient apiClient) {
-        this.apiClient = apiClient;
+        this.localVarApiClient = apiClient;
     }
 
     public ApiClient getApiClient() {
-        return apiClient;
+        return localVarApiClient;
     }
 
     public void setApiClient(ApiClient apiClient) {
-        this.apiClient = apiClient;
+        this.localVarApiClient = apiClient;
     }
 
     /**
      * Build call for getWebhookLog
      * @param webhookLogID ID of the webhook log to retrieve  Example: &#x60;/v1/logs/9d1ad631-f34a-4cff-9a7e-2c83e3a556df&#x60; (required)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
+     * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public okhttp3.Call getWebhookLogCall(UUID webhookLogID, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public okhttp3.Call getWebhookLogCall(UUID webhookLogID, final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = new Object();
 
         // create path and map variables
         String localVarPath = "/logs/{Webhook Log ID}"
-            .replaceAll("\\{" + "Webhook Log ID" + "\\}", apiClient.escapeString(webhookLogID.toString()));
+            .replaceAll("\\{" + "Webhook Log ID" + "\\}", localVarApiClient.escapeString(webhookLogID.toString()));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -78,7 +77,7 @@ public class LogsApi {
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -86,27 +85,15 @@ public class LogsApi {
         final String[] localVarContentTypes = {
             
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
-                @Override
-                public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
-                    okhttp3.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                            .build();
-                }
-            }).build());
-        }
-
         String[] localVarAuthNames = new String[] { "AuthorizationKey", "AuthorizationNonce", "AuthorizationSecret", "AuthorizationSignature" };
-        return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call getWebhookLogValidateBeforeCall(UUID webhookLogID, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private okhttp3.Call getWebhookLogValidateBeforeCall(UUID webhookLogID, final ApiCallback _callback) throws ApiException {
         
         // verify the required parameter 'webhookLogID' is set
         if (webhookLogID == null) {
@@ -114,8 +101,8 @@ public class LogsApi {
         }
         
 
-        okhttp3.Call call = getWebhookLogCall(webhookLogID, progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = getWebhookLogCall(webhookLogID, _callback);
+        return localVarCall;
 
     }
 
@@ -127,8 +114,8 @@ public class LogsApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public WebhookLogResponse getWebhookLog(UUID webhookLogID) throws ApiException {
-        ApiResponse<WebhookLogResponse> resp = getWebhookLogWithHttpInfo(webhookLogID);
-        return resp.getData();
+        ApiResponse<WebhookLogResponse> localVarResp = getWebhookLogWithHttpInfo(webhookLogID);
+        return localVarResp.getData();
     }
 
     /**
@@ -139,44 +126,25 @@ public class LogsApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<WebhookLogResponse> getWebhookLogWithHttpInfo(UUID webhookLogID) throws ApiException {
-        okhttp3.Call call = getWebhookLogValidateBeforeCall(webhookLogID, null, null);
+        okhttp3.Call localVarCall = getWebhookLogValidateBeforeCall(webhookLogID, null);
         Type localVarReturnType = new TypeToken<WebhookLogResponse>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
      * Fetch an individual webhook log (asynchronously)
      * Returns a single webhook log based on the webhook log ID.
      * @param webhookLogID ID of the webhook log to retrieve  Example: &#x60;/v1/logs/9d1ad631-f34a-4cff-9a7e-2c83e3a556df&#x60; (required)
-     * @param callback The callback to be executed when the API call finishes
+     * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call getWebhookLogAsync(UUID webhookLogID, final ApiCallback<WebhookLogResponse> callback) throws ApiException {
+    public okhttp3.Call getWebhookLogAsync(UUID webhookLogID, final ApiCallback<WebhookLogResponse> _callback) throws ApiException {
 
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        okhttp3.Call call = getWebhookLogValidateBeforeCall(webhookLogID, progressListener, progressRequestListener);
+        okhttp3.Call localVarCall = getWebhookLogValidateBeforeCall(webhookLogID, _callback);
         Type localVarReturnType = new TypeToken<WebhookLogResponse>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
     }
     /**
      * Build call for getWebhookLogs
@@ -184,12 +152,11 @@ public class LogsApi {
      * @param per The number of results to load per page (defaults to 10) (optional)
      * @param createdAtFrom Start date to filter recipients by created_at range Allows filtering results by the specified &#x60;created_at&#x60; timeframe.  Example: &#x60;/v1/recipients?created_at_from&#x3D;2018-06-06&amp;created_at_to&#x3D;2018-06-08&#x60; (optional)
      * @param createdAtTo End date to filter recipients by created_at range Allows filtering results by the specified &#x60;created_at&#x60; timeframe.  Example: &#x60;/v1/recipients?created_at_from&#x3D;2018-06-06&amp;created_at_to&#x3D;2018-06-08&#x60; (optional)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
+     * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public okhttp3.Call getWebhookLogsCall(Integer page, Integer per, String createdAtFrom, String createdAtTo, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public okhttp3.Call getWebhookLogsCall(Integer page, Integer per, String createdAtFrom, String createdAtTo, final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = new Object();
 
         // create path and map variables
@@ -198,19 +165,19 @@ public class LogsApi {
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
         if (page != null) {
-            localVarQueryParams.addAll(apiClient.parameterToPair("page", page));
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("page", page));
         }
 
         if (per != null) {
-            localVarQueryParams.addAll(apiClient.parameterToPair("per", per));
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("per", per));
         }
 
         if (createdAtFrom != null) {
-            localVarQueryParams.addAll(apiClient.parameterToPair("created_at_from", createdAtFrom));
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("created_at_from", createdAtFrom));
         }
 
         if (createdAtTo != null) {
-            localVarQueryParams.addAll(apiClient.parameterToPair("created_at_to", createdAtTo));
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("created_at_to", createdAtTo));
         }
 
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
@@ -218,7 +185,7 @@ public class LogsApi {
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -226,31 +193,19 @@ public class LogsApi {
         final String[] localVarContentTypes = {
             
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
-                @Override
-                public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
-                    okhttp3.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                            .build();
-                }
-            }).build());
-        }
-
         String[] localVarAuthNames = new String[] { "AuthorizationKey", "AuthorizationNonce", "AuthorizationSecret", "AuthorizationSignature" };
-        return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call getWebhookLogsValidateBeforeCall(Integer page, Integer per, String createdAtFrom, String createdAtTo, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private okhttp3.Call getWebhookLogsValidateBeforeCall(Integer page, Integer per, String createdAtFrom, String createdAtTo, final ApiCallback _callback) throws ApiException {
         
 
-        okhttp3.Call call = getWebhookLogsCall(page, per, createdAtFrom, createdAtTo, progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = getWebhookLogsCall(page, per, createdAtFrom, createdAtTo, _callback);
+        return localVarCall;
 
     }
 
@@ -265,8 +220,8 @@ public class LogsApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public WebhookLogListResponse getWebhookLogs(Integer page, Integer per, String createdAtFrom, String createdAtTo) throws ApiException {
-        ApiResponse<WebhookLogListResponse> resp = getWebhookLogsWithHttpInfo(page, per, createdAtFrom, createdAtTo);
-        return resp.getData();
+        ApiResponse<WebhookLogListResponse> localVarResp = getWebhookLogsWithHttpInfo(page, per, createdAtFrom, createdAtTo);
+        return localVarResp.getData();
     }
 
     /**
@@ -280,9 +235,9 @@ public class LogsApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<WebhookLogListResponse> getWebhookLogsWithHttpInfo(Integer page, Integer per, String createdAtFrom, String createdAtTo) throws ApiException {
-        okhttp3.Call call = getWebhookLogsValidateBeforeCall(page, per, createdAtFrom, createdAtTo, null, null);
+        okhttp3.Call localVarCall = getWebhookLogsValidateBeforeCall(page, per, createdAtFrom, createdAtTo, null);
         Type localVarReturnType = new TypeToken<WebhookLogListResponse>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
@@ -292,34 +247,15 @@ public class LogsApi {
      * @param per The number of results to load per page (defaults to 10) (optional)
      * @param createdAtFrom Start date to filter recipients by created_at range Allows filtering results by the specified &#x60;created_at&#x60; timeframe.  Example: &#x60;/v1/recipients?created_at_from&#x3D;2018-06-06&amp;created_at_to&#x3D;2018-06-08&#x60; (optional)
      * @param createdAtTo End date to filter recipients by created_at range Allows filtering results by the specified &#x60;created_at&#x60; timeframe.  Example: &#x60;/v1/recipients?created_at_from&#x3D;2018-06-06&amp;created_at_to&#x3D;2018-06-08&#x60; (optional)
-     * @param callback The callback to be executed when the API call finishes
+     * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call getWebhookLogsAsync(Integer page, Integer per, String createdAtFrom, String createdAtTo, final ApiCallback<WebhookLogListResponse> callback) throws ApiException {
+    public okhttp3.Call getWebhookLogsAsync(Integer page, Integer per, String createdAtFrom, String createdAtTo, final ApiCallback<WebhookLogListResponse> _callback) throws ApiException {
 
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        okhttp3.Call call = getWebhookLogsValidateBeforeCall(page, per, createdAtFrom, createdAtTo, progressListener, progressRequestListener);
+        okhttp3.Call localVarCall = getWebhookLogsValidateBeforeCall(page, per, createdAtFrom, createdAtTo, _callback);
         Type localVarReturnType = new TypeToken<WebhookLogListResponse>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
     }
 }

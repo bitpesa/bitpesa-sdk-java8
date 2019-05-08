@@ -1,7 +1,9 @@
 
+
 # PaymentMethod
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **type** | **String** | Details currency and type of payment. |  [optional]

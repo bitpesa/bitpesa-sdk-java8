@@ -1,7 +1,9 @@
 
+
 # Document
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **upload** | **String** | Base64 encoded data uri of an image/pdf file or a fully qualified url | 
@@ -16,8 +18,9 @@ Name | Type | Description | Notes
 **errors** | [**Map&lt;String, List&lt;ValidationErrorDescription&gt;&gt;**](List.md) | The fields that have some problems and don&#39;t pass validation |  [optional]
 
 
-<a name="SideEnum"></a>
+
 ## Enum: SideEnum
+
 Name | Value
 ---- | -----
 FRONT | &quot;front&quot;

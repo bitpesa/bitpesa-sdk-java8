@@ -82,13 +82,13 @@ public class Document {
       return String.valueOf(value);
     }
 
-    public static SideEnum fromValue(String text) {
+    public static SideEnum fromValue(String value) {
       for (SideEnum b : SideEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
+        if (b.value.equals(value)) {
           return b;
         }
       }
-      throw new IllegalArgumentException("Unexpected value '" + text + "'");
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
 
     public static class Adapter extends TypeAdapter<SideEnum> {
@@ -100,7 +100,7 @@ public class Document {
       @Override
       public SideEnum read(final JsonReader jsonReader) throws IOException {
         String value = jsonReader.nextString();
-        return SideEnum.fromValue(String.valueOf(value));
+        return SideEnum.fromValue(value);
       }
     }
   }

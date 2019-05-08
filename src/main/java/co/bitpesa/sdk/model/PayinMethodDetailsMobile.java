@@ -65,7 +65,7 @@ public class PayinMethodDetailsMobile {
    * States whether to send out the instructions to the phone number on how to pay the funds or not. This shuold always be set to true, otherwise the sender might not receive a prompt for payment.
    * @return sendInstructions
   **/
-  @ApiModelProperty(value = "States whether to send out the instructions to the phone number on how to pay the funds or not. This shuold always be set to true, otherwise the sender might not receive a prompt for payment.")
+  @ApiModelProperty(example = "true", value = "States whether to send out the instructions to the phone number on how to pay the funds or not. This shuold always be set to true, otherwise the sender might not receive a prompt for payment.")
   public Boolean getSendInstructions() {
     return sendInstructions;
   }

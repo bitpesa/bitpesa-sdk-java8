@@ -37,7 +37,7 @@ public class AccountMeta {
    * Indicates whether account balances are permitted to be debited below zero
    * @return negativeBalance
   **/
-  @ApiModelProperty(value = "Indicates whether account balances are permitted to be debited below zero")
+  @ApiModelProperty(example = "false", value = "Indicates whether account balances are permitted to be debited below zero")
   public Boolean getNegativeBalance() {
     return negativeBalance;
   }

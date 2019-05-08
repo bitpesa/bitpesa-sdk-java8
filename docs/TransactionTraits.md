@@ -1,7 +1,9 @@
 
+
 # TransactionTraits
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **autoRefund** | **Boolean** | Enables or disables the auto refund functionality. Please see [Auto cancellation and refund of transactions](https://github.com/bitpesa/api-documentation/blob/master/additional-features.md#auto-cancellation-and-refund-of-transactions) for more details |  [optional]
