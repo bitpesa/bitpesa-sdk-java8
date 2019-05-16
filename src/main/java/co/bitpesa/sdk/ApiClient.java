@@ -721,6 +721,34 @@ public class ApiClient {
     }
 
     /**
+     * Uses the Authorization Signature in the request headers to validate the payload.
+     *
+     * @param url The full url including any query strings
+     * @param body The body from the request
+     * @param headers The request headers
+     * @return boolean
+     * @throws ApiException If fail to deserialize response body
+     */
+    public boolean validateWebhookRequest(String url, String body, Map<String, String> headers) throws ApiException {
+      String nonce = headers.get("Authorization-Nonce");
+      String signature = headers.get("Authorization-Signature");
+      String key = headers.get("Authorization-Key");
+      String method = "POST";
+
+      if (nonce == null || signature == null || !key.equals(getApiKey())) {
+        return false;
+      }
+
+      String headerSignature = signRequest(url, nonce, method, body);
+
+      if (headerSignature.equals(signature)) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+    /**
      * Parses and deserializes a response in string format.
      * Can be used to parse webhook responses that were already converted to strings
      *
@@ -1029,33 +1057,7 @@ public class ApiClient {
                 bodyStr = buf.readUtf8();
             }
 
-            MessageDigest md = MessageDigest.getInstance("SHA-512");
-            byte[] sha512 = md.digest(bodyStr.getBytes("UTF-8"));
-            StringBuilder md5HashOfBody = new StringBuilder(sha512.length * 2);
-            for (int i = 0; i < sha512.length; i++) {
-                int intVal = sha512[i] & 0xff;
-                if (intVal < 0x10) {
-                    md5HashOfBody.append("0");
-                }
-                md5HashOfBody.append(Integer.toHexString(intVal));
-            }
-            String type = "application/json";
-            String signature = String.format("%s&%s&%s&%s", nonce, method, url, md5HashOfBody.toString());
-
-            byte[] byteKey = getApiSecret().getBytes("UTF-8");
-            Mac sha512_HMAC = Mac.getInstance(hmacSha512);
-            SecretKeySpec keySpec = new SecretKeySpec(byteKey, hmacSha512);
-            sha512_HMAC.init(keySpec);
-            byte[] mac_data = sha512_HMAC.doFinal(signature.getBytes("UTF-8"));
-
-            StringBuilder hmacResult = new StringBuilder(mac_data.length * 2);
-            for (int i = 0; i < mac_data.length; i++) {
-                int intVal = mac_data[i] & 0xff;
-                if (intVal < 0x10) {
-                    hmacResult.append("0");
-                }
-                hmacResult.append(Integer.toHexString(intVal));
-            }
+            String hmacResult = signRequest(url, nonce, method, bodyStr);
 
             reqBuilder.header("Authorization-Signature", hmacResult.toString());
             reqBuilder.header("Authorization-Key", getApiKey());
@@ -1078,6 +1080,56 @@ public class ApiClient {
         }
 
         return request;
+    }
+
+    /**
+     * Builds the authorization signature with the given options.
+     *
+     * @param url The full url including any query strings
+     * @param nonce The nonce from the request header
+     * @param method The request method, one of "GET", "HEAD", "OPTIONS", "POST", "PUT", "PATCH" and "DELETE"
+     * @param bodyStr The body from the request
+     * @return The hmacResult
+     * @throws ApiException If fail to serialize the request body object
+     */
+    public String signRequest(String url, String nonce, String method, String bodyStr) throws ApiException {
+        final String hmacSha512 = "HmacSHA512";
+
+        StringBuilder hmacResult;
+
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-512");
+            byte[] sha512 = md.digest(bodyStr.getBytes("UTF-8"));
+            StringBuilder md5HashOfBody = new StringBuilder(sha512.length * 2);
+            for (int i = 0; i < sha512.length; i++) {
+                int intVal = sha512[i] & 0xff;
+                if (intVal < 0x10) {
+                    md5HashOfBody.append("0");
+                }
+                md5HashOfBody.append(Integer.toHexString(intVal));
+            }
+
+            String signature = String.format("%s&%s&%s&%s", nonce, method, url, md5HashOfBody.toString());
+
+            byte[] byteKey = getApiSecret().getBytes("UTF-8");
+            Mac sha512_HMAC = Mac.getInstance(hmacSha512);
+            SecretKeySpec keySpec = new SecretKeySpec(byteKey, hmacSha512);
+            sha512_HMAC.init(keySpec);
+            byte[] mac_data = sha512_HMAC.doFinal(signature.getBytes("UTF-8"));
+
+            hmacResult = new StringBuilder(mac_data.length * 2);
+            for (int i = 0; i < mac_data.length; i++) {
+                int intVal = mac_data[i] & 0xff;
+                if (intVal < 0x10) {
+                    hmacResult.append("0");
+                }
+                hmacResult.append(Integer.toHexString(intVal));
+            }
+        } catch (Exception e) {
+            throw new ApiException(e);
+        }
+
+        return hmacResult.toString();
     }
 
     /**
