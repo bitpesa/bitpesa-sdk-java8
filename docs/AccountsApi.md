@@ -1,6 +1,6 @@
 # AccountsApi
 
-All URIs are relative to *https://api-sandbox.bitpesa.co/v1*
+All URIs are relative to *https://api-sandbox.transferzero.com/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -19,16 +19,16 @@ Fetches account balance for specified currrency, and returns current balance and
 ### Example
 ```java
 // Import classes:
-//import co.bitpesa.sdk.ApiClient;
-//import co.bitpesa.sdk.ApiException;
-//import co.bitpesa.sdk.Configuration;
-//import co.bitpesa.sdk.auth.*;
-//import co.bitpesa.sdk.api.AccountsApi;
+//import com.transferzero.sdk.ApiClient;
+//import com.transferzero.sdk.ApiException;
+//import com.transferzero.sdk.Configuration;
+//import com.transferzero.sdk.auth.*;
+//import com.transferzero.sdk.api.AccountsApi;
 
 ApiClient apiClient = new ApiClient();
 apiClient.setApiKey("<key>");
 apiClient.setApiSecret("<secret>");
-apiClient.setBasePath("https://api-sandbox.bitpesa.co/v1");
+apiClient.setBasePath("https://api-sandbox.transferzero.com/v1");
 
 AccountsApi apiInstance = new AccountsApi(apiClient);
 String currency = "currency_example"; // String | Currency code of account balance to fetch  Example: `/v1/accounts/USD`
@@ -65,7 +65,7 @@ You can set the API Key and Secret on the ApiClient object for authentication:
 ApiClient apiClient = new ApiClient();
 apiClient.setApiKey("<key>");
 apiClient.setApiSecret("<secret>");
-apiClient.setBasePath("https://api-sandbox.bitpesa.co/v1");
+apiClient.setBasePath("https://api-sandbox.transferzero.com/v1");
 ```
 ### HTTP request headers
 
@@ -83,16 +83,16 @@ Fetches account balances for all currencies, and returns an array of the current
 ### Example
 ```java
 // Import classes:
-//import co.bitpesa.sdk.ApiClient;
-//import co.bitpesa.sdk.ApiException;
-//import co.bitpesa.sdk.Configuration;
-//import co.bitpesa.sdk.auth.*;
-//import co.bitpesa.sdk.api.AccountsApi;
+//import com.transferzero.sdk.ApiClient;
+//import com.transferzero.sdk.ApiException;
+//import com.transferzero.sdk.Configuration;
+//import com.transferzero.sdk.auth.*;
+//import com.transferzero.sdk.api.AccountsApi;
 
 ApiClient apiClient = new ApiClient();
 apiClient.setApiKey("<key>");
 apiClient.setApiSecret("<secret>");
-apiClient.setBasePath("https://api-sandbox.bitpesa.co/v1");
+apiClient.setBasePath("https://api-sandbox.transferzero.com/v1");
 
 AccountsApi apiInstance = new AccountsApi(apiClient);
 try {
@@ -125,7 +125,7 @@ You can set the API Key and Secret on the ApiClient object for authentication:
 ApiClient apiClient = new ApiClient();
 apiClient.setApiKey("<key>");
 apiClient.setApiSecret("<secret>");
-apiClient.setBasePath("https://api-sandbox.bitpesa.co/v1");
+apiClient.setBasePath("https://api-sandbox.transferzero.com/v1");
 ```
 ### HTTP request headers
 

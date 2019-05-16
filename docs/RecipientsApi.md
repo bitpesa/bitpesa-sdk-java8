@@ -1,6 +1,6 @@
 # RecipientsApi
 
-All URIs are relative to *https://api-sandbox.bitpesa.co/v1*
+All URIs are relative to *https://api-sandbox.transferzero.com/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -20,16 +20,16 @@ Cancels the payment to the recipient specified in the URL path.  Please note onl
 ### Example
 ```java
 // Import classes:
-//import co.bitpesa.sdk.ApiClient;
-//import co.bitpesa.sdk.ApiException;
-//import co.bitpesa.sdk.Configuration;
-//import co.bitpesa.sdk.auth.*;
-//import co.bitpesa.sdk.api.RecipientsApi;
+//import com.transferzero.sdk.ApiClient;
+//import com.transferzero.sdk.ApiException;
+//import com.transferzero.sdk.Configuration;
+//import com.transferzero.sdk.auth.*;
+//import com.transferzero.sdk.api.RecipientsApi;
 
 ApiClient apiClient = new ApiClient();
 apiClient.setApiKey("<key>");
 apiClient.setApiSecret("<secret>");
-apiClient.setBasePath("https://api-sandbox.bitpesa.co/v1");
+apiClient.setBasePath("https://api-sandbox.transferzero.com/v1");
 
 RecipientsApi apiInstance = new RecipientsApi(apiClient);
 UUID recipientID = new UUID(); // UUID | ID of recipient to cancel.  Example: `/v1/recipients/9d4d7b73-a94c-4979-ab57-09074fd55d33`
@@ -66,7 +66,7 @@ You can set the API Key and Secret on the ApiClient object for authentication:
 ApiClient apiClient = new ApiClient();
 apiClient.setApiKey("<key>");
 apiClient.setApiSecret("<secret>");
-apiClient.setBasePath("https://api-sandbox.bitpesa.co/v1");
+apiClient.setBasePath("https://api-sandbox.transferzero.com/v1");
 ```
 ### HTTP request headers
 
@@ -84,16 +84,16 @@ Fetches details of all recipients.
 ### Example
 ```java
 // Import classes:
-//import co.bitpesa.sdk.ApiClient;
-//import co.bitpesa.sdk.ApiException;
-//import co.bitpesa.sdk.Configuration;
-//import co.bitpesa.sdk.auth.*;
-//import co.bitpesa.sdk.api.RecipientsApi;
+//import com.transferzero.sdk.ApiClient;
+//import com.transferzero.sdk.ApiException;
+//import com.transferzero.sdk.Configuration;
+//import com.transferzero.sdk.auth.*;
+//import com.transferzero.sdk.api.RecipientsApi;
 
 ApiClient apiClient = new ApiClient();
 apiClient.setApiKey("<key>");
 apiClient.setApiSecret("<secret>");
-apiClient.setBasePath("https://api-sandbox.bitpesa.co/v1");
+apiClient.setBasePath("https://api-sandbox.transferzero.com/v1");
 
 RecipientsApi apiInstance = new RecipientsApi(apiClient);
 Integer page = 1; // Integer | The page number to request (defaults to 1)
@@ -102,7 +102,7 @@ String createdAtFrom = "createdAtFrom_example"; // String | Start date to filter
 String createdAtTo = "createdAtTo_example"; // String | End date to filter recipients by created_at range Allows filtering results by the specified `created_at` timeframe.  Example: `/v1/recipients?created_at_from=2018-06-06&created_at_to=2018-06-08`
 String amountFrom = "amountFrom_example"; // String | Minimum amount to filter recipients by amount range.  Allows filtering results by the specified `amount` range. When using this filter, the `currency` should also be specified.  Example: `/v1/recipients?currency=NGN&amount_from=83.76672339&amount_to=83.76672339`
 String amountTo = "amountTo_example"; // String | Max amount to filter recipients by amount range.  Allows filtering results by the specified `amount` range. When using this filter, the `currency` should also be specified.  Example: `/v1/recipients?currency=NGN&amount_from=83.76672339&amount_to=83.76672339`
-List<String> state = Arrays.asList(); // List<String> | Allows filtering results by `state` of recipient. See [API Documentation - Recipient state](https://github.com/bitpesa/api-documentation/blob/master/transaction-flow.md#state-1) for possible states.  Example: `/v1/recipients?state[]=error&state[]=initial`
+List<String> state = Arrays.asList(); // List<String> | Allows filtering results by `state` of recipient. See [API Documentation - Recipient state](https://github.com/transferzero/api-documentation/blob/master/transaction-flow.md#state-1) for possible states.  Example: `/v1/recipients?state[]=error&state[]=initial`
 List<String> currency = Arrays.asList(); // List<String> | Allows filtering results by `input_currency`.  Additionally required when filtering by an amount range Example: `/v1/recipients?currency[]=KES&currency[]=NGN`
 try {
     RecipientListResponse result = apiInstance.getRecipients(page, per, createdAtFrom, createdAtTo, amountFrom, amountTo, state, currency);
@@ -129,7 +129,7 @@ Name | Type | Description  | Notes
  **createdAtTo** | **String**| End date to filter recipients by created_at range Allows filtering results by the specified &#x60;created_at&#x60; timeframe.  Example: &#x60;/v1/recipients?created_at_from&#x3D;2018-06-06&amp;created_at_to&#x3D;2018-06-08&#x60; | [optional]
  **amountFrom** | **String**| Minimum amount to filter recipients by amount range.  Allows filtering results by the specified &#x60;amount&#x60; range. When using this filter, the &#x60;currency&#x60; should also be specified.  Example: &#x60;/v1/recipients?currency&#x3D;NGN&amp;amount_from&#x3D;83.76672339&amp;amount_to&#x3D;83.76672339&#x60; | [optional]
  **amountTo** | **String**| Max amount to filter recipients by amount range.  Allows filtering results by the specified &#x60;amount&#x60; range. When using this filter, the &#x60;currency&#x60; should also be specified.  Example: &#x60;/v1/recipients?currency&#x3D;NGN&amp;amount_from&#x3D;83.76672339&amp;amount_to&#x3D;83.76672339&#x60; | [optional]
- **state** | [**List&lt;String&gt;**](String.md)| Allows filtering results by &#x60;state&#x60; of recipient. See [API Documentation - Recipient state](https://github.com/bitpesa/api-documentation/blob/master/transaction-flow.md#state-1) for possible states.  Example: &#x60;/v1/recipients?state[]&#x3D;error&amp;state[]&#x3D;initial&#x60; | [optional]
+ **state** | [**List&lt;String&gt;**](String.md)| Allows filtering results by &#x60;state&#x60; of recipient. See [API Documentation - Recipient state](https://github.com/transferzero/api-documentation/blob/master/transaction-flow.md#state-1) for possible states.  Example: &#x60;/v1/recipients?state[]&#x3D;error&amp;state[]&#x3D;initial&#x60; | [optional]
  **currency** | [**List&lt;String&gt;**](String.md)| Allows filtering results by &#x60;input_currency&#x60;.  Additionally required when filtering by an amount range Example: &#x60;/v1/recipients?currency[]&#x3D;KES&amp;currency[]&#x3D;NGN&#x60; | [optional]
 
 ### Return type
@@ -144,7 +144,7 @@ You can set the API Key and Secret on the ApiClient object for authentication:
 ApiClient apiClient = new ApiClient();
 apiClient.setApiKey("<key>");
 apiClient.setApiSecret("<secret>");
-apiClient.setBasePath("https://api-sandbox.bitpesa.co/v1");
+apiClient.setBasePath("https://api-sandbox.transferzero.com/v1");
 ```
 ### HTTP request headers
 
@@ -162,16 +162,16 @@ Updates the recipient specified in the URL path.  Please note that only recipien
 ### Example
 ```java
 // Import classes:
-//import co.bitpesa.sdk.ApiClient;
-//import co.bitpesa.sdk.ApiException;
-//import co.bitpesa.sdk.Configuration;
-//import co.bitpesa.sdk.auth.*;
-//import co.bitpesa.sdk.api.RecipientsApi;
+//import com.transferzero.sdk.ApiClient;
+//import com.transferzero.sdk.ApiException;
+//import com.transferzero.sdk.Configuration;
+//import com.transferzero.sdk.auth.*;
+//import com.transferzero.sdk.api.RecipientsApi;
 
 ApiClient apiClient = new ApiClient();
 apiClient.setApiKey("<key>");
 apiClient.setApiSecret("<secret>");
-apiClient.setBasePath("https://api-sandbox.bitpesa.co/v1");
+apiClient.setBasePath("https://api-sandbox.transferzero.com/v1");
 
 RecipientsApi apiInstance = new RecipientsApi(apiClient);
 UUID recipientID = new UUID(); // UUID | ID of recipient to update.  Example: `/v1/recipients/9d4d7b73-a94c-4979-ab57-09074fd55d33`
@@ -210,7 +210,7 @@ You can set the API Key and Secret on the ApiClient object for authentication:
 ApiClient apiClient = new ApiClient();
 apiClient.setApiKey("<key>");
 apiClient.setApiSecret("<secret>");
-apiClient.setBasePath("https://api-sandbox.bitpesa.co/v1");
+apiClient.setBasePath("https://api-sandbox.transferzero.com/v1");
 ```
 ### HTTP request headers
 

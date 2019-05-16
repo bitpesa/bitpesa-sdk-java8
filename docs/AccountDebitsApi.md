@@ -1,6 +1,6 @@
 # AccountDebitsApi
 
-All URIs are relative to *https://api-sandbox.bitpesa.co/v1*
+All URIs are relative to *https://api-sandbox.transferzero.com/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -20,16 +20,16 @@ Returns a single account debit by the account debit ID
 ### Example
 ```java
 // Import classes:
-//import co.bitpesa.sdk.ApiClient;
-//import co.bitpesa.sdk.ApiException;
-//import co.bitpesa.sdk.Configuration;
-//import co.bitpesa.sdk.auth.*;
-//import co.bitpesa.sdk.api.AccountDebitsApi;
+//import com.transferzero.sdk.ApiClient;
+//import com.transferzero.sdk.ApiException;
+//import com.transferzero.sdk.Configuration;
+//import com.transferzero.sdk.auth.*;
+//import com.transferzero.sdk.api.AccountDebitsApi;
 
 ApiClient apiClient = new ApiClient();
 apiClient.setApiKey("<key>");
 apiClient.setApiSecret("<secret>");
-apiClient.setBasePath("https://api-sandbox.bitpesa.co/v1");
+apiClient.setBasePath("https://api-sandbox.transferzero.com/v1");
 
 AccountDebitsApi apiInstance = new AccountDebitsApi(apiClient);
 UUID accountDebitID = new UUID(); // UUID | ID of the account debit to get.  Example: `/v1/accounts/debits/9170c890-1a45-46bd-9b79-3deeb8b4ff3d`
@@ -66,7 +66,7 @@ You can set the API Key and Secret on the ApiClient object for authentication:
 ApiClient apiClient = new ApiClient();
 apiClient.setApiKey("<key>");
 apiClient.setApiSecret("<secret>");
-apiClient.setBasePath("https://api-sandbox.bitpesa.co/v1");
+apiClient.setBasePath("https://api-sandbox.transferzero.com/v1");
 ```
 ### HTTP request headers
 
@@ -84,16 +84,16 @@ Get a list of accounts debits
 ### Example
 ```java
 // Import classes:
-//import co.bitpesa.sdk.ApiClient;
-//import co.bitpesa.sdk.ApiException;
-//import co.bitpesa.sdk.Configuration;
-//import co.bitpesa.sdk.auth.*;
-//import co.bitpesa.sdk.api.AccountDebitsApi;
+//import com.transferzero.sdk.ApiClient;
+//import com.transferzero.sdk.ApiException;
+//import com.transferzero.sdk.Configuration;
+//import com.transferzero.sdk.auth.*;
+//import com.transferzero.sdk.api.AccountDebitsApi;
 
 ApiClient apiClient = new ApiClient();
 apiClient.setApiKey("<key>");
 apiClient.setApiSecret("<secret>");
-apiClient.setBasePath("https://api-sandbox.bitpesa.co/v1");
+apiClient.setBasePath("https://api-sandbox.transferzero.com/v1");
 
 AccountDebitsApi apiInstance = new AccountDebitsApi(apiClient);
 Integer page = 1; // Integer | The page number to request (defaults to 1)
@@ -132,7 +132,7 @@ You can set the API Key and Secret on the ApiClient object for authentication:
 ApiClient apiClient = new ApiClient();
 apiClient.setApiKey("<key>");
 apiClient.setApiSecret("<secret>");
-apiClient.setBasePath("https://api-sandbox.bitpesa.co/v1");
+apiClient.setBasePath("https://api-sandbox.transferzero.com/v1");
 ```
 ### HTTP request headers
 
@@ -150,16 +150,16 @@ Creates a new account debit finding transaction through the internal balance  To
 ### Example
 ```java
 // Import classes:
-//import co.bitpesa.sdk.ApiClient;
-//import co.bitpesa.sdk.ApiException;
-//import co.bitpesa.sdk.Configuration;
-//import co.bitpesa.sdk.auth.*;
-//import co.bitpesa.sdk.api.AccountDebitsApi;
+//import com.transferzero.sdk.ApiClient;
+//import com.transferzero.sdk.ApiException;
+//import com.transferzero.sdk.Configuration;
+//import com.transferzero.sdk.auth.*;
+//import com.transferzero.sdk.api.AccountDebitsApi;
 
 ApiClient apiClient = new ApiClient();
 apiClient.setApiKey("<key>");
 apiClient.setApiSecret("<secret>");
-apiClient.setBasePath("https://api-sandbox.bitpesa.co/v1");
+apiClient.setBasePath("https://api-sandbox.transferzero.com/v1");
 
 AccountDebitsApi apiInstance = new AccountDebitsApi(apiClient);
 DebitRequestWrapper debitRequestWrapper = new DebitRequestWrapper(); // DebitRequestWrapper | 
@@ -196,7 +196,7 @@ You can set the API Key and Secret on the ApiClient object for authentication:
 ApiClient apiClient = new ApiClient();
 apiClient.setApiKey("<key>");
 apiClient.setApiSecret("<secret>");
-apiClient.setBasePath("https://api-sandbox.bitpesa.co/v1");
+apiClient.setBasePath("https://api-sandbox.transferzero.com/v1");
 ```
 ### HTTP request headers
 

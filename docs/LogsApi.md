@@ -1,6 +1,6 @@
 # LogsApi
 
-All URIs are relative to *https://api-sandbox.bitpesa.co/v1*
+All URIs are relative to *https://api-sandbox.transferzero.com/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -19,16 +19,16 @@ Returns a single webhook log based on the webhook log ID.
 ### Example
 ```java
 // Import classes:
-//import co.bitpesa.sdk.ApiClient;
-//import co.bitpesa.sdk.ApiException;
-//import co.bitpesa.sdk.Configuration;
-//import co.bitpesa.sdk.auth.*;
-//import co.bitpesa.sdk.api.LogsApi;
+//import com.transferzero.sdk.ApiClient;
+//import com.transferzero.sdk.ApiException;
+//import com.transferzero.sdk.Configuration;
+//import com.transferzero.sdk.auth.*;
+//import com.transferzero.sdk.api.LogsApi;
 
 ApiClient apiClient = new ApiClient();
 apiClient.setApiKey("<key>");
 apiClient.setApiSecret("<secret>");
-apiClient.setBasePath("https://api-sandbox.bitpesa.co/v1");
+apiClient.setBasePath("https://api-sandbox.transferzero.com/v1");
 
 LogsApi apiInstance = new LogsApi(apiClient);
 UUID webhookLogID = new UUID(); // UUID | ID of the webhook log to retrieve  Example: `/v1/logs/9d1ad631-f34a-4cff-9a7e-2c83e3a556df`
@@ -65,7 +65,7 @@ You can set the API Key and Secret on the ApiClient object for authentication:
 ApiClient apiClient = new ApiClient();
 apiClient.setApiKey("<key>");
 apiClient.setApiSecret("<secret>");
-apiClient.setBasePath("https://api-sandbox.bitpesa.co/v1");
+apiClient.setBasePath("https://api-sandbox.transferzero.com/v1");
 ```
 ### HTTP request headers
 
@@ -83,16 +83,16 @@ Returns a list of webhook logs. Response includes pagination.
 ### Example
 ```java
 // Import classes:
-//import co.bitpesa.sdk.ApiClient;
-//import co.bitpesa.sdk.ApiException;
-//import co.bitpesa.sdk.Configuration;
-//import co.bitpesa.sdk.auth.*;
-//import co.bitpesa.sdk.api.LogsApi;
+//import com.transferzero.sdk.ApiClient;
+//import com.transferzero.sdk.ApiException;
+//import com.transferzero.sdk.Configuration;
+//import com.transferzero.sdk.auth.*;
+//import com.transferzero.sdk.api.LogsApi;
 
 ApiClient apiClient = new ApiClient();
 apiClient.setApiKey("<key>");
 apiClient.setApiSecret("<secret>");
-apiClient.setBasePath("https://api-sandbox.bitpesa.co/v1");
+apiClient.setBasePath("https://api-sandbox.transferzero.com/v1");
 
 LogsApi apiInstance = new LogsApi(apiClient);
 Integer page = 1; // Integer | The page number to request (defaults to 1)
@@ -135,7 +135,7 @@ You can set the API Key and Secret on the ApiClient object for authentication:
 ApiClient apiClient = new ApiClient();
 apiClient.setApiKey("<key>");
 apiClient.setApiSecret("<secret>");
-apiClient.setBasePath("https://api-sandbox.bitpesa.co/v1");
+apiClient.setBasePath("https://api-sandbox.transferzero.com/v1");
 ```
 ### HTTP request headers
 

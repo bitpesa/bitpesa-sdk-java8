@@ -1,6 +1,6 @@
 # PayoutMethodsApi
 
-All URIs are relative to *https://api-sandbox.bitpesa.co/v1*
+All URIs are relative to *https://api-sandbox.transferzero.com/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -22,16 +22,16 @@ Deletes a single payout method by the Payout Method ID
 ### Example
 ```java
 // Import classes:
-//import co.bitpesa.sdk.ApiClient;
-//import co.bitpesa.sdk.ApiException;
-//import co.bitpesa.sdk.Configuration;
-//import co.bitpesa.sdk.auth.*;
-//import co.bitpesa.sdk.api.PayoutMethodsApi;
+//import com.transferzero.sdk.ApiClient;
+//import com.transferzero.sdk.ApiException;
+//import com.transferzero.sdk.Configuration;
+//import com.transferzero.sdk.auth.*;
+//import com.transferzero.sdk.api.PayoutMethodsApi;
 
 ApiClient apiClient = new ApiClient();
 apiClient.setApiKey("<key>");
 apiClient.setApiSecret("<secret>");
-apiClient.setBasePath("https://api-sandbox.bitpesa.co/v1");
+apiClient.setBasePath("https://api-sandbox.transferzero.com/v1");
 
 PayoutMethodsApi apiInstance = new PayoutMethodsApi(apiClient);
 UUID payoutMethodID = new UUID(); // UUID | ID of the payout method to delete.  Example: `/v1/payout_methods/bf9ff782-e182-45ac-abea-5bce83ad6670`
@@ -68,7 +68,7 @@ You can set the API Key and Secret on the ApiClient object for authentication:
 ApiClient apiClient = new ApiClient();
 apiClient.setApiKey("<key>");
 apiClient.setApiSecret("<secret>");
-apiClient.setBasePath("https://api-sandbox.bitpesa.co/v1");
+apiClient.setBasePath("https://api-sandbox.transferzero.com/v1");
 ```
 ### HTTP request headers
 
@@ -86,16 +86,16 @@ Show a payout method by id
 ### Example
 ```java
 // Import classes:
-//import co.bitpesa.sdk.ApiClient;
-//import co.bitpesa.sdk.ApiException;
-//import co.bitpesa.sdk.Configuration;
-//import co.bitpesa.sdk.auth.*;
-//import co.bitpesa.sdk.api.PayoutMethodsApi;
+//import com.transferzero.sdk.ApiClient;
+//import com.transferzero.sdk.ApiException;
+//import com.transferzero.sdk.Configuration;
+//import com.transferzero.sdk.auth.*;
+//import com.transferzero.sdk.api.PayoutMethodsApi;
 
 ApiClient apiClient = new ApiClient();
 apiClient.setApiKey("<key>");
 apiClient.setApiSecret("<secret>");
-apiClient.setBasePath("https://api-sandbox.bitpesa.co/v1");
+apiClient.setBasePath("https://api-sandbox.transferzero.com/v1");
 
 PayoutMethodsApi apiInstance = new PayoutMethodsApi(apiClient);
 UUID payoutMethodID = new UUID(); // UUID | ID of the payout method to get.  Example: `/v1/payout_methods/bf9ff782-e182-45ac-abea-5bce83ad6670`
@@ -132,7 +132,7 @@ You can set the API Key and Secret on the ApiClient object for authentication:
 ApiClient apiClient = new ApiClient();
 apiClient.setApiKey("<key>");
 apiClient.setApiSecret("<secret>");
-apiClient.setBasePath("https://api-sandbox.bitpesa.co/v1");
+apiClient.setBasePath("https://api-sandbox.transferzero.com/v1");
 ```
 ### HTTP request headers
 
@@ -150,16 +150,16 @@ List available payout methods
 ### Example
 ```java
 // Import classes:
-//import co.bitpesa.sdk.ApiClient;
-//import co.bitpesa.sdk.ApiException;
-//import co.bitpesa.sdk.Configuration;
-//import co.bitpesa.sdk.auth.*;
-//import co.bitpesa.sdk.api.PayoutMethodsApi;
+//import com.transferzero.sdk.ApiClient;
+//import com.transferzero.sdk.ApiException;
+//import com.transferzero.sdk.Configuration;
+//import com.transferzero.sdk.auth.*;
+//import com.transferzero.sdk.api.PayoutMethodsApi;
 
 ApiClient apiClient = new ApiClient();
 apiClient.setApiKey("<key>");
 apiClient.setApiSecret("<secret>");
-apiClient.setBasePath("https://api-sandbox.bitpesa.co/v1");
+apiClient.setBasePath("https://api-sandbox.transferzero.com/v1");
 
 PayoutMethodsApi apiInstance = new PayoutMethodsApi(apiClient);
 List<String> state = Arrays.asList(); // List<String> | Allows filtering results by `state` of the payout method.  Example: `/v1/payout_methods?state[]=enabled`
@@ -208,7 +208,7 @@ You can set the API Key and Secret on the ApiClient object for authentication:
 ApiClient apiClient = new ApiClient();
 apiClient.setApiKey("<key>");
 apiClient.setApiSecret("<secret>");
-apiClient.setBasePath("https://api-sandbox.bitpesa.co/v1");
+apiClient.setBasePath("https://api-sandbox.transferzero.com/v1");
 ```
 ### HTTP request headers
 
@@ -226,16 +226,16 @@ Updates the payout method specified in the URL path.
 ### Example
 ```java
 // Import classes:
-//import co.bitpesa.sdk.ApiClient;
-//import co.bitpesa.sdk.ApiException;
-//import co.bitpesa.sdk.Configuration;
-//import co.bitpesa.sdk.auth.*;
-//import co.bitpesa.sdk.api.PayoutMethodsApi;
+//import com.transferzero.sdk.ApiClient;
+//import com.transferzero.sdk.ApiException;
+//import com.transferzero.sdk.Configuration;
+//import com.transferzero.sdk.auth.*;
+//import com.transferzero.sdk.api.PayoutMethodsApi;
 
 ApiClient apiClient = new ApiClient();
 apiClient.setApiKey("<key>");
 apiClient.setApiSecret("<secret>");
-apiClient.setBasePath("https://api-sandbox.bitpesa.co/v1");
+apiClient.setBasePath("https://api-sandbox.transferzero.com/v1");
 
 PayoutMethodsApi apiInstance = new PayoutMethodsApi(apiClient);
 UUID payoutMethodID = new UUID(); // UUID | ID of the payout method to get.  Example: `/v1/payout_methods/bf9ff782-e182-45ac-abea-5bce83ad6670`
@@ -274,7 +274,7 @@ You can set the API Key and Secret on the ApiClient object for authentication:
 ApiClient apiClient = new ApiClient();
 apiClient.setApiKey("<key>");
 apiClient.setApiSecret("<secret>");
-apiClient.setBasePath("https://api-sandbox.bitpesa.co/v1");
+apiClient.setBasePath("https://api-sandbox.transferzero.com/v1");
 ```
 ### HTTP request headers
 
@@ -292,16 +292,16 @@ Creates a new payout method in our system.
 ### Example
 ```java
 // Import classes:
-//import co.bitpesa.sdk.ApiClient;
-//import co.bitpesa.sdk.ApiException;
-//import co.bitpesa.sdk.Configuration;
-//import co.bitpesa.sdk.auth.*;
-//import co.bitpesa.sdk.api.PayoutMethodsApi;
+//import com.transferzero.sdk.ApiClient;
+//import com.transferzero.sdk.ApiException;
+//import com.transferzero.sdk.Configuration;
+//import com.transferzero.sdk.auth.*;
+//import com.transferzero.sdk.api.PayoutMethodsApi;
 
 ApiClient apiClient = new ApiClient();
 apiClient.setApiKey("<key>");
 apiClient.setApiSecret("<secret>");
-apiClient.setBasePath("https://api-sandbox.bitpesa.co/v1");
+apiClient.setBasePath("https://api-sandbox.transferzero.com/v1");
 
 PayoutMethodsApi apiInstance = new PayoutMethodsApi(apiClient);
 PayoutMethodRequest payoutMethodRequest = new PayoutMethodRequest(); // PayoutMethodRequest | 
@@ -338,7 +338,7 @@ You can set the API Key and Secret on the ApiClient object for authentication:
 ApiClient apiClient = new ApiClient();
 apiClient.setApiKey("<key>");
 apiClient.setApiSecret("<secret>");
-apiClient.setBasePath("https://api-sandbox.bitpesa.co/v1");
+apiClient.setBasePath("https://api-sandbox.transferzero.com/v1");
 ```
 ### HTTP request headers
 

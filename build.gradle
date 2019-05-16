@@ -2,8 +2,8 @@ apply plugin: 'idea'
 apply plugin: 'eclipse'
 apply plugin: 'java'
 
-group = 'co.bitpesa.sdk'
-version = '0.2.0-SNAPSHOT'
+group = 'com.transferzero.sdk'
+version = '1.0.0-SNAPSHOT'
 
 buildscript {
     repositories {
@@ -87,7 +87,7 @@ if(hasProperty('target') && target == 'android') {
 
     install {
         repositories.mavenInstaller {
-            pom.artifactId = 'bitpesa-sdk-java8'
+            pom.artifactId = 'transferzero-sdk-java8'
         }
     }
 

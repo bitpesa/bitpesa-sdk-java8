@@ -1,7 +1,7 @@
 lazy val root = (project in file(".")).
   settings(
-    organization := "co.bitpesa.sdk",
-    name := "bitpesa-sdk-java8",
+    organization := "com.transferzero.sdk",
+    name := "transferzero-sdk-java8",
     version := "1.0.0-SNAPSHOT",
     scalaVersion := "2.11.4",
     scalacOptions ++= Seq("-feature"),
