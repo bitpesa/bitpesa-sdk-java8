@@ -12,9 +12,17 @@ import java.time.LocalDate;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.UUID;
+import java.util.*;
+
+// Please see our documentation at https://github.com/transferzero/api-documentation
+// and the API specification at http://api.transferzero.com/documentation/
+// for more information.
 
 public class Application {
     public static String accountValidationExample(ApiClient apiClient) throws ApiException {
+        // See https://github.com/transferzero/api-documentation/blob/master/additional-features.md#bank-account-name-enquiry
+        // for more information on how this feature can be used
+
         AccountValidationRequest request = new AccountValidationRequest();
         request.setBankAccount("9040009999999");
         request.setBankCode("190100");
@@ -39,16 +47,17 @@ public class Application {
     }
 
     public static UUID createTransactionExample(ApiClient apiClient) throws ApiException {
+        // Please check our documentation at https://github.com/transferzero/api-documentation/blob/master/transaction-flow.md
+        // for details on how transactions work.
         TransactionsApi api = new TransactionsApi(apiClient);
         Transaction transaction = new Transaction();
 
-        Sender sender = new Sender();
         // When adding a sender to transaction, please use either an id or external_id. Providing both will result in a validation error.
-        // Please see our documentation at https://github.com/bitpesa/api-documentation/blob/master/transaction-flow.md#sender
-        //UUID senderId = createSender(apiClient);
-        //sender.setId(senderId);
+        // Please see our documentation at https://github.com/transferzero/api-documentation/blob/master/transaction-flow.md#sender
+        Sender sender = new Sender();
         sender.setId(UUID.fromString("058de445-ffff-ffff-ffff-da9c751d14bf"));
 
+        // You can find the various payout options at https://github.com/transferzero/api-documentation/blob/master/transaction-flow.md#payout-details
         PayoutMethodDetails ngnBankDetails = new PayoutMethodDetails();
         ngnBankDetails.setBankAccount("123456789");
         ngnBankDetails.setBankAccountType(PayoutMethodBankAccountTypeEnum._20);
@@ -60,13 +69,18 @@ public class Application {
         payoutMethod.setType("NGN::Bank");
         payoutMethod.setDetails(ngnBankDetails);
 
+        // Please see https://github.com/transferzero/api-documentation/blob/master/transaction-flow.md#requested-amount-and-currency
+        // on what the request amount and currencies do
         Recipient recipient = new Recipient();
         recipient.setRequestedAmount(new BigDecimal("10000"));
         recipient.setRequestedCurrency("NGN");
         recipient.setPayoutMethod(payoutMethod);
 
-        // Optional field for customer's ID
+        // Find more details on external IDs at https://github.com/transferzero/api-documentation/blob/master/transaction-flow.md#external-id
         transaction.setExternalId("TRANSACTION-1f834adx");
+
+        // Similarly you can check https://github.com/transferzero/api-documentation/blob/master/transaction-flow.md#requested-amount-and-currency
+        // on details about the input currency parameter
         transaction.setInputCurrency("USD");
         transaction.setSender(sender);
         transaction.addRecipientsItem(recipient);
@@ -90,6 +104,9 @@ public class Application {
     }
 
     public static UUID createAndFundTransactionExample(ApiClient apiClient) throws Exception {
+        // Please see https://github.com/transferzero/api-documentation/blob/master/transaction-flow.md#funding-transactions
+        // on details about funding transactions
+
         UUID transactionId = createTransactionExample(apiClient);
         if (transactionId != null) {
             Debit debit = new Debit();
@@ -119,6 +136,9 @@ public class Application {
     }
 
     public static void getTransactionByExternalId(ApiClient apiClient) throws Exception {
+        // Please see https://github.com/transferzero/api-documentation/blob/master/transaction-flow.md#external-id
+        // for more details on external IDs
+
         TransactionsApi transactionsApi = new TransactionsApi(apiClient);
         String externalId = "TRANSACTION-1f834adx";
         try {
@@ -137,6 +157,9 @@ public class Application {
     }
 
     public static void getTransactionErrorMessageExample(ApiClient apiClient) throws ApiException {
+        // Please see https://github.com/transferzero/api-documentation/blob/master/transaction-flow.md#receiving-error-messages
+        // on details about error messages
+
         UUID transactionId = UUID.fromString("990b9203-ffff-ffff-ffff-897f20eaefa8");
 
         TransactionsApi transactionsApi = new TransactionsApi(apiClient);
@@ -145,7 +168,16 @@ public class Application {
     }
 
     public static void webhookParseExample(ApiClient apiClient) throws ApiException {
-        String webhookContent = "{\n" +
+        // Please see https://github.com/transferzero/api-documentation#webhooks
+        // for more details about how webhooks / callbacks work from our system
+
+        Map<String, String> webhookHeaders = new HashMap<String, String>();
+
+        webhookHeaders.put("Authorization-Nonce", "<nonce>");
+        webhookHeaders.put("Authorization-Key", "<key>");
+        webhookHeaders.put("Authorization-Signature", "<signature>");
+
+        String webhookBody = "{\n" +
                 "  \"webhook\": \"02b769ff-ffff-ffff-ffff-820d285d76c7\",\n" +
                 "  \"event\": \"transaction.created\",\n" +
                 "  \"object\": {\n" +
@@ -302,26 +334,40 @@ public class Application {
                 "  }\n" +
                 "}";
 
-        Webhook webhook = apiClient.parseResponseString(webhookContent, Webhook.class);
-        if (webhook.getEvent().startsWith("transaction")) {
-            TransactionWebhook transactionWebhook = apiClient.parseResponseString(webhookContent, TransactionWebhook.class);
-            System.out.println(transactionWebhook);
-        } else if (webhook.getEvent().startsWith("recipient")) {
-            RecipientWebhook recipientWebhook = apiClient.parseResponseString(webhookContent, RecipientWebhook.class);
-            System.out.println(recipientWebhook);
-        } else if (webhook.getEvent().startsWith("payout_method")) {
-            PayoutMethodWebhook payoutMethodWebhook = apiClient.parseResponseString(webhookContent, PayoutMethodWebhook.class);
-            System.out.println(payoutMethodWebhook);
-        } else if (webhook.getEvent().startsWith("sender")) {
-            SenderWebhook senderWebhook = apiClient.parseResponseString(webhookContent, SenderWebhook.class);
-            System.out.println(senderWebhook);
-        } else if (webhook.getEvent().startsWith("document")) {
-            DocumentWebhook documentWebhook = apiClient.parseResponseString(webhookContent, DocumentWebhook.class);
-            System.out.println(documentWebhook);
+        String webhookUrl = "<url>";
+
+        // Once setting up an endpoint where you'll be receiving callbacks you can use the following code snippet
+        // to both verify that the webhook we sent out is legitimate, and then parse it's contents regardless of type.
+
+        // The details you need to provide are:
+        // - the body of the webhook/callback you received as a string
+        // - the url of your webhook, where you are awaiting the callbacks - this has to be the full URL
+        // - the authentication headers you have received on your webhook endpoint - as an object
+
+        if (apiClient.validateWebhookRequest(webhookUrl, webhookBody, webhookHeaders)) {
+          Webhook webhook = apiClient.parseResponseString(webhookBody, Webhook.class);
+          if (webhook.getEvent().startsWith("transaction")) {
+              TransactionWebhook transactionWebhook = apiClient.parseResponseString(webhookBody, TransactionWebhook.class);
+              System.out.println(transactionWebhook);
+          } else if (webhook.getEvent().startsWith("recipient")) {
+              RecipientWebhook recipientWebhook = apiClient.parseResponseString(webhookBody, RecipientWebhook.class);
+              System.out.println(recipientWebhook);
+          } else if (webhook.getEvent().startsWith("payout_method")) {
+              PayoutMethodWebhook payoutMethodWebhook = apiClient.parseResponseString(webhookBody, PayoutMethodWebhook.class);
+              System.out.println(payoutMethodWebhook);
+          } else if (webhook.getEvent().startsWith("sender")) {
+              SenderWebhook senderWebhook = apiClient.parseResponseString(webhookBody, SenderWebhook.class);
+              System.out.println(senderWebhook);
+          } else if (webhook.getEvent().startsWith("document")) {
+              DocumentWebhook documentWebhook = apiClient.parseResponseString(webhookBody, DocumentWebhook.class);
+              System.out.println(documentWebhook);
+          }
         }
     }
 
     public static UUID createSender(ApiClient apiClient) throws Exception {
+        // For more details on senders please check https://github.com/transferzero/api-documentation/blob/master/transaction-flow.md#sender
+
         SendersApi apiInstance = new SendersApi(apiClient);
         Sender sender = new Sender();
         sender.setCountry("UG");
@@ -360,6 +406,8 @@ public class Application {
     }
 
     public static void getSenderByExternalId(ApiClient apiClient) throws Exception {
+        // Find more details on external IDs at https://github.com/transferzero/api-documentation/blob/master/transaction-flow.md#external-id
+
         SendersApi sendersApi = new SendersApi(apiClient);
         String externalId = "SENDER-2b59defx";
         try {
@@ -378,6 +426,8 @@ public class Application {
     }
 
     public static void updateSender(ApiClient apiClient) throws Exception {
+        // For more details on senders please check https://github.com/transferzero/api-documentation/blob/master/transaction-flow.md#sender
+
         SendersApi sendersApi = new SendersApi(apiClient);
 
         SenderRequest senderRequest = new SenderRequest();
@@ -405,7 +455,7 @@ public class Application {
         ApiClient apiClient = new ApiClient();
         apiClient.setApiKey("<key>");
         apiClient.setApiSecret("<secret>");
-        apiClient.setBasePath("https://api-sandbox.bitpesa.co/v1");
+        apiClient.setBasePath("https://api-sandbox.transferzero.com/v1");
 
         //accountValidationExample(apiClient);
         //createTransactionExample(apiClient);
